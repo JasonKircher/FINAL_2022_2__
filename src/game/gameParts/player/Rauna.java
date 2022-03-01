@@ -1,6 +1,6 @@
 package game.gameParts.player;
 
-import game.gameParts.cards.abilities.AbilityCard;
+import game.gameParts.cards.abilities.Ability;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,10 +8,10 @@ import java.util.List;
 public class Rauna {
     private int                 hp;
     private int                 abilityLevel;
-    private List<AbilityCard>   abilityCards;
+    private List<Ability>       abilities;
 
     public Rauna() {
-        this.abilityCards = new LinkedList<>();
+        this.abilities = new LinkedList<>();
         this.hp = PlayerStartingValues.STARTING_HP.getValue();
         this.abilityLevel = PlayerStartingValues.STARTING_LEVEL.getValue();
     }
@@ -24,7 +24,7 @@ public class Rauna {
     public void increaseLevel() {
         abilityLevel++;
     }
-    public void addCard(AbilityCard card) {
-        abilityCards.add(card);
+    public void addAbilityCard(Ability card) {
+        abilities.add(card);
     }
 }

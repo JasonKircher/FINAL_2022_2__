@@ -1,6 +1,6 @@
 package game;
 
-import game.gameParts.cards.abilities.AbilityCard;
+import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.monsters.MonsterCard;
 import game.gameParts.player.Rauna;
 import game.state.GameState;
@@ -13,7 +13,7 @@ public class Game {
     private         GameState           state;
     private         int                 level;
     private final   Rauna               rauna;
-    private final   List<AbilityCard>   abilityCards;
+    private final   List<Ability> abilities;
     private final   List<MonsterCard>   monsterCards;
 
 
@@ -21,7 +21,7 @@ public class Game {
         this.level = 1;
         this.rauna = new Rauna();
         this.state = new InitSetUp(this);
-        this.abilityCards = new LinkedList<>();
+        this.abilities = new LinkedList<>();
         this.monsterCards = new LinkedList<>();
     }
 
