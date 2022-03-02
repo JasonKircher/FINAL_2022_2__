@@ -42,6 +42,11 @@ public class Game {
         return this.abilities;
     }
 
+    public List<MonsterCard> getMonsterCards() {
+        return monsterCards;
+    }
+
+
     public void nextLevel() {
         this.level++;
     }
@@ -53,5 +58,9 @@ public class Game {
         } else if (monsterCards.isEmpty()) {
             System.out.println(GameEndOutput.WON.getOutput());
         }
+    }
+
+    public Runa getPlayer() {
+        return runa;
     }
 }

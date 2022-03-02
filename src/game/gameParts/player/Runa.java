@@ -1,6 +1,6 @@
 package game.gameParts.player;
 
-import game.gameParts.cards.abilities.AbilityOffensive;
+import game.gameParts.cards.Card;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Runa {
     private int                             hp;
     private int                             abilityLevel;
     private int                             focusPoints;
-    private final List<AbilityOffensive>    abilities;
+    private final List<Card>    abilities;
 
     public Runa() {
         this.abilities = new LinkedList<>();
@@ -29,7 +29,7 @@ public class Runa {
     public int getAbilityLevel() {
         return this.abilityLevel;
     }
-    public void addAbilityCard(AbilityOffensive card) {
+    public void addAbilityCard(Card card) {
         abilities.add(card);
     }
 
