@@ -15,4 +15,11 @@ public class LevelSetUp extends GameState {
         // set next state
         this.game.setState(new Fight(this.game));
     }
+
+    private void setUpFirstLevel() {
+
+    }
+    private void setUpSecondLevel() {
+
+    }
 }

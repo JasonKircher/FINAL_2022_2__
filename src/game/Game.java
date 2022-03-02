@@ -38,6 +38,10 @@ public class Game {
         this.state = state;
     }
 
+    public List<AbilityOffensive> getAbilityCards() {
+        return this.abilities;
+    }
+
     public void nextLevel() {
         this.level++;
     }
