@@ -25,29 +25,31 @@ public class InitSetUp extends GameState{
         this.game.getAbilityCards().addAll(List.of());
 
         // choose class
-        chooseClass();
+        if (!chooseClass()) return;
         // shuffle
-        shuffleCards();
+        if (!shuffleCards()) return;
 
         // set next state
         System.out.println("leaving state");
         this.game.setState(new LevelSetUp(this.game));
     }
 
-    private void chooseClass() {
+    private boolean chooseClass() {
         welcome();
         for (Map.Entry<Integer, PlayerClass> entry : this.classMap.entrySet())
             System.out.println(entry.getKey() + ") " + entry.getValue().getDisplayName());
         int classPlaying = this.validateNum(this.classMap.size(),
                 NumInputRequest.DICE_INPUT_REQUEST.getOutput(this.classMap.size()));
+        if (this.classMap.get(classPlaying) == null) return false;
         // add abilities
         this.classMap.get(classPlaying).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);
         });
-        // remove cards
+        // TODO remove cards
+        return true;
     }
 
-    private void shuffleCards() {
+    private boolean shuffleCards() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("To shuffle ability cards and monsters, enter two seeds");
         String[] split = NumInputRequest.SEED_INPUT_REQUEST.getOutput(0).split("--");
@@ -60,7 +62,7 @@ public class InitSetUp extends GameState{
             String input = scanner.nextLine();
             if (input.equals("quit")) {
                 this.gameEnd();
-                return;
+                return false;
             }
             split = input.split(",");
             if (split.length != 2) continue;
@@ -77,6 +79,7 @@ public class InitSetUp extends GameState{
         Collections.shuffle(this.game.getAbilityCards(), random);
         random = new Random(two);
         Collections.shuffle(this.game.getMonsterCards(), random);
+        return true;
     }
 
     private void welcome() {

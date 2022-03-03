@@ -1,7 +1,7 @@
 package game;
 
-import game.gameParts.cards.abilities.AbilityOffensive;
-import game.gameParts.cards.monsters.MonsterCard;
+import game.gameParts.cards.monsters.Monster;
+import game.gameParts.cards.abilities.Ability;
 import game.gameParts.player.Runa;
 import game.state.GameState;
 import game.state.InitSetUp;
@@ -11,12 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
-    private         GameState               state;
-    private         int                     level;
-    private         boolean                 run;
-    private final   Runa                    runa;
-    private final   List<AbilityOffensive>  abilities;
-    private final   List<MonsterCard>       monsterCards;
+    private         GameState           state;
+    private         int                 level;
+    private         boolean             run;
+    private final   Runa                runa;
+    private final   List<Ability>       abilities;
+    private final   List<Monster>       monsterCards;
 
 
     public Game() {
@@ -38,11 +38,11 @@ public class Game {
         this.state = state;
     }
 
-    public List<AbilityOffensive> getAbilityCards() {
+    public List<Ability> getAbilityCards() {
         return this.abilities;
     }
 
-    public List<MonsterCard> getMonsterCards() {
+    public List<Monster> getMonsterCards() {
         return monsterCards;
     }
 
