@@ -9,16 +9,7 @@ public class Ice extends OffensiveMagicAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value, Monster target) {
-        return 0;
-    }
-
-    public int calculatePlayerDamage(int value) {
-        return (2);
-    }
-
-    @Override
-    public int calculateMonsterDamage() {
+    public int calculateDamage(int value, Object target) {
         return 0;
     }
 }

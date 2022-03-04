@@ -1,6 +1,5 @@
 package game.gameParts.cards.abilities.magical;
 
-import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
 
 public class Reflect extends DefensiveMagicAbility {
@@ -10,12 +9,9 @@ public class Reflect extends DefensiveMagicAbility {
     }
 
     @Override
-    public void calculatePlayerMitigation(Runa runa) {
-        runa.setMagicMitigation(10 * this.abilityLevel);
-    }
-
-    @Override
-    public void calculateMonsterMitigation(Monster monster) {
-        return;
+    public void calculateMitigation(Object target) {
+        if (target instanceof Runa runa) {
+            runa.setMagicMitigation(10 * this.abilityLevel);
+        }
     }
 }

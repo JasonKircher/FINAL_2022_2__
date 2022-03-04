@@ -11,16 +11,7 @@ public class Thrust extends PhysicalOffensiveAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value, Monster target) {
-        return 0;
-    }
-
-    public int calculatePlayerDamage(int value) {
-        return value >= 6 ? 10 * this.abilityLevel + value : 6 * this.abilityLevel + value;
-    }
-
-    @Override
-    public int calculateMonsterDamage() {
+    public int calculateDamage(int value, Object target) {
         return 0;
     }
 }

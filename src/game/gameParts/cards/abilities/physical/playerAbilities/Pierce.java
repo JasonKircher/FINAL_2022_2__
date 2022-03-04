@@ -11,17 +11,7 @@ public class Pierce extends PhysicalOffensiveAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value, Monster target) {
-        return 0;
-    }
-
-
-    public int calculatePlayerDamage(int value) {
-        return value >= 6 ? 12 * this.abilityLevel + value : 7 * this.abilityLevel + value;
-    }
-
-    @Override
-    public int calculateMonsterDamage() {
+    public int calculateDamage(int value, Object target) {
         return 0;
     }
 }

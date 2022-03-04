@@ -51,6 +51,10 @@ public class Game {
         this.level++;
     }
 
+    public int getLevel() {
+        return this.level;
+    }
+
     public void end() {
         this.run = false;
         if (runa.getHp() <= 0 ) {

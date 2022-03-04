@@ -11,16 +11,8 @@ public class Swing extends PhysicalOffensiveAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value, Monster target) {
+    public int calculateDamage(int value, Object target) {
         return 0;
     }
 
-    public int calculatePlayerDamage(int value) {
-        return 5 * this.abilityLevel + value;
-    }
-
-    @Override
-    public int calculateMonsterDamage() {
-        return 0;
-    }
 }

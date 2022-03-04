@@ -12,12 +12,7 @@ public class Parry extends PhysicalDefensiveAbility {
     }
 
     @Override
-    public void calculatePlayerMitigation(Runa runa) {
-        runa.setPhysicalMitigation(7 * this.abilityLevel);
-    }
-
-    @Override
-    public void calculateMonsterMitigation(Monster monster) {
+    public void calculateMitigation(Object target) {
 
     }
 }
