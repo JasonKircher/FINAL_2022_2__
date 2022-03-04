@@ -1,6 +1,7 @@
 package game.gameParts.cards.abilities.magical;
 
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
 
 public class Fire extends OffensiveMagicAbility {
     public Fire(int abilityLevel) {
@@ -9,12 +10,13 @@ public class Fire extends OffensiveMagicAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value, Monster target) {
+    public int calculateDamage(int value, Object target) {
+        if (target instanceof Runa runa) {
+
+        } else if (target instanceof Monster monster) {
+
+        }
         return 0;
     }
 
-    @Override
-    public int calculateMonsterDamage() {
-        return 0;
-    }
 }

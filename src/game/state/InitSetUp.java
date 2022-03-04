@@ -36,16 +36,19 @@ public class InitSetUp extends GameState{
 
     private boolean chooseClass() {
         welcome();
+
         for (int index = 0; index < this.classplayerClassesap.size(); index++)
             System.out.println(index + ") " + this.classplayerClassesap.get(index));
         int classPlaying = this.validateNum(this.classplayerClassesap.size(),
                 NumInputRequest.DICE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()));
         if (this.classplayerClassesap.get(classPlaying) == null) return false;
+
         // add abilities
         this.classplayerClassesap.get(classPlaying).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);
         });
-        // TODO remove cards
+        // remove cards
+        this.game.getAbilityCards().removeIf(this.classplayerClassesap.get(classPlaying).getCards()::contains);
         return true;
     }
 
