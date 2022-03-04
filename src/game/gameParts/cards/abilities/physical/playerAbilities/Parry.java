@@ -2,6 +2,8 @@ package game.gameParts.cards.abilities.physical.playerAbilities;
 
 import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.physical.PhysicalDefensiveAbility;
+import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
 
 public class Parry extends PhysicalDefensiveAbility {
     public Parry(int abilityLevel) {
@@ -10,12 +12,12 @@ public class Parry extends PhysicalDefensiveAbility {
     }
 
     @Override
-    public int calculatePlayerMitigation() {
-        return 7 * this.abilityLevel;
+    public void calculatePlayerMitigation(Runa runa) {
+        runa.setPhysicalMitigation(7 * this.abilityLevel);
     }
 
     @Override
-    public int calculateMonsterMitigation() {
-        return 0;
+    public void calculateMonsterMitigation(Monster monster) {
+
     }
 }

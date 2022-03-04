@@ -14,6 +14,9 @@ public abstract class Ability {
     public boolean isPhysical() {
         return this.physical;
     }
+    public void upgrade() {
+        this.abilityLevel++;
+    }
     @Override
     public boolean equals(Object o) {
         if (o.getClass() != this.getClass()) return false;

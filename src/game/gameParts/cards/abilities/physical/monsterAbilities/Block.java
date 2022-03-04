@@ -1,6 +1,8 @@
 package game.gameParts.cards.abilities.physical.monsterAbilities;
 
 import game.gameParts.cards.abilities.DefensiveAbility;
+import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
 
 public class Block extends DefensiveAbility {
     public Block(int abilityLevel) {
@@ -9,12 +11,10 @@ public class Block extends DefensiveAbility {
     }
 
     @Override
-    public int calculatePlayerMitigation() {
-        return 0;
+    public void calculatePlayerMitigation(Runa runa) {
     }
 
     @Override
-    public int calculateMonsterMitigation() {
-        return 7 * this.abilityLevel;
+    public void calculateMonsterMitigation(Monster monster) {
     }
 }

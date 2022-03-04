@@ -49,7 +49,7 @@ public class Runa {
         this.magicMitigation = 0;
     }
 
-    public void resetMagicMitigation(int magicMitigation) {
+    public void setMagicMitigation(int magicMitigation) {
         this.magicMitigation = magicMitigation;
     }
 
@@ -57,7 +57,7 @@ public class Runa {
         this.physicalMitigation = 0;
     }
 
-    public void resetPhysicalMitigation(int physicalMitigation) {
+    public void setPhysicalMitigation(int physicalMitigation) {
         this.physicalMitigation = physicalMitigation;
     }
 

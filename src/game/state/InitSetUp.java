@@ -7,14 +7,14 @@ import game.state.output.NumInputRequest;
 import java.util.*;
 
 public class InitSetUp extends GameState{
-    private final Map<Integer, PlayerClass> classMap;
+    private final List<PlayerClass> classplayerClassesap;
     public InitSetUp(Game game) {
         super(game);
         // more classes could be added here
-        this.classMap = new HashMap<>() {{
-            put(1, PlayerClass.WARRIOR);
-            put(2, PlayerClass.MAGE);
-            put(3, PlayerClass.PALADIN);
+        this.classplayerClassesap = new LinkedList<>() {{
+            add(PlayerClass.WARRIOR);
+            add(PlayerClass.MAGE);
+            add(PlayerClass.PALADIN);
         }};
     }
 
@@ -36,13 +36,13 @@ public class InitSetUp extends GameState{
 
     private boolean chooseClass() {
         welcome();
-        for (Map.Entry<Integer, PlayerClass> entry : this.classMap.entrySet())
-            System.out.println(entry.getKey() + ") " + entry.getValue().getDisplayName());
-        int classPlaying = this.validateNum(this.classMap.size(),
-                NumInputRequest.DICE_INPUT_REQUEST.getOutput(this.classMap.size()));
-        if (this.classMap.get(classPlaying) == null) return false;
+        for (int index = 0; index < this.classplayerClassesap.size(); index++)
+            System.out.println(index + ") " + this.classplayerClassesap.get(index));
+        int classPlaying = this.validateNum(this.classplayerClassesap.size(),
+                NumInputRequest.DICE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()));
+        if (this.classplayerClassesap.get(classPlaying) == null) return false;
         // add abilities
-        this.classMap.get(classPlaying).getCards().forEach(card -> {
+        this.classplayerClassesap.get(classPlaying).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);
         });
         // TODO remove cards

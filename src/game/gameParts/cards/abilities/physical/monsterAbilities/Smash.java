@@ -1,6 +1,7 @@
 package game.gameParts.cards.abilities.physical.monsterAbilities;
 
 import game.gameParts.cards.abilities.OffensiveAbility;
+import game.gameParts.cards.monsters.Monster;
 
 public class Smash extends OffensiveAbility {
 
@@ -10,7 +11,7 @@ public class Smash extends OffensiveAbility {
     }
 
     @Override
-    public int calculatePlayerDamage(int value) {
+    public int calculatePlayerDamage(int value, Monster target) {
         return 0;
     }
 
