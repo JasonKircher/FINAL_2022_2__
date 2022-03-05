@@ -8,8 +8,8 @@ import java.util.LinkedList;
 
 public class Spider extends Monster {
     public Spider() {
+        this.name = "Spider";
         this.hp = 15;
-        this.boss = false;
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
             add(new Bite(1));

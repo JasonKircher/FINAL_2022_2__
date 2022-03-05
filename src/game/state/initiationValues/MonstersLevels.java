@@ -6,8 +6,8 @@ import game.gameParts.cards.monsters.firstLevel.*;
 import java.util.List;
 
 public enum MonstersLevels {
-    FIRST(List.of(new Frog(), new Ghost(), new Gorgon(), // skeleton & mushroomlin
-            new Spider(), new Goblin(), new Rat()), new SpiderKing()),
+    FIRST(List.of(new Frog(), new Ghost(), new Gorgon(), new Skeleton(), new Mushroomlin(), new Spider(), new Goblin(),
+            new Rat()), new SpiderKing()),
     SECOND(List.of(), null);
 
     private final List<Monster> monsters;

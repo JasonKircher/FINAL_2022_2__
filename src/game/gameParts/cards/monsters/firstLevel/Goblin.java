@@ -7,8 +7,8 @@ import java.util.LinkedList;
 
 public class Goblin extends Monster {
     public Goblin() {
+        this.name = "Goblin";
         this.hp = 12;
-        this.boss = false;
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
            add(new Smash(1));

@@ -11,7 +11,7 @@ public abstract class Monster {
     protected   List<Ability>   preferredAbilities;
     protected   int             hp;
     protected   MonsterType     type;
-    protected   boolean         boss;
+    protected   String          name;
     private     int             magicMitigation;
     private     int             physicalMitigation;
     private     int             focusPoints;
@@ -19,6 +19,7 @@ public abstract class Monster {
     public Monster() {
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
+        this.focusPoints = 0;
     }
 
     public Ability nextAbility() {
@@ -35,6 +36,14 @@ public abstract class Monster {
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
         return this.hp > 0;
+    }
+
+    public int getFocusPoints() {
+        return this.focusPoints;
+    }
+
+    public void increaseFocusPoints() {
+        this.focusPoints++;
     }
 
     public void setMagicMitigation(int magicMitigation) {
@@ -54,9 +63,8 @@ public abstract class Monster {
     }
 
     public String extendedToString() {
-        String[] split = (""+this.getClass()).split("\\.");
-        String name = split[split.length - 1];
-        return name + " (" + hp + " HP, " + this.focusPoints + " FP): attempts " + preferredAbilities.get(0) + " next";
+        return this.name + " (" + hp + " HP, " + this.focusPoints + " FP): attempts "
+                + preferredAbilities.get(0) + " next";
     }
     @Override
     public String toString() {

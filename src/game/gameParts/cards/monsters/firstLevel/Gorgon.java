@@ -8,9 +8,9 @@ import java.util.LinkedList;
 
 public class Gorgon extends Monster {
     public Gorgon() {
+        this.name = "Gorgon";
         this.hp = 13;
         this.type = MonsterType.Fire;
-        this.boss = false;
         this.preferredAbilities = new LinkedList<>() {{
            add(new Focus(1));
            add(new Fire(1));

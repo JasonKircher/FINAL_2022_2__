@@ -9,8 +9,8 @@ import java.util.LinkedList;
 
 public class SpiderKing extends Monster {
     public SpiderKing() {
+        this.name = "Spider King";
         this.hp = 50;
-        this.boss = true;
         this.type = MonsterType.Lightning;
         this.preferredAbilities = new LinkedList<>() {{
             add(new Bite(1));
