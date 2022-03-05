@@ -14,6 +14,7 @@ public class Runa {
     private         int                 magicMitigation;
     private         int                 physicalMitigation;
     private         boolean             deBuffed;
+    private         Dice                currentDice;
     private final   List<Ability>       abilities;
 
     public Runa() {
@@ -24,6 +25,7 @@ public class Runa {
         this.physicalMitigation = 0;
         this.deBuffed = false;
         this.focusPoints = 1;
+        this.currentDice = Dice.D4;
     }
 
     public boolean takeDamage(int damage) {
@@ -56,9 +58,17 @@ public class Runa {
     public List<Ability> getAbilities() {
         return this.abilities;
     }
+    public void upgradeDice() {
+        this.currentDice = this.currentDice.upgradeDice();
+    }
+    public Dice getCurrentDice() {
+        return this.currentDice;
+    }
 
-    public void setFocusPoints(int focusPoints) {
-        this.focusPoints = focusPoints;
+    public void increaseFocusPoints() {
+        if (this.focusPoints < this.currentDice.getMaxValue()) {
+            this.focusPoints++;
+        }
     }
 
     public int getFocusPoints() {

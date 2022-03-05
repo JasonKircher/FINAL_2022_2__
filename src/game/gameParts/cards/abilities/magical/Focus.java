@@ -10,7 +10,7 @@ public class Focus extends Ability {
         this.name = "Focus";
     }
     public void focus(Runa runa) {
-        runa.setFocusPoints(runa.getFocusPoints() + this.abilityLevel);
+        runa.increaseFocusPoints();
     }
     public void focus(Monster monster) {
 

@@ -24,6 +24,7 @@ public class InitSetUp extends GameState{
     @Override
     public void executeState() {
         // 2.1
+
         // add all abilities in correct order
         int lvl = this.game.getLevel() + 1;
         this.game.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),

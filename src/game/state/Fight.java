@@ -55,7 +55,7 @@ public class Fight extends GameState {
         System.out.println("----------------------------------------");
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + ", " + this.game.getPlayer().getFocusPoints() + "/"
-                + PlayerStartingValues.MAX_FOCUS_POINTS.getValue() + " FP)");
+                + this.game.getPlayer().getCurrentDice().getMaxValue() + " FP)");
         System.out.println("vs.");
 
         // todo extended print function
