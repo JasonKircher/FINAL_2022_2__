@@ -3,7 +3,7 @@ package game.state;
 import game.Game;
 import game.gameParts.cards.abilities.magical.*;
 import game.gameParts.cards.abilities.physical.playerAbilities.*;
-import game.gameParts.player.PlayerClass;
+import game.gameParts.player.parts.PlayerClass;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
@@ -43,8 +43,8 @@ public class InitSetUp extends GameState{
 
         for (int index = 0; index < this.classplayerClassesap.size(); index++)
             System.out.println(index + 1 + ") " + this.classplayerClassesap.get(index).getDisplayName());
-        int classPlayingIndex = this.validateNum(this.classplayerClassesap.size(),
-                NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()), ErrorMsg.CLASS) - 1;
+        int classPlayingIndex = this.getNumInput(this.classplayerClassesap.size(),
+                NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()), ErrorMsg.CLASS);
         // add initial abilities
         this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);

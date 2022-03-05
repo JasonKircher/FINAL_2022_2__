@@ -15,11 +15,13 @@ public abstract class Monster {
     private     int             magicMitigation;
     private     int             physicalMitigation;
     private     int             focusPoints;
+    private     boolean         deBuffed;
 
     public Monster() {
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
         this.focusPoints = 0;
+        this.deBuffed = false;
     }
 
     public Ability nextAbility() {
@@ -28,10 +30,10 @@ public abstract class Monster {
         return current;
     }
 
-    public boolean takeDamage(Ability ability) {
+    public boolean takeDamage(Ability ability, int value) {
         if (!ability.isOffensive()) throw new RuntimeException(Exceptions.DMG_FROM_DEFENSIVE_ABILITY.getMsg());
         OffensiveAbility abilityParsed = (OffensiveAbility) ability;
-        int damage = abilityParsed.calculateDamage(0,  this);
+        int damage = abilityParsed.calculateDamage(value,  this);
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
@@ -46,6 +48,18 @@ public abstract class Monster {
         this.focusPoints++;
     }
 
+    public boolean isDeBuffed() {
+        return this.deBuffed;
+    }
+
+    public boolean decreaseFocusPoints() {
+        if (this.focusPoints > 0) {
+            this.focusPoints--;
+            return true;
+        }
+        return false;
+    }
+
     public void setMagicMitigation(int magicMitigation) {
         this.magicMitigation = magicMitigation;
     }
@@ -58,6 +72,10 @@ public abstract class Monster {
     public void resetMitigation() {
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
+    }
+
+    public void resetDeBuff() {
+        this.deBuffed = false;
     }
 
     public String extendedToString() {

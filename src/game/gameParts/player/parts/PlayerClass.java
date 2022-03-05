@@ -1,4 +1,4 @@
-package game.gameParts.player;
+package game.gameParts.player.parts;
 
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.magical.Focus;

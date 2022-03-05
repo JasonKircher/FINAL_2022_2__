@@ -1,4 +1,4 @@
-package game.gameParts.player;
+package game.gameParts.player.parts;
 
 import java.util.LinkedList;
 import java.util.List;

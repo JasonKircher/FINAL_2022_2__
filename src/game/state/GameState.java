@@ -17,26 +17,28 @@ public abstract class GameState {
         this.game.end();
     }
 
-    protected int validateNum(int maxValue, String outputMsg, ErrorMsg msg) {
+    protected int getNumInput(int max, String output) {
+       return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS);
+    }
+
+    protected int getNumInput(int max, String output, ErrorMsg customError) {
         int out = Integer.MAX_VALUE;
         int ittr = 0;
         Scanner scanner = new Scanner(System.in);
-        do {
-            if (ittr > 0) System.out.println(msg.getMsg());
+        while(out > max || out < 1) {
+            // Error when first input was wrong
+            if (ittr > 0) System.out.println(customError.getMsg());
             ittr++;
-            out = Integer.MAX_VALUE;
-            System.out.println(outputMsg);
+            System.out.println(output);
             String input = scanner.nextLine();
-            if (input.equals("quit")) {
-                this.gameEnd();
-                return out;
-            }
+            if (input.equals("quit")) return -1;
             try {
                 out = Integer.parseInt(input);
             } catch (NumberFormatException ignored) {
-                // no number given
+                // cannot be parsed
             }
-        } while(!(out >= 1 && out <= maxValue));
-        return out;
+        }
+        // -1 to get correct index
+        return out - 1;
     }
 }

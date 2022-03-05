@@ -2,6 +2,7 @@ package game.gameParts.player;
 
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.OffensiveAbility;
+import game.gameParts.player.parts.Dice;
 import game.state.output.Exceptions;
 
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ public class Runa {
     private         int                 magicMitigation;
     private         int                 physicalMitigation;
     private         boolean             deBuffed;
-    private         Dice                currentDice;
+    private Dice currentDice;
     private final   List<Ability>       abilities;
 
     public Runa() {
@@ -41,7 +42,7 @@ public class Runa {
         this.deBuffed = true;
     }
 
-    public void cleanseDeBuffs() {
+    public void resetDeBuffs() {
         this.deBuffed = false;
     }
 
@@ -69,6 +70,13 @@ public class Runa {
         if (this.focusPoints < this.currentDice.getMaxValue()) {
             this.focusPoints++;
         }
+    }
+    public boolean decreaseFocusPoints() {
+        if (this.focusPoints > 0) {
+            this.focusPoints--;
+            return true;
+        }
+        return false;
     }
 
     public int getFocusPoints() {

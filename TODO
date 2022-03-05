@@ -1,0 +1,7 @@
+fight() function überarbeiten, einzelne aktionen kapseln und TODOs umsetzen
+
+Fähigkeiten komplett implementieren (Focus and debuff etc restliche functions umsetzen (dmg impl))
+
+Monster implementieren
+
+Drops/Afterfight implementieren

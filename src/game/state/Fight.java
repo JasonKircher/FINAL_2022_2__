@@ -6,19 +6,20 @@ import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.PlayerStartingValues;
+import game.gameParts.player.Runa;
 import game.state.initiationValues.MonstersLevels;
+import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Fight extends GameState {
     List<Monster> active;
     public Fight(Game game) {
         super(game);
-        active = new LinkedList<>();
+        this.active = new LinkedList<>();
     }
 
     @Override
@@ -28,7 +29,6 @@ public class Fight extends GameState {
 
         selectMonsters();
         welcomeText();
-
         if (!fight()) return;
 
         // set next state
@@ -46,69 +46,74 @@ public class Fight extends GameState {
     }
 
     private boolean fight() {
-        Scanner scanner = new Scanner(System.in);
         while (!this.active.isEmpty()) {
-            Ability ability = null;
+            Ability ability;
             Monster target = this.active.get(0);
+            int diceRoll = 0;
             printInfo();
             printCards();
-            this.game.getPlayer().resetMitigation();
 
-            // TODO kapseln && immer letzte eingabe wiederholen bei falscher eingabe - magic abiliteis kosten Focus
-            String input = scanner.nextLine();
-            if (input.equals("quit")) {
-                this.gameEnd();
-                return false;
-            } else {
-                try {
-                    int abilityIndex = Integer.parseInt(input) - 1;
-                    if (abilityIndex >= this.game.getPlayer().getAbilities().size()) continue;
-                    ability = this.game.getPlayer().getAbilities().get(abilityIndex);
-                } catch (NumberFormatException ignored) {
-                    // cannot be parsed
-                    continue;
-                }
-            }
-            if (this.active.size() > 1) {
-                printTargets();
-
-                input = scanner.nextLine();
-                if (input.equals("quit")) {
-                    this.gameEnd();
-                    return false;
-                }else {
-                    try {
-                        int monsterIndex = Integer.parseInt(input) - 1;
-                        if (monsterIndex >= this.active.size()) continue;
-                        target = this.active.get(monsterIndex);
-                    } catch (NumberFormatException ignored) {
-                        // cannot be parsed
-                        continue;
-                    }
-                }
-            }
-            // TODO end
+            int max = this.game.getPlayer().getAbilities().size();
+            int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
+            if (index == -1) return false;
+            ability = this.game.getPlayer().getAbilities().get(index);
 
             if (ability.isOffensive()) {
-                if (!target.takeDamage(ability)) this.active.remove(target);
+                if (!ability.isPhysical() && this.game.getPlayer().getFocusPoints() <= 0) {
+                    System.out.println(ErrorMsg.NOT_ENOUGH_FOCUS.getMsg());
+                    continue;
+                }
+                int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
+                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax));
+                if (diceRoll == -1) return false;
             }
-            else if (ability instanceof Focus) this.game.getPlayer().increaseFocusPoints();
-            else {
-                ((DefensiveAbility) ability).calculateMitigation(this.game.getPlayer());
+
+            if (this.active.size() > 1) {
+                printTargets();
+                max = this.active.size();
+                index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
+                if (index == -1) return false;
+                target = this.active.get(index);
             }
+
+            executeAbility(this.game.getPlayer(), target, ability, diceRoll);
+            this.game.getPlayer().resetDeBuffs();
+            this.game.getPlayer().resetMitigation();
+
             for (Monster monster : this.active) {
+                if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
+                monster.resetDeBuff();
                 monster.resetMitigation();
-                ability = monster.nextAbility();
-                if (ability.isOffensive()) {
-                    if (!this.game.getPlayer().takeDamage(ability)) {
-                        this.gameEnd();
-                        return false;
-                    }
-                }
-                else if (ability instanceof Focus) monster.increaseFocusPoints();
-                else ((DefensiveAbility) ability).calculateMitigation(monster);
+            }
+        }
+        return true;
+    }
+
+    private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
+        if (initiator instanceof Runa runa) {
+            Monster monster = (Monster) target;
+            if (ability instanceof Focus) ((Focus) ability).focus(runa);
+            else if (ability.isOffensive()) {
+                if (!ability.isPhysical()) if (!runa.decreaseFocusPoints()) return true;
+                if (!monster.takeDamage(ability, diceRoll)) {
+                    this.active.remove(monster);
+                    return false;
                 }
             }
+            else ((DefensiveAbility) ability).calculateMitigation(initiator);
+        }
+        else if (initiator instanceof Monster monster) {
+            Runa runa = (Runa) target;
+            if (ability instanceof Focus) ((Focus) ability).focus(monster);
+            else if (ability.isOffensive()) {
+                if (!ability.isPhysical()) if (!monster.decreaseFocusPoints()) return true;
+                if (!runa.takeDamage(ability)) {
+                    this.gameEnd();
+                    return false;
+                }
+            }
+            else ((DefensiveAbility) ability).calculateMitigation(initiator);
+        }
         return true;
     }
 
@@ -131,7 +136,6 @@ public class Fight extends GameState {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
         System.out.println("Select card to play");
         abilities.forEach(ability -> System.out.println(abilities.indexOf(ability) + 1 + ") " + ability));
-        System.out.println(NumInputRequest.ONE_INPUT_REQUEST.getOutput(abilities.size()));
     }
 
     private void welcomeText() {
