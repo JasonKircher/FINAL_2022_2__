@@ -7,6 +7,7 @@ import game.gameParts.player.Runa;
 public class Focus extends Ability {
     public Focus(int abilityLevel) {
         super(abilityLevel);
+        this.name = "Focus";
     }
     public void focus(Runa runa) {
         runa.setFocusPoints(runa.getFocusPoints() + this.abilityLevel);

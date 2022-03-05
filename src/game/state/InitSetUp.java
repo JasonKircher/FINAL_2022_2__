@@ -1,6 +1,8 @@
 package game.state;
 
 import game.Game;
+import game.gameParts.cards.abilities.magical.*;
+import game.gameParts.cards.abilities.physical.playerAbilities.*;
 import game.gameParts.player.PlayerClass;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
@@ -22,9 +24,12 @@ public class InitSetUp extends GameState{
     @Override
     public void executeState() {
         // 2.1
-        // TODO add all abilities in correct order
-        this.game.getAbilityCards().addAll(List.of());
-
+        // add all abilities in correct order
+        int lvl = this.game.getLevel() + 1;
+        this.game.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
+                new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl), new Fire(lvl)
+                // TODO add lightning
+        ));
         // choose class
         if (!chooseClass()) return;
 
@@ -36,16 +41,15 @@ public class InitSetUp extends GameState{
         welcome();
 
         for (int index = 0; index < this.classplayerClassesap.size(); index++)
-            System.out.println(index + 1 + ") " + this.classplayerClassesap.get(index));
-        int classPlaying = this.validateNum(this.classplayerClassesap.size(),
+            System.out.println(index + 1 + ") " + this.classplayerClassesap.get(index).getDisplayName());
+        int classPlayingIndex = this.validateNum(this.classplayerClassesap.size(),
                 NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()), ErrorMsg.CLASS) - 1;
-        System.out.println("chose " + this.classplayerClassesap.get(classPlaying));
-        // add abilities
-        this.classplayerClassesap.get(classPlaying).getCards().forEach(card -> {
+        // add initial abilities
+        this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);
         });
-        // remove cards
-        this.game.getAbilityCards().removeIf(this.classplayerClassesap.get(classPlaying).getCards()::contains);
+        // remove initial abilities from collectable abilities
+        this.game.getAbilityCards().removeIf(this.classplayerClassesap.get(classPlayingIndex).getCards()::contains);
         return true;
     }
 

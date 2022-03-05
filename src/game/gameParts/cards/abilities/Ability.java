@@ -22,4 +22,8 @@ public abstract class Ability {
         if (o.getClass() != this.getClass()) return false;
         return this.name.equals(((Ability) o).name);
     }
+    @Override
+    public String toString() {
+        return this.name + "(" + this.abilityLevel + ")";
+    }
 }

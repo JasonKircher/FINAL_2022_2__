@@ -13,6 +13,7 @@ import java.util.List;
 public class Game {
     private         GameState           state;
     private         int                 level;
+    private         int                 room;
     private         boolean             run;
     private final   Runa                runa;
     private final   List<Ability>       abilities;
@@ -21,7 +22,8 @@ public class Game {
 
     public Game() {
         this.run = true;
-        this.level = 1;
+        this.level = 0;
+        this.room = 0;
         this.runa = new Runa();
         this.state = new InitSetUp(this);
         this.abilities = new LinkedList<>();
@@ -49,6 +51,14 @@ public class Game {
 
     public void nextLevel() {
         this.level++;
+    }
+
+    public void nextRoom() {
+        this.room++;
+    }
+
+    public int getRoom() {
+        return this.room;
     }
 
     public int getLevel() {
