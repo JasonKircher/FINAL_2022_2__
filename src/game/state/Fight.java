@@ -3,6 +3,7 @@ package game.state;
 import game.Game;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.DefensiveAbility;
+import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.PlayerStartingValues;
 import game.state.initiationValues.MonstersLevels;
@@ -11,6 +12,7 @@ import game.state.output.NumInputRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Fight extends GameState {
     List<Monster> active;
@@ -50,7 +52,9 @@ public class Fight extends GameState {
             Monster target = this.active.get(0);
             printInfo();
             printCards();
+            this.game.getPlayer().resetMitigation();
 
+            // TODO kapseln && immer letzte eingabe wiederholen bei falscher eingabe - magic abiliteis kosten Focus
             String input = scanner.nextLine();
             if (input.equals("quit")) {
                 this.gameEnd();
@@ -83,12 +87,28 @@ public class Fight extends GameState {
                     }
                 }
             }
+            // TODO end
+
             if (ability.isOffensive()) {
                 if (!target.takeDamage(ability)) this.active.remove(target);
-            } else {
+            }
+            else if (ability instanceof Focus) this.game.getPlayer().increaseFocusPoints();
+            else {
                 ((DefensiveAbility) ability).calculateMitigation(this.game.getPlayer());
             }
-        }
+            for (Monster monster : this.active) {
+                monster.resetMitigation();
+                ability = monster.nextAbility();
+                if (ability.isOffensive()) {
+                    if (!this.game.getPlayer().takeDamage(ability)) {
+                        this.gameEnd();
+                        return false;
+                    }
+                }
+                else if (ability instanceof Focus) monster.increaseFocusPoints();
+                else ((DefensiveAbility) ability).calculateMitigation(monster);
+                }
+            }
         return true;
     }
 
@@ -98,27 +118,19 @@ public class Fight extends GameState {
                 + ", " + this.game.getPlayer().getFocusPoints() + "/"
                 + this.game.getPlayer().getCurrentDice().getMaxValue() + " FP)");
         System.out.println("vs.");
-
-        // todo extended print function
-        this.active.forEach(monster -> {
-            System.out.println(monster.extendedToString());
-        });
+        this.active.forEach(monster -> System.out.println(monster.extendedToString()));
         System.out.println("----------------------------------------");
     }
 
     private void printTargets() {
         System.out.println("Select Runa's target");
-        this.active.forEach(monster -> {
-            System.out.println(this.active.indexOf(monster) + 1 + ") " + monster);
-        });
+        this.active.forEach(monster -> System.out.println(this.active.indexOf(monster) + 1 + ") " + monster));
     }
 
     private void printCards() {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
         System.out.println("Select card to play");
-        abilities.forEach(ability -> {
-            System.out.println(abilities.indexOf(ability) + 1 + ") " + ability);
-        });
+        abilities.forEach(ability -> System.out.println(abilities.indexOf(ability) + 1 + ") " + ability));
         System.out.println(NumInputRequest.ONE_INPUT_REQUEST.getOutput(abilities.size()));
     }
 

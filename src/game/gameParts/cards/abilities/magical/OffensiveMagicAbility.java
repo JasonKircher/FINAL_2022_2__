@@ -6,5 +6,6 @@ public abstract class OffensiveMagicAbility extends OffensiveAbility {
     public OffensiveMagicAbility(int abilityLevel) {
         super(abilityLevel);
         this.physical = false;
+        this.offensive = true;
     }
 }

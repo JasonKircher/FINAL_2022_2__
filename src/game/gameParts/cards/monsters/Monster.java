@@ -35,7 +35,6 @@ public abstract class Monster {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
-        System.out.println("got " + damage + " damage");
         return this.hp > 0;
     }
 
@@ -51,15 +50,13 @@ public abstract class Monster {
         this.magicMitigation = magicMitigation;
     }
 
-    public void resetMagicMitigation() {
-        this.magicMitigation = 0;
-    }
 
     public void setPhysicalMitigation(int physicalMitigation) {
         this.physicalMitigation = physicalMitigation;
     }
 
-    public void resetPhysicalMitigation() {
+    public void resetMitigation() {
+        this.magicMitigation = 0;
         this.physicalMitigation = 0;
     }
 
