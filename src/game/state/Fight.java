@@ -1,9 +1,12 @@
 package game.state;
 
 import game.Game;
+import game.gameParts.cards.abilities.Ability;
+import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.PlayerStartingValues;
 import game.state.initiationValues.MonstersLevels;
+import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,12 +44,50 @@ public class Fight extends GameState {
     }
 
     private boolean fight() {
-        printInfo();
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-        if (input.equals("quit")) {
-            this.gameEnd();
-            return false;
+        while (!this.active.isEmpty()) {
+            Ability ability = null;
+            Monster target = this.active.get(0);
+            printInfo();
+            printCards();
+
+            String input = scanner.nextLine();
+            if (input.equals("quit")) {
+                this.gameEnd();
+                return false;
+            } else {
+                try {
+                    int abilityIndex = Integer.parseInt(input) - 1;
+                    if (abilityIndex >= this.game.getPlayer().getAbilities().size()) continue;
+                    ability = this.game.getPlayer().getAbilities().get(abilityIndex);
+                } catch (NumberFormatException ignored) {
+                    // cannot be parsed
+                    continue;
+                }
+            }
+            if (this.active.size() > 1) {
+                printTargets();
+
+                input = scanner.nextLine();
+                if (input.equals("quit")) {
+                    this.gameEnd();
+                    return false;
+                }else {
+                    try {
+                        int monsterIndex = Integer.parseInt(input) - 1;
+                        if (monsterIndex >= this.active.size()) continue;
+                        target = this.active.get(monsterIndex);
+                    } catch (NumberFormatException ignored) {
+                        // cannot be parsed
+                        continue;
+                    }
+                }
+            }
+            if (ability.isOffensive()) {
+                if (!target.takeDamage(ability)) this.active.remove(target);
+            } else {
+                ((DefensiveAbility) ability).calculateMitigation(this.game.getPlayer());
+            }
         }
         return true;
     }
@@ -63,6 +104,22 @@ public class Fight extends GameState {
             System.out.println(monster.extendedToString());
         });
         System.out.println("----------------------------------------");
+    }
+
+    private void printTargets() {
+        System.out.println("Select Runa's target");
+        this.active.forEach(monster -> {
+            System.out.println(this.active.indexOf(monster) + 1 + ") " + monster);
+        });
+    }
+
+    private void printCards() {
+        List<Ability> abilities = this.game.getPlayer().getAbilities();
+        System.out.println("Select card to play");
+        abilities.forEach(ability -> {
+            System.out.println(abilities.indexOf(ability) + 1 + ") " + ability);
+        });
+        System.out.println(NumInputRequest.ONE_INPUT_REQUEST.getOutput(abilities.size()));
     }
 
     private void welcomeText() {

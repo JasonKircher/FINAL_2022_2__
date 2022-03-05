@@ -35,6 +35,7 @@ public abstract class Monster {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
+        System.out.println("got " + damage + " damage");
         return this.hp > 0;
     }
 
@@ -68,7 +69,6 @@ public abstract class Monster {
     }
     @Override
     public String toString() {
-        String[] split = (""+this.getClass()).split("\\.");
-        return split[split.length - 1];
+        return this.name;
     }
 }

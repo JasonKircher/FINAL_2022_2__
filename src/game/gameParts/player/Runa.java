@@ -74,15 +74,13 @@ public class Runa {
     public int getFocusPoints() {
         return this.focusPoints;
     }
-    public void resetMagicMitigation() {
-        this.magicMitigation = 0;
-    }
 
     public void setMagicMitigation(int magicMitigation) {
         this.magicMitigation = magicMitigation;
     }
 
-    public void resetPhysicalMitigation() {
+    public void resetMitigation() {
+        this.magicMitigation = 0;
         this.physicalMitigation = 0;
     }
 
