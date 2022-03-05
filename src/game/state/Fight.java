@@ -24,9 +24,7 @@ public class Fight extends GameState {
         selectMonsters();
         welcomeText();
 
-
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        if (!fight()) return;
 
         // set next state
         this.game.setState(new FightAftermath(this.game));
@@ -42,8 +40,18 @@ public class Fight extends GameState {
         }
     }
 
-    private void welcomeText() {
-        System.out.println("Runa enters Stage " + this.game.getRoom() + " of Level " + this.game.getLevel());
+    private boolean fight() {
+        printInfo();
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        if (input.equals("quit")) {
+            this.gameEnd();
+            return false;
+        }
+        return true;
+    }
+
+    private void printInfo() {
         System.out.println("----------------------------------------");
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + ", " + this.game.getPlayer().getFocusPoints() + "/"
@@ -55,5 +63,9 @@ public class Fight extends GameState {
             System.out.println(monster.extendedToString());
         });
         System.out.println("----------------------------------------");
+    }
+
+    private void welcomeText() {
+        System.out.println("Runa enters Stage " + this.game.getRoom() + " of Level " + this.game.getLevel());
     }
 }

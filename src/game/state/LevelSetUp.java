@@ -17,7 +17,6 @@ public class LevelSetUp extends GameState {
     public void executeState() {
         // 2.2
         this.game.nextLevel();
-        System.out.println(this.game.getLevel());
         if (this.game.getLevel() == 1) setUpFirstLevel();
         else setUpSecondLevel();
 
