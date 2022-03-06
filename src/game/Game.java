@@ -22,7 +22,7 @@ public class Game {
 
     public Game() {
         this.run = true;
-        this.level = 0;
+        this.level = 1;
         this.room = 0;
         this.runa = new Runa();
         this.state = new InitSetUp(this);
@@ -70,7 +70,7 @@ public class Game {
         this.run = false;
         if (runa.getHp() <= 0 ) {
             System.out.println(GameEndOutput.LOSE.getOutput());
-        } else if (monsterCards.isEmpty()) {
+        } else if (this.monsterCards.isEmpty()) {
             System.out.println(GameEndOutput.WON.getOutput());
         }
     }

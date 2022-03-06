@@ -33,7 +33,10 @@ public abstract class GameState {
             ittr++;
             System.out.println(output);
             String input = scanner.nextLine();
-            if (input.equals("quit")) return -1;
+            if (input.equals("quit")) {
+                gameEnd();
+                return -1;
+            }
             try {
                 out = Integer.parseInt(input);
             } catch (NumberFormatException ignored) {

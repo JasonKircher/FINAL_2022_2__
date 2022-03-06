@@ -2,6 +2,7 @@ package game.state;
 
 import game.Game;
 import game.state.initiationValues.MonstersLevels;
+import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.Collections;
@@ -16,7 +17,6 @@ public class LevelSetUp extends GameState {
     @Override
     public void executeState() {
         // 2.2
-        this.game.nextLevel();
         if (this.game.getLevel() == 1) setUpFirstLevel();
         else setUpSecondLevel();
 
@@ -32,7 +32,6 @@ public class LevelSetUp extends GameState {
     }
 
     private void setUpSecondLevel() {
-        this.game.getMonsterCards().removeAll(MonstersLevels.FIRST.getMonsters());
         this.game.getMonsterCards().addAll(MonstersLevels.SECOND.getMonsters());
     }
 
@@ -41,7 +40,10 @@ public class LevelSetUp extends GameState {
         System.out.println("To shuffle ability cards and monsters, enter two seeds");
         int one = Integer.MAX_VALUE;
         int two = Integer.MAX_VALUE;
+        int ittr = 0;
         while(!(one >= 1 && one < Integer.MAX_VALUE) || !(two >= 1 && two < Integer.MAX_VALUE)) {
+            if (ittr > 0) System.out.println(ErrorMsg.SEED.getMsg());
+            ittr++;
             System.out.println(NumInputRequest.SEED_INPUT_REQUEST.getOutput(0));
             String input = scanner.nextLine();
             if (input.equals("quit")) {

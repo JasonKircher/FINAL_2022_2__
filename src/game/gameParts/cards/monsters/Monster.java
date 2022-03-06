@@ -14,13 +14,13 @@ public abstract class Monster {
     private     int             magicMitigation;
     private     int             physicalMitigation;
     private     int             focusPoints;
-    private     boolean         deBuffed;
+    private     int             focusBuffer;
 
     public Monster() {
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
         this.focusPoints = 0;
-        this.deBuffed = false;
+        this.focusBuffer = 0;
     }
 
     public Ability nextAbility() {
@@ -36,19 +36,16 @@ public abstract class Monster {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
+        System.out.println(this.name + " takes " + damage + " damage");
         return this.hp > 0;
     }
 
-    public int getFocusPoints() {
-        return this.focusPoints;
+    public void deBuff() {
+        this.focusBuffer = 0;
     }
 
-    public void increaseFocusPoints() {
-        this.focusPoints++;
-    }
-
-    public boolean isDeBuffed() {
-        return this.deBuffed;
+    public void focus(int increase) {
+        this.focusBuffer = increase;
     }
 
     public boolean decreaseFocusPoints() {
@@ -68,13 +65,14 @@ public abstract class Monster {
         this.physicalMitigation = physicalMitigation;
     }
 
-    public void resetMitigation() {
+    public void reset() {
+        if (this.focusBuffer != 0) {
+            this.focusPoints += this.focusBuffer;
+            System.out.println(this.name + " gains " + this.focusBuffer + " focus");
+            this.focusBuffer = 0;
+        }
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
-    }
-
-    public void resetDeBuff() {
-        this.deBuffed = false;
     }
 
     public String extendedToString() {

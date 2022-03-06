@@ -10,13 +10,9 @@ public class Focus extends Ability {
         this.name = "Focus";
     }
     public void focus(Runa runa) {
-        if (!runa.isDeBuffed()) {
-            runa.increaseFocusPoints();
-        }
+        runa.focus(this.abilityLevel);
     }
     public void focus(Monster monster) {
-        if (!monster.isDeBuffed()) {
-            monster.increaseFocusPoints();
-        }
+        monster.focus(this.abilityLevel);
     }
 }

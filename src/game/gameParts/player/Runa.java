@@ -14,8 +14,8 @@ public class Runa {
     private         int                 focusPoints;
     private         int                 magicMitigation;
     private         int                 physicalMitigation;
-    private         boolean             deBuffed;
-    private Dice currentDice;
+    private         int                 focusBuffer;
+    private         Dice                currentDice;
     private final   List<Ability>       abilities;
 
     public Runa() {
@@ -24,7 +24,7 @@ public class Runa {
         this.abilityLevel = PlayerStartingValues.STARTING_LEVEL.getValue();
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
-        this.deBuffed = false;
+        this.focusBuffer = 0;
         this.focusPoints = 1;
         this.currentDice = Dice.D4;
     }
@@ -38,17 +38,6 @@ public class Runa {
         this.abilityLevel++;
     }
 
-    public void deBuff() {
-        this.deBuffed = true;
-    }
-
-    public void resetDeBuffs() {
-        this.deBuffed = false;
-    }
-
-    public boolean isDeBuffed() {
-        return deBuffed;
-    }
 
     public int getAbilityLevel() {
         return this.abilityLevel;
@@ -66,10 +55,8 @@ public class Runa {
         return this.currentDice;
     }
 
-    public void increaseFocusPoints() {
-        if (this.focusPoints < this.currentDice.getMaxValue()) {
-            this.focusPoints++;
-        }
+    public void focus(int increase) {
+        this.focusBuffer = increase;
     }
     public boolean decreaseFocusPoints() {
         if (this.focusPoints > 0) {
@@ -77,6 +64,10 @@ public class Runa {
             return true;
         }
         return false;
+    }
+
+    public void deBuff() {
+        this.focusBuffer = 0;
     }
 
     public int getFocusPoints() {
@@ -87,7 +78,12 @@ public class Runa {
         this.magicMitigation = magicMitigation;
     }
 
-    public void resetMitigation() {
+    public void reset() {
+        if (this.focusBuffer != 0) {
+            this.focusPoints += this.focusBuffer;
+            System.out.println("Runa gains " + this.focusBuffer + " focus");
+            this.focusBuffer = 0;
+        }
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
     }
@@ -103,6 +99,7 @@ public class Runa {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
+        System.out.println("Runa takes " + damage + " damage");
         return this.hp > 0;
     }
 

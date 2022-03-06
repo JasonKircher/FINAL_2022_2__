@@ -47,11 +47,13 @@ public class Fight extends GameState {
 
     private boolean fight() {
         while (!this.active.isEmpty()) {
+
             Ability ability;
             Monster target = this.active.get(0);
             int diceRoll = 0;
             printInfo();
             printCards();
+            this.game.getPlayer().reset();
 
             int max = this.game.getPlayer().getAbilities().size();
             int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
@@ -77,13 +79,9 @@ public class Fight extends GameState {
             }
 
             executeAbility(this.game.getPlayer(), target, ability, diceRoll);
-            this.game.getPlayer().resetDeBuffs();
-            this.game.getPlayer().resetMitigation();
-
+            this.active.forEach(Monster::reset);
             for (Monster monster : this.active) {
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
-                monster.resetDeBuff();
-                monster.resetMitigation();
             }
         }
         return true;
@@ -92,6 +90,7 @@ public class Fight extends GameState {
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
         if (initiator instanceof Runa runa) {
             Monster monster = (Monster) target;
+            System.out.println("Runa uses " + ability);
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) if (!runa.decreaseFocusPoints()) return true;
@@ -104,6 +103,7 @@ public class Fight extends GameState {
         }
         else if (initiator instanceof Monster monster) {
             Runa runa = (Runa) target;
+            System.out.println(monster + " uses " + ability);
             if (ability instanceof Focus) ((Focus) ability).focus(monster);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) if (!monster.decreaseFocusPoints()) return true;
