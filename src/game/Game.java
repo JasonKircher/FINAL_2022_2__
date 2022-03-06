@@ -50,6 +50,7 @@ public class Game {
 
 
     public void nextLevel() {
+        this.room = 0;
         this.level++;
     }
 
