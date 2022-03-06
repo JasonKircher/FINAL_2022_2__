@@ -3,6 +3,7 @@ package game.gameParts.cards.monsters.firstLevel;
 import game.gameParts.cards.abilities.magical.Fire;
 import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.cards.monsters.MonsterType;
 
 import java.util.LinkedList;
 

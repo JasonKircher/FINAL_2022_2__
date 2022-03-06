@@ -4,6 +4,7 @@ import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Bite;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Block;
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.cards.monsters.MonsterType;
 
 import java.util.LinkedList;
 

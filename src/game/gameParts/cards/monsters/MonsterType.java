@@ -1,4 +1,4 @@
-package game.gameParts.cards.monsters.firstLevel;
+package game.gameParts.cards.monsters;
 
 public enum MonsterType {
     Lightning,

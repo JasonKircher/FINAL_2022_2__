@@ -13,7 +13,6 @@ public class Focus extends Ability {
         if (!runa.isDeBuffed()) {
             runa.increaseFocusPoints();
         }
-        runa.increaseFocusPoints();
     }
     public void focus(Monster monster) {
         if (!monster.isDeBuffed()) {

@@ -54,8 +54,6 @@ public class InitSetUp extends GameState{
         return true;
     }
 
-
-
     private void welcome() {
         System.out.println("Welcome to Runa’s Strive");
         System.out.println("Select Runa’s character class");

@@ -2,7 +2,6 @@ package game.gameParts.cards.monsters;
 
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.OffensiveAbility;
-import game.gameParts.cards.monsters.firstLevel.MonsterType;
 import game.state.output.Exceptions;
 
 import java.util.List;

@@ -12,7 +12,9 @@ public abstract class GameState {
     public GameState(Game game) {
         this.game = game;
     }
+
     public abstract void executeState();
+
     protected void gameEnd() {
         this.game.end();
     }
