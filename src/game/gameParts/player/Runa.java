@@ -98,6 +98,12 @@ public class Runa {
         this.physicalMitigation = 0;
     }
 
+    public void heal(int hp) {
+        if (this.hp + hp > PlayerStartingValues.STARTING_HP.getValue())
+            this.hp = PlayerStartingValues.STARTING_HP.getValue();
+        else this.hp += hp;
+    }
+
     public void setPhysicalMitigation(int physicalMitigation) {
         this.physicalMitigation = physicalMitigation;
     }

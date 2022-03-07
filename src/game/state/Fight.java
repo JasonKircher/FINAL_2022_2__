@@ -50,7 +50,7 @@ public class Fight extends GameState {
 
             Ability ability;
             Monster target = this.active.get(0);
-            int diceRoll = 0;
+            int diceRoll;
             printInfo();
             printCards();
             this.game.getPlayer().reset();
@@ -65,12 +65,6 @@ public class Fight extends GameState {
                     System.out.println(ErrorMsg.NOT_ENOUGH_FOCUS.getMsg());
                     continue;
                 }
-                if (ability.isPhysical()) {
-                    int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
-                    diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
-                    if (diceRoll == -1) return false;
-                }
-                else diceRoll = this.game.getPlayer().getFocusPoints();
             }
 
             if (this.active.size() > 1) {
@@ -80,6 +74,13 @@ public class Fight extends GameState {
                 if (index == -1) return false;
                 target = this.active.get(index);
             }
+
+            if (ability.isOffensive() && ability.isPhysical()) {
+                int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
+                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
+                if (diceRoll == -1) return false;
+            }
+            else diceRoll = this.game.getPlayer().getFocusPoints();
 
             executeAbility(this.game.getPlayer(), target, ability, diceRoll);
             this.active.forEach(Monster::reset);
