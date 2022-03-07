@@ -2,7 +2,6 @@ package game.state;
 
 import game.Game;
 import game.state.output.ErrorMsg;
-import game.state.output.NumInputRequest;
 
 import java.util.Scanner;
 

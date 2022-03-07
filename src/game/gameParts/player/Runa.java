@@ -11,7 +11,6 @@ import java.util.List;
 
 public class Runa {
     private         int                 hp;
-    private         int                 abilityLevel;
     private         int                 focusPoints;
     private         int                 magicMitigation;
     private         int                 physicalMitigation;
@@ -23,11 +22,10 @@ public class Runa {
     public Runa() {
         this.abilities = new LinkedList<>();
         this.hp = PlayerStartingValues.STARTING_HP.getValue();
-        this.abilityLevel = PlayerStartingValues.STARTING_LEVEL.getValue();
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
         this.focusBuffer = 0;
-        this.focusPoints = 1;
+        this.focusPoints = PlayerStartingValues.STARTING_FOCUS_POINTS.getValue();
         this.currentDice = Dice.D4;
     }
 
@@ -36,14 +34,6 @@ public class Runa {
         return hp >= 0;
     }
 
-    public void increaseLevel() {
-        this.abilityLevel++;
-    }
-
-
-    public int getAbilityLevel() {
-        return this.abilityLevel;
-    }
     public void addAbilityCard(Ability card) {
         abilities.add(card);
     }

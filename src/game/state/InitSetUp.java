@@ -1,8 +1,6 @@
 package game.state;
 
 import game.Game;
-import game.gameParts.cards.abilities.magical.*;
-import game.gameParts.cards.abilities.physical.playerAbilities.*;
 import game.gameParts.player.parts.PlayerClass;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
@@ -42,9 +40,8 @@ public class InitSetUp extends GameState{
         if (classPlayingIndex == -1) return false;
         // add initial abilities
         this.game.getPlayer().setPlayerClass(this.classplayerClassesap.get(classPlayingIndex));
-        this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card -> {
-            this.game.getPlayer().addAbilityCard(card);
-        });
+        this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card ->
+                this.game.getPlayer().addAbilityCard(card));
         return true;
     }
 
