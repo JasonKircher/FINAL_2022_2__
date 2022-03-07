@@ -11,6 +11,6 @@ public class Thrust extends PhysicalOffensiveAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        return 6 * this.abilityLevel;
+        return 6 * this.abilityLevel + value;
     }
 }

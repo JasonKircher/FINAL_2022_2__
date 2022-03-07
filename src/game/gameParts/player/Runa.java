@@ -3,6 +3,7 @@ package game.gameParts.player;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.OffensiveAbility;
 import game.gameParts.player.parts.Dice;
+import game.gameParts.player.parts.PlayerClass;
 import game.state.output.Exceptions;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ public class Runa {
     private         int                 focusBuffer;
     private         Dice                currentDice;
     private final   List<Ability>       abilities;
+    private         PlayerClass         playerClass;
 
     public Runa() {
         this.abilities = new LinkedList<>();
@@ -64,6 +66,14 @@ public class Runa {
             return true;
         }
         return false;
+    }
+
+    public void setPlayerClass(PlayerClass playerClass) {
+        this.playerClass = playerClass;
+    }
+
+    public PlayerClass getPlayerClass() {
+        return this.playerClass;
     }
 
     public void deBuff() {

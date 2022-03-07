@@ -25,12 +25,6 @@ public class InitSetUp extends GameState{
     public void executeState() {
         // 2.1
 
-        // add all abilities in correct order
-        int lvl = this.game.getLevel() + 1;
-        this.game.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
-                new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl), new Fire(lvl)
-                // TODO add lightning
-        ));
         // choose class
         if (!chooseClass()) return;
 
@@ -47,11 +41,10 @@ public class InitSetUp extends GameState{
                 NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
+        this.game.getPlayer().setPlayerClass(this.classplayerClassesap.get(classPlayingIndex));
         this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card -> {
             this.game.getPlayer().addAbilityCard(card);
         });
-        // remove initial abilities from collectable abilities
-        this.game.getAbilityCards().removeIf(this.classplayerClassesap.get(classPlayingIndex).getCards()::contains);
         return true;
     }
 

@@ -17,6 +17,11 @@ public abstract class Ability {
     public void upgrade() {
         this.abilityLevel++;
     }
+
+    public int getAbilityLevel() {
+        return abilityLevel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o.getClass() != this.getClass()) return false;

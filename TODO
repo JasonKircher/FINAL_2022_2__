@@ -1,6 +1,6 @@
 fight() function überarbeiten, einzelne aktionen kapseln und TODOs umsetzen
 
-Fähigkeiten komplett implementieren (Focus and debuff etc restliche functions umsetzen (dmg impl))
-Runa/Monster.deBuff() bricht jetzt focus ab
+Fähigkeiten komplett implementieren
+->Runa/Monster.deBuff() bricht jetzt focus ab
 
 Drops/Afterfight implementieren

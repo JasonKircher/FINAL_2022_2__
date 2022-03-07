@@ -1,11 +1,14 @@
 package game.state;
 
 import game.Game;
+import game.gameParts.cards.abilities.magical.*;
+import game.gameParts.cards.abilities.physical.playerAbilities.*;
 import game.state.initiationValues.MonstersLevels;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -17,6 +20,16 @@ public class LevelSetUp extends GameState {
     @Override
     public void executeState() {
         // 2.2
+
+        // add all abilities in correct order
+        int lvl = this.game.getLevel();
+        this.game.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
+                new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl), new Fire(lvl),
+                new Lightning(lvl)
+        ));
+        // remove initial abilities from collectable abilities
+        this.game.getAbilityCards().removeIf(this.game.getPlayer().getPlayerClass().getCards()::contains);
+
         if (this.game.getLevel() == 1) setUpFirstLevel();
         else setUpSecondLevel();
 

@@ -7,13 +7,13 @@ import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.Runa;
+import game.state.initiationValues.GameSettings;
 import game.state.initiationValues.MonstersLevels;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Fight extends GameState {
     List<Monster> active;
@@ -38,7 +38,7 @@ public class Fight extends GameState {
     private void selectMonsters() {
         Monster boss = this.game.getLevel() == 1 ? MonstersLevels.FIRST.getBoss() : MonstersLevels.SECOND.getBoss();
         if (this.game.getRoom() == 1) this.active.add(this.game.getMonsterCards().remove(0));
-        else if (this.game.getRoom() == 4) this.active.add(boss);
+        else if (this.game.getRoom() == GameSettings.ROOMS.getValue()) this.active.add(boss);
         else {
             this.active.add(this.game.getMonsterCards().remove(0));
             this.active.add(this.game.getMonsterCards().remove(0));
@@ -65,9 +65,12 @@ public class Fight extends GameState {
                     System.out.println(ErrorMsg.NOT_ENOUGH_FOCUS.getMsg());
                     continue;
                 }
-                int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
-                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax));
-                if (diceRoll == -1) return false;
+                if (ability.isPhysical()) {
+                    int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
+                    diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
+                    if (diceRoll == -1) return false;
+                }
+                else diceRoll = this.game.getPlayer().getFocusPoints();
             }
 
             if (this.active.size() > 1) {
@@ -81,6 +84,7 @@ public class Fight extends GameState {
             executeAbility(this.game.getPlayer(), target, ability, diceRoll);
             this.active.forEach(Monster::reset);
             for (Monster monster : this.active) {
+                // check for focus points
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
             }
         }
@@ -107,7 +111,11 @@ public class Fight extends GameState {
             System.out.println(monster + " uses " + ability);
             if (ability instanceof Focus) ((Focus) ability).focus(monster);
             else if (ability.isOffensive()) {
-                if (!ability.isPhysical()) if (!monster.decreaseFocusPoints()) return true;
+                if (!ability.isPhysical()) {
+                    for (int i = 0; i < ability.getAbilityLevel(); i++) {
+                        if (!monster.decreaseFocusPoints()) return true;
+                    }
+                }
                 if (!runa.takeDamage(ability)) {
                     this.gameEnd();
                     return false;
