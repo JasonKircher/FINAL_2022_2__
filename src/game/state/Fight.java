@@ -96,6 +96,7 @@ public class Fight extends GameState {
                 if (!ability.isPhysical()) if (!runa.decreaseFocusPoints()) return true;
                 if (!monster.takeDamage(ability, diceRoll)) {
                     this.active.remove(monster);
+                    System.out.println(monster + " dies");
                     return false;
                 }
             }
