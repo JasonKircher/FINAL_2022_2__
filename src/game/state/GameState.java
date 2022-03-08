@@ -49,7 +49,7 @@ public abstract class GameState {
         return out - 1;
     }
 
-    protected List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax,
+    protected List<Integer> getMultipleInputs(int max, int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax,
                                               boolean duplicates) {
         Scanner scanner = new Scanner(System.in);
         int ittr = 0;
@@ -82,6 +82,7 @@ public abstract class GameState {
                     }
                 }
             }
+            for (int index : indices) if (index > max) indices = new LinkedList<>();
         }
         return indices;
     }

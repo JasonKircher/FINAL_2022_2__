@@ -86,12 +86,12 @@ public class FightAftermath extends GameState {
             this.game.getPlayer().addAbilityCard(selection.remove(chosen));
         }
         else {
-            List<Integer> indices = getMultipleInputs(2,
+            List<Integer> indices = getMultipleInputs(selection.size() - 1, 2,
                     NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(selection.size()), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
                     true, false);
             if (indices == null) return false;
             List<Ability> tmp = new LinkedList<>();
-            for (Integer index : indices) tmp.add(selection.get(index));
+            for (int index : indices) tmp.add(selection.get(index));
             this.game.getPlayer().getAbilities().addAll(tmp);
             selection.removeIf(tmp::contains);
         }
@@ -119,6 +119,7 @@ public class FightAftermath extends GameState {
 
     private List<Integer> getHealInputs() {
         return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
+                this.game.getPlayer().getAbilities().size() - 1,
                 NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
                 ErrorMsg.NUMBER_OUT_OF_BOUNDS, false, false);
     }
