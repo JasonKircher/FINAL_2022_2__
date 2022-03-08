@@ -76,7 +76,7 @@ public class FightAftermath extends GameState {
                     selection.add(this.game.getAbilityCards().remove(0));
             }
         }
-        System.out.println("Pick " + selection.size() / 2 + " card(s) as loot");
+        System.out.println("Pick " + Math.round(selection.size() * 0.5) + " card(s) as loot");
         for (int index = 0; index < selection.size(); index++)
             System.out.println(index + 1 + ") " + selection.get(index));
 
