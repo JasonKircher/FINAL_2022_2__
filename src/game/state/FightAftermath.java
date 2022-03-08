@@ -9,6 +9,7 @@ import game.state.initiationValues.MonstersLevels;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -71,7 +72,8 @@ public class FightAftermath extends GameState {
         }
         if (this.game.getRoom() != 1) {
             for (int i = 0; i < GameSettings.LOOT_CARDS.getValue(); i++) {
-                selection.add(this.game.getAbilityCards().remove(0));
+                if (!this.game.getAbilityCards().isEmpty())
+                    selection.add(this.game.getAbilityCards().remove(0));
             }
         }
         System.out.println("Pick " + selection.size() / 2 + " card(s) as loot");
@@ -99,14 +101,14 @@ public class FightAftermath extends GameState {
     private void heal() {
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + ") can discard ability cards for healing (or none)");
-        this.game.getPlayer().getAbilities().forEach(ability ->
-                System.out.println(this.game.getPlayer().getAbilities().indexOf(ability) + 1 + ") " + ability));
+        for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++) {
+            System.out.printf("%d) %s%n",i + 1 ,this.game.getPlayer().getAbilities().get(i));
+        }
 
         List<Integer> indices = getHealInputs();
-        List<Ability> abilitiesToBeRemoved = new LinkedList<>();
         if (indices == null) return;
-        indices.forEach(index -> abilitiesToBeRemoved.add(this.game.getPlayer().getAbilities().get(index)));
-        abilitiesToBeRemoved.forEach(ability -> this.game.getPlayer().getAbilities().remove(ability));
+        indices.sort((o1, o2) -> o2 - o1);
+        indices.forEach(index -> this.game.getPlayer().getAbilities().remove(index));
         int healVal = indices.size() * 10;
         this.game.getPlayer().heal(healVal);
     }
