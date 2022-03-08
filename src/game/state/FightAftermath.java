@@ -100,7 +100,7 @@ public class FightAftermath extends GameState {
 
     private void heal() {
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
-                + ") can discard ability cards for healing (or none)");
+                + " HP) can discard ability cards for healing (or none)");
         for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++) {
             System.out.printf("%d) %s%n",i + 1 ,this.game.getPlayer().getAbilities().get(i));
         }

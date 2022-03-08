@@ -1,5 +1,6 @@
 package game.gameParts.cards.monsters.secondLevel;
 
+import game.gameParts.cards.abilities.magical.Deflect;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Scratch;
 import game.gameParts.cards.monsters.Monster;
 
@@ -12,7 +13,7 @@ public class WildBoar extends Monster {
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Scratch(2));
-                // add deflect
+                add(new Deflect(2));
                 add(new Scratch(2));
         }};
     }
