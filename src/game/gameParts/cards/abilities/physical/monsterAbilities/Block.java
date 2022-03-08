@@ -1,6 +1,5 @@
 package game.gameParts.cards.abilities.physical.monsterAbilities;
 
-import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.physical.PhysicalDefensiveAbility;
 import game.gameParts.cards.monsters.Monster;
 

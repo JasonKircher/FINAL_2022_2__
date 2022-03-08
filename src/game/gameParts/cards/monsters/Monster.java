@@ -56,6 +56,10 @@ public abstract class Monster {
         return false;
     }
 
+    public MonsterType getType() {
+        return this.type;
+    }
+
     public void setMagicMitigation(int magicMitigation) {
         this.magicMitigation = magicMitigation;
     }

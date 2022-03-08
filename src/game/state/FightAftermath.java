@@ -74,7 +74,10 @@ public class FightAftermath extends GameState {
                 selection.add(this.game.getAbilityCards().remove(0));
             }
         }
-        selection.forEach(ability -> System.out.println(selection.indexOf(ability) + 1 + ") " + ability));
+        System.out.println("Pick " + selection.size() / 2 + " card(s) as loot");
+        for (int index = 0; index < selection.size(); index++)
+            System.out.println(index + 1 + ") " + selection.get(index));
+
         if (this.game.getRoom() == 1) {
             int chosen = getNumInput(selection.size(), NumInputRequest.ONE_INPUT_REQUEST.getOutput(selection.size()));
             if (chosen == -1) return false;
@@ -82,14 +85,14 @@ public class FightAftermath extends GameState {
         }
         else {
             List<Integer> indices = getMultipleInputs(2,
-                    NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(0), ErrorMsg.NUMBER_OUT_OF_BOUNDS);
+                    NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(selection.size()), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
+                    true);
             if (indices == null) return false;
             List<Ability> tmp = new LinkedList<>();
             for (Integer index : indices) tmp.add(selection.get(index));
             this.game.getPlayer().getAbilities().addAll(tmp);
             selection.removeIf(tmp::contains);
         }
-        this.game.getAbilityCards().addAll(selection);
         return true;
     }
 
@@ -109,7 +112,7 @@ public class FightAftermath extends GameState {
         this.game.getPlayer().heal(healVal);
     }
 
-    private List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg) {
+    private List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax) {
         Scanner scanner = new Scanner(System.in);
         int ittr = 0;
         List<Integer> indices = new LinkedList<>();
@@ -119,6 +122,7 @@ public class FightAftermath extends GameState {
             ittr++;
             String input = scanner.nextLine();
             if (input.equals("quit")) return null;
+            if (input.isEmpty()) return new LinkedList<>();
             String[] split = input.split(",");
             if (split.length > maxNumbers) continue;
             for (String num : split) {
@@ -129,18 +133,20 @@ public class FightAftermath extends GameState {
                     return getHealInputs();
                 }
             }
+            if (minIsMax && indices.size() != maxNumbers) indices = new LinkedList<>();
         }
         return indices;
     }
 
     private List<Integer> getHealInputs() {
         return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
-                NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(0), ErrorMsg.NUMBER_OUT_OF_BOUNDS);
+                NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(0), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
+                false);
     }
 
     private void newLevelCleanse() {
-        this.game.getMonsterCards().removeIf(MonstersLevels.FIRST.getMonsters()::contains);
-        this.game.getMonsterCards().removeIf(MonstersLevels.SECOND.getMonsters()::contains);
+        this.game.getMonsterCards().clear();
+        this.game.getAbilityCards().clear();
         this.game.nextLevel();
     }
 }

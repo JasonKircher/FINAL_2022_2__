@@ -1,8 +1,6 @@
 package game.gameParts.cards.abilities.physical.monsterAbilities;
 
-import game.gameParts.cards.abilities.OffensiveAbility;
 import game.gameParts.cards.abilities.physical.PhysicalOffensiveAbility;
-import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
 
 public class Scratch extends PhysicalOffensiveAbility {

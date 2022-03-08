@@ -12,6 +12,7 @@ public class Reflect extends DefensiveMagicAbility {
     public void calculateMitigation(Object target) {
         if (target instanceof Runa runa) {
             runa.setMagicMitigation(10 * this.abilityLevel);
+            // TODO: 08.03.2022 refect dmg on attacker
         }
     }
 }

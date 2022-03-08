@@ -53,7 +53,6 @@ public class Fight extends GameState {
             int diceRoll;
             printInfo();
             printCards();
-            this.game.getPlayer().reset();
 
             int max = this.game.getPlayer().getAbilities().size();
             int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
@@ -67,7 +66,7 @@ public class Fight extends GameState {
                 }
             }
 
-            if (this.active.size() > 1) {
+            if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
                 max = this.active.size();
                 index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
@@ -88,6 +87,7 @@ public class Fight extends GameState {
                 // check for focus points
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
             }
+            this.game.getPlayer().reset();
         }
         return true;
     }
@@ -130,7 +130,7 @@ public class Fight extends GameState {
     private void printInfo() {
         System.out.println("----------------------------------------");
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
-                + ", " + this.game.getPlayer().getFocusPoints() + "/"
+                + " HP, " + this.game.getPlayer().getFocusPoints() + "/"
                 + this.game.getPlayer().getCurrentDice().getMaxValue() + " FP)");
         System.out.println("vs.");
         this.active.forEach(monster -> System.out.println(monster.extendedToString()));
@@ -145,7 +145,7 @@ public class Fight extends GameState {
     private void printCards() {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
         System.out.println("Select card to play");
-        abilities.forEach(ability -> System.out.println(abilities.indexOf(ability) + 1 + ") " + ability));
+        for (int i = 0; i < abilities.size(); i++) System.out.println(i + ") " + abilities.get(i));
     }
 
     private void welcomeText() {

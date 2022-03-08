@@ -1,6 +1,5 @@
 package game.gameParts.cards.abilities.physical.monsterAbilities;
 
-import game.gameParts.cards.abilities.OffensiveAbility;
 import game.gameParts.cards.abilities.physical.PhysicalOffensiveAbility;
 import game.gameParts.player.Runa;
 

@@ -13,6 +13,8 @@ public class Parry extends PhysicalDefensiveAbility {
 
     @Override
     public void calculateMitigation(Object target) {
-
+        if (target instanceof Runa runa) {
+            runa.setPhysicalMitigation(this.abilityLevel * 7);
+        }
     }
 }

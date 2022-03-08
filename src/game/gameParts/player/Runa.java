@@ -80,7 +80,12 @@ public class Runa {
 
     public void reset() {
         if (this.focusBuffer != 0) {
-            this.focusPoints += this.focusBuffer;
+            if (this.focusPoints <= this.currentDice.getMaxValue()) {
+                if (this.focusBuffer + this.focusPoints > this.currentDice.getMaxValue()) {
+                    this.focusBuffer = this.currentDice.getMaxValue() - this.focusPoints;
+                }
+                this.focusPoints += this.focusBuffer;
+            }
             System.out.println("Runa gains " + this.focusBuffer + " focus");
             this.focusBuffer = 0;
         }

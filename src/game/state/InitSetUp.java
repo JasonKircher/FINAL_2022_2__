@@ -8,11 +8,11 @@ import game.state.output.NumInputRequest;
 import java.util.*;
 
 public class InitSetUp extends GameState{
-    private final List<PlayerClass> classplayerClassesap;
+    private final List<PlayerClass> classList;
     public InitSetUp(Game game) {
         super(game);
         // more classes could be added here
-        this.classplayerClassesap = new LinkedList<>() {{
+        this.classList = new LinkedList<>() {{
             add(PlayerClass.WARRIOR);
             add(PlayerClass.MAGE);
             add(PlayerClass.PALADIN);
@@ -33,14 +33,14 @@ public class InitSetUp extends GameState{
     private boolean chooseClass() {
         welcome();
 
-        for (int index = 0; index < this.classplayerClassesap.size(); index++)
-            System.out.println(index + 1 + ") " + this.classplayerClassesap.get(index).getDisplayName());
-        int classPlayingIndex = this.getNumInput(this.classplayerClassesap.size(),
-                NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classplayerClassesap.size()), ErrorMsg.CLASS);
+        for (int index = 0; index < this.classList.size(); index++)
+            System.out.println(index + 1 + ") " + this.classList.get(index).getDisplayName());
+        int classPlayingIndex = this.getNumInput(this.classList.size(),
+                NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classList.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
-        this.game.getPlayer().setPlayerClass(this.classplayerClassesap.get(classPlayingIndex));
-        this.classplayerClassesap.get(classPlayingIndex).getCards().forEach(card ->
+        this.game.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));
+        this.classList.get(classPlayingIndex).getCards().forEach(card ->
                 this.game.getPlayer().addAbilityCard(card));
         return true;
     }
