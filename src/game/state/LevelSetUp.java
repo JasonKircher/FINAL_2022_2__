@@ -55,6 +55,9 @@ public class LevelSetUp extends GameState {
         int two = -1;
         int ittr = 0;
         while(!(one >= 1) || !(two >= 1)) {
+            // reset nums
+            one = -1;
+            two = -1;
             if (ittr > 0) System.out.println(ErrorMsg.SEED.getMsg());
             ittr++;
             System.out.println(NumInputRequest.SEED_INPUT_REQUEST.getOutput(0));
@@ -64,17 +67,12 @@ public class LevelSetUp extends GameState {
                 return false;
             }
             String[] split = input.split(",");
-            if (split.length != 2) {
-                one = -1;
-                two = -1;
-                continue;
-            }
+            if (split.length != 2) continue;
             try {
                 one = Integer.parseInt(split[0]);
                 two = Integer.parseInt(split[1]);
             } catch (NumberFormatException ignored) {
-                one = -1;
-                two = -1;
+                // cannot parse
             }
         }
         // shuffle cards
