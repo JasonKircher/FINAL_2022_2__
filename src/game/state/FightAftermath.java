@@ -108,7 +108,6 @@ public class FightAftermath extends GameState {
         indices.forEach(index -> abilitiesToBeRemoved.add(this.game.getPlayer().getAbilities().get(index)));
         abilitiesToBeRemoved.forEach(ability -> this.game.getPlayer().getAbilities().remove(ability));
         int healVal = indices.size() * 10;
-        System.out.println("Runa gains " + healVal + " health");
         this.game.getPlayer().heal(healVal);
     }
 
