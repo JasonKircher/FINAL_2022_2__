@@ -108,7 +108,9 @@ public class FightAftermath extends GameState {
         List<Integer> indices = getHealInputs();
         if (indices == null) return;
         indices.sort((o1, o2) -> o2 - o1);
-        indices.forEach(index -> this.game.getPlayer().getAbilities().remove(index));
+        for (int index : indices) {
+            this.game.getPlayer().getAbilities().remove(index);
+        }
         int healVal = indices.size() * 10;
         this.game.getPlayer().heal(healVal);
     }
@@ -116,7 +118,7 @@ public class FightAftermath extends GameState {
 
 
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
+        return getMultipleInputs(this.game.getPlayer().getAbilities().size(),
                 NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
                 ErrorMsg.NUMBER_OUT_OF_BOUNDS, false, false);
     }
