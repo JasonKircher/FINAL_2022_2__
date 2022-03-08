@@ -51,10 +51,10 @@ public class LevelSetUp extends GameState {
     private boolean shuffleCards() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("To shuffle ability cards and monsters, enter two seeds");
-        int one = Integer.MAX_VALUE;
-        int two = Integer.MAX_VALUE;
+        int one = -1;
+        int two = -1;
         int ittr = 0;
-        while(!(one >= 1 && one < Integer.MAX_VALUE) || !(two >= 1 && two < Integer.MAX_VALUE)) {
+        while(!(one >= 1) || !(two >= 1)) {
             if (ittr > 0) System.out.println(ErrorMsg.SEED.getMsg());
             ittr++;
             System.out.println(NumInputRequest.SEED_INPUT_REQUEST.getOutput(0));
@@ -64,12 +64,17 @@ public class LevelSetUp extends GameState {
                 return false;
             }
             String[] split = input.split(",");
-            if (split.length != 2) continue;
+            if (split.length != 2) {
+                one = -1;
+                two = -1;
+                continue;
+            }
             try {
                 one = Integer.parseInt(split[0]);
                 two = Integer.parseInt(split[1]);
             } catch (NumberFormatException ignored) {
-                // cannot be parsed
+                one = -1;
+                two = -1;
             }
         }
         // shuffle cards
