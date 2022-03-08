@@ -128,27 +128,26 @@ public class Fight extends GameState {
     }
 
     private void printInfo() {
-        System.out.println("----------------------------------------");
-        System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
-                + " HP, " + this.game.getPlayer().getFocusPoints() + "/"
-                + this.game.getPlayer().getCurrentDice().getMaxValue() + " FP)");
+        String separator = "----------------------------------------";
+        System.out.println(separator);
+        System.out.println(this.game.getPlayer());
         System.out.println("vs.");
         this.active.forEach(monster -> System.out.println(monster.extendedToString()));
-        System.out.println("----------------------------------------");
+        System.out.println(separator);
     }
 
     private void printTargets() {
         System.out.println("Select Runa's target");
-        this.active.forEach(monster -> System.out.println(this.active.indexOf(monster) + 1 + ") " + monster));
+        this.active.forEach(monster -> System.out.printf("%d) %s%n", this.active.indexOf(monster) + 1, monster));
     }
 
     private void printCards() {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
         System.out.println("Select card to play");
-        for (int i = 0; i < abilities.size(); i++) System.out.println(i + ") " + abilities.get(i));
+        for (int i = 0; i < abilities.size(); i++) System.out.printf("%d) %s%n", i + 1, abilities.get(i));
     }
 
     private void welcomeText() {
-        System.out.println("Runa enters Stage " + this.game.getRoom() + " of Level " + this.game.getLevel());
+        System.out.printf("Runa enters Stage %d of Level %d%n", this.game.getRoom(), this.game.getLevel());
     }
 }

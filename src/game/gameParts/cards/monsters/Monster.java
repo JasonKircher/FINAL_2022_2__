@@ -36,6 +36,7 @@ public abstract class Monster {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
+        else damage = 0;
         System.out.println(this.name + " takes " + damage + " damage");
         return this.hp > 0;
     }
@@ -80,9 +81,10 @@ public abstract class Monster {
     }
 
     public String extendedToString() {
-        return this.name + " (" + hp + " HP, " + this.focusPoints + " FP): attempts "
-                + preferredAbilities.get(0) + " next";
+        return String.format("%s (%d HP, %d FP): attempts %s next",
+                this.name, this.hp, this.focusPoints, this.preferredAbilities.get(0));
     }
+
     @Override
     public String toString() {
         return this.name;

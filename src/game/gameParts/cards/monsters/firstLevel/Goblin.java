@@ -1,5 +1,6 @@
 package game.gameParts.cards.monsters.firstLevel;
 
+import game.gameParts.cards.abilities.magical.Deflect;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Smash;
 import game.gameParts.cards.monsters.Monster;
 
@@ -12,7 +13,7 @@ public class Goblin extends Monster {
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
            add(new Smash(1));
-           // TODO Deflect
+           add(new Deflect(1));
         }};
     }
 }

@@ -1,6 +1,7 @@
 package game.gameParts.cards.monsters.firstLevel;
 
 import game.gameParts.cards.abilities.magical.Focus;
+import game.gameParts.cards.abilities.magical.Lightning;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.cards.monsters.MonsterType;
 
@@ -13,7 +14,7 @@ public class Skeleton extends Monster {
         this.type = MonsterType.Lightning;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Focus(1));
-                // Lightning
+                add(new Lightning(1));
         }};
     }
 }

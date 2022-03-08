@@ -16,8 +16,8 @@ public class Runa {
     private         int                 physicalMitigation;
     private         int                 focusBuffer;
     private         Dice                currentDice;
-    private final   List<Ability>       abilities;
     private         PlayerClass         playerClass;
+    private final   List<Ability>       abilities;
 
     public Runa() {
         this.abilities = new LinkedList<>();
@@ -114,11 +114,22 @@ public class Runa {
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
+        else damage = 0;
         System.out.println("Runa takes " + damage + " damage");
         return this.hp > 0;
     }
 
     public int getHp() {
         return this.hp;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Runa");
+        String hp = String.format("%d/%d HP", this.hp, PlayerStartingValues.STARTING_HP.getValue());
+        String focus = String.format("%d/%d FP", this.focusPoints, this.currentDice.getMaxValue());
+        String info = String.format(" (%s, %s)", hp, focus);
+        builder.append(info);
+        return builder.toString();
     }
 }

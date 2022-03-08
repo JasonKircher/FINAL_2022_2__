@@ -1,6 +1,7 @@
 package game.gameParts.cards.monsters.firstLevel;
 
 import game.gameParts.cards.abilities.magical.Focus;
+import game.gameParts.cards.abilities.magical.Lightning;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Bite;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Block;
 import game.gameParts.cards.monsters.Monster;
@@ -17,7 +18,7 @@ public class SpiderKing extends Monster {
             add(new Bite(1));
             add(new Block(1));
             add(new Focus(1));
-            // TODO Lightning
+            add(new Lightning(1));
         }};
 
     }

@@ -111,36 +111,12 @@ public class FightAftermath extends GameState {
         this.game.getPlayer().heal(healVal);
     }
 
-    private List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax) {
-        Scanner scanner = new Scanner(System.in);
-        int ittr = 0;
-        List<Integer> indices = new LinkedList<>();
-        while (indices.isEmpty()) {
-            if (ittr > 0) System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
-            System.out.println(message);
-            ittr++;
-            String input = scanner.nextLine();
-            if (input.equals("quit")) return null;
-            if (input.isEmpty()) return new LinkedList<>();
-            String[] split = input.split(",");
-            if (split.length > maxNumbers) continue;
-            for (String num : split) {
-                try {
-                    int index = Integer.parseInt(num) - 1;
-                    indices.add(index);
-                } catch (NumberFormatException ignored) {
-                    return getHealInputs();
-                }
-            }
-            if (minIsMax && indices.size() != maxNumbers) indices = new LinkedList<>();
-        }
-        return indices;
-    }
+
 
     private List<Integer> getHealInputs() {
         return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
-                NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(0), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
-                false);
+                NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
+                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
     }
 
     private void newLevelCleanse() {

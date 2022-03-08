@@ -3,6 +3,8 @@ package game.state;
 import game.Game;
 import game.state.output.ErrorMsg;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class GameState {
@@ -44,5 +46,31 @@ public abstract class GameState {
         }
         // -1 to get correct index
         return out - 1;
+    }
+
+    protected List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax) {
+        Scanner scanner = new Scanner(System.in);
+        int ittr = 0;
+        List<Integer> indices = new LinkedList<>();
+        while (indices.isEmpty()) {
+            if (ittr > 0) System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+            System.out.println(message);
+            ittr++;
+            String input = scanner.nextLine();
+            if (input.equals("quit")) return null;
+            if (input.isEmpty()) return new LinkedList<>();
+            String[] split = input.split(",");
+            if (split.length > maxNumbers) continue;
+            for (String num : split) {
+                try {
+                    int index = Integer.parseInt(num) - 1;
+                    indices.add(index);
+                } catch (NumberFormatException ignored) {
+                    indices.clear();
+                }
+            }
+            if (minIsMax && indices.size() != maxNumbers) indices.clear();
+        }
+        return indices;
     }
 }
