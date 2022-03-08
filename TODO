@@ -4,3 +4,6 @@ Fähigkeiten komplett implementieren
 ->Runa/Monster.deBuff() bricht jetzt focus ab
 
 reflect reflects the dmg onto target
+
+
+mutiple numbers input - same numbers fix (healing and loot)

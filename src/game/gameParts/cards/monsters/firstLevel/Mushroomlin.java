@@ -1,5 +1,6 @@
 package game.gameParts.cards.monsters.firstLevel;
 
+import game.gameParts.cards.abilities.magical.Deflect;
 import game.gameParts.cards.abilities.physical.monsterAbilities.Scratch;
 import game.gameParts.cards.monsters.Monster;
 
@@ -11,7 +12,7 @@ public class Mushroomlin extends Monster {
         this.hp = 20;
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
-                // deflect
+                add(new Deflect(1));
                 add(new Scratch(1));
         }};
     }

@@ -1,5 +1,6 @@
 package game.state;
 
+import com.sun.source.tree.IfTree;
 import game.Game;
 import game.state.output.ErrorMsg;
 
@@ -48,7 +49,8 @@ public abstract class GameState {
         return out - 1;
     }
 
-    protected List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax) {
+    protected List<Integer> getMultipleInputs(int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax,
+                                              boolean duplicates) {
         Scanner scanner = new Scanner(System.in);
         int ittr = 0;
         List<Integer> indices = new LinkedList<>();
@@ -70,6 +72,16 @@ public abstract class GameState {
                 }
             }
             if (minIsMax && indices.size() != maxNumbers) indices.clear();
+            if (!duplicates) {
+                for (int i = 0; i < indices.size(); i++) {
+                    for (int j = 0; j < indices.size(); j++) {
+                        if (indices.get(i).equals(indices.get(j)) && j != i) {
+                            indices.clear();
+                            break;
+                        }
+                    }
+                }
+            }
         }
         return indices;
     }

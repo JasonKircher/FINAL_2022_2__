@@ -86,7 +86,7 @@ public class FightAftermath extends GameState {
         else {
             List<Integer> indices = getMultipleInputs(2,
                     NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(selection.size()), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
-                    true);
+                    true, false);
             if (indices == null) return false;
             List<Ability> tmp = new LinkedList<>();
             for (Integer index : indices) tmp.add(selection.get(index));
@@ -116,7 +116,7 @@ public class FightAftermath extends GameState {
     private List<Integer> getHealInputs() {
         return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
                 NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
-                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false, false);
     }
 
     private void newLevelCleanse() {
