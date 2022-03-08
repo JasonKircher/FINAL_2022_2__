@@ -118,7 +118,7 @@ public class FightAftermath extends GameState {
 
 
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.game.getPlayer().getAbilities().size(),
+        return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
                 NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
                 ErrorMsg.NUMBER_OUT_OF_BOUNDS, false, false);
     }
