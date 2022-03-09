@@ -37,7 +37,10 @@ public class FightAftermath extends GameState {
             this.game.setState(new LevelSetUp(this.game));
         }
         else {
-            if (!chooseDrop()) gameEnd();
+            if (!chooseDrop()) {
+                gameEnd();
+                return;
+            }
             this.game.setState(new Fight(this.game));
         }
         if (this.game.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue())
