@@ -16,9 +16,11 @@ import java.util.List;
 
 public class Fight extends GameState {
     List<Monster> active;
+    List<Monster> toBeRemoved;
     public Fight(Game game) {
         super(game);
         this.active = new LinkedList<>();
+        this.toBeRemoved = new LinkedList<>();
     }
 
     @Override
@@ -81,6 +83,7 @@ public class Fight extends GameState {
                 // check for focus points
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
             }
+            this.active.removeIf(this.toBeRemoved::contains);
             this.game.getPlayer().reset();
         }
         return true;
@@ -126,7 +129,7 @@ public class Fight extends GameState {
                 }
                 if (runa.isReflecting()) {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
-                        this.active.remove(monster);
+                        this.toBeRemoved.add(monster);
                         System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
                         return true;
                     }
