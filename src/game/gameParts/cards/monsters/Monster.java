@@ -37,7 +37,8 @@ public abstract class Monster {
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
         else damage = 0;
-        System.out.println(this.name + " takes " + damage + " damage");
+        String dmgType = ability.isPhysical() ? "phy." : "mag.";
+        System.out.printf("Runa takes %s %s damage", damage, dmgType);
         return this.hp > 0;
     }
 

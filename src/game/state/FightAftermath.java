@@ -27,12 +27,12 @@ public class FightAftermath extends GameState {
                 return;
             }
             // upgrade default spells
-            this.game.getPlayer().getPlayerClass().getCards().forEach(
-                    ability -> {
-                        ability.upgrade();
-                        this.game.getPlayer().addAbilityCard(ability);
-                    }
-            );
+            List<Ability> abilities = this.game.getPlayer().getPlayerClass().getCards();
+            abilities.forEach(ability -> {
+                    Ability tmp = ability.copy();
+                    tmp.upgrade();
+                    this.game.getPlayer().addAbilityCard(tmp);
+            });
             this.game.setState(new LevelSetUp(this.game));
         }
         else {

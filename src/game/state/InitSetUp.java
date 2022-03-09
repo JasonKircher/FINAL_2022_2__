@@ -40,8 +40,7 @@ public class InitSetUp extends GameState{
         if (classPlayingIndex == -1) return false;
         // add initial abilities
         this.game.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));
-        this.classList.get(classPlayingIndex).getCards().forEach(card ->
-                this.game.getPlayer().addAbilityCard(card));
+        this.game.getPlayer().getAbilities().addAll(this.classList.get(classPlayingIndex).getCards());
         return true;
     }
 
