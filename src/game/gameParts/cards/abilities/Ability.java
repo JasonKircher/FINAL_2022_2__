@@ -3,7 +3,6 @@ package game.gameParts.cards.abilities;
 import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.abilities.magical.Reflect;
 import game.gameParts.cards.abilities.magical.Water;
-import game.gameParts.cards.abilities.physical.monsterAbilities.Bite;
 import game.gameParts.cards.abilities.physical.playerAbilities.Parry;
 import game.gameParts.cards.abilities.physical.playerAbilities.Slash;
 import game.gameParts.cards.abilities.physical.playerAbilities.Thrust;
@@ -34,19 +33,12 @@ public abstract class Ability {
     }
 
     public Ability copy() {
-        if (Focus.class.equals(this.getClass())) {
-            return new Focus(this.abilityLevel);
-        } else if (Water.class.equals(this.getClass())) {
-            return new Water(this.abilityLevel);
-        } else if (Thrust.class.equals(this.getClass())) {
-            return new Thrust(this.abilityLevel);
-        } else if (Parry.class.equals(this.getClass())) {
-            return new Parry(this.abilityLevel);
-        } else if (Slash.class.equals(this.getClass())) {
-            return new Slash(this.abilityLevel);
-        } else if (Reflect.class.equals(this.getClass())) {
-            return new Reflect(this.abilityLevel);
-        }
+        if (Focus.class.equals(this.getClass())) return new Focus(this.abilityLevel);
+        else if (Water.class.equals(this.getClass())) return new Water(this.abilityLevel);
+        else if (Thrust.class.equals(this.getClass())) return new Thrust(this.abilityLevel);
+        else if (Parry.class.equals(this.getClass())) return new Parry(this.abilityLevel);
+        else if (Slash.class.equals(this.getClass())) return new Slash(this.abilityLevel);
+        else if (Reflect.class.equals(this.getClass())) return new Reflect(this.abilityLevel);
         return null;
     }
 

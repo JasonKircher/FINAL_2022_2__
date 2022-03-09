@@ -14,6 +14,7 @@ import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.RunnableScheduledFuture;
 
 public class Fight extends GameState {
     List<Monster> active;
@@ -59,13 +60,6 @@ public class Fight extends GameState {
             if (index == -1) return false;
             ability = this.game.getPlayer().getAbilities().get(index);
 
-            if (ability.isOffensive()) {
-                if (!ability.isPhysical() && this.game.getPlayer().getFocusPoints() <= 0) {
-                    System.out.println(ErrorMsg.NOT_ENOUGH_FOCUS.getMsg());
-                    continue;
-                }
-            }
-
             if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
                 max = this.active.size();
@@ -98,7 +92,10 @@ public class Fight extends GameState {
             System.out.println("Runa uses " + ability);
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
             else if (ability.isOffensive()) {
-                if (!ability.isPhysical()) if (!runa.decreaseFocusPoints()) return true;
+                if (!ability.isPhysical()) {
+                    runa.decreaseFocusPoints();
+                    return true;
+                }
                 if (!monster.takeDamage(ability, diceRoll)) {
                     this.active.remove(monster);
                     System.out.println(monster + " dies");
@@ -113,13 +110,26 @@ public class Fight extends GameState {
             if (ability instanceof Focus) ((Focus) ability).focus(monster);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
-                    for (int i = 0; i < ability.getAbilityLevel(); i++) {
-                        if (!monster.decreaseFocusPoints()) return true;
+                    if (ability.getAbilityLevel() > monster.getFocusPoints()) {
+                        monster.skipAbility();
+                        return executeAbility(initiator, target, ability, diceRoll);
+                    }
+                    else {
+                        for (int i = 0; i < ability.getAbilityLevel(); i++) {
+                            monster.decreaseFocusPoints();
+                        }
                     }
                 }
                 if (!runa.takeDamage(ability)) {
                     this.gameEnd();
                     return false;
+                }
+                if (runa.isReflecting()) {
+                    if (!monster.takeDamage(runa.getReflectedDmg())) {
+                        this.active.remove(monster);
+                        System.out.println(monster + " dies");
+                        return false;
+                    }
                 }
             }
             else ((DefensiveAbility) ability).calculateMitigation(initiator);

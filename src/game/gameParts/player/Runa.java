@@ -15,6 +15,8 @@ public class Runa {
     private         int                 magicMitigation;
     private         int                 physicalMitigation;
     private         int                 focusBuffer;
+    private         int                 reflectedDmg;
+    private         boolean             reflecting;
     private         Dice                currentDice;
     private         PlayerClass         playerClass;
     private final   List<Ability>       abilities;
@@ -25,13 +27,10 @@ public class Runa {
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
         this.focusBuffer = 0;
+        this.reflectedDmg = 0;
+        this.reflecting = false;
         this.focusPoints = PlayerStartingValues.STARTING_FOCUS_POINTS.getValue();
         this.currentDice = Dice.D4;
-    }
-
-    public boolean takeDamage(int damage) {
-        this.hp -= damage;
-        return hp >= 0;
     }
 
     public void addAbilityCard(Ability card) {
@@ -51,12 +50,11 @@ public class Runa {
     public void focus(int increase) {
         this.focusBuffer = increase;
     }
-    public boolean decreaseFocusPoints() {
-        if (this.focusPoints > 0) {
+
+    public void decreaseFocusPoints() {
+        if (this.focusPoints > 1) {
             this.focusPoints--;
-            return true;
         }
-        return false;
     }
 
     public void setPlayerClass(PlayerClass playerClass) {
@@ -90,6 +88,8 @@ public class Runa {
             System.out.println("Runa gains " + this.focusBuffer + " focus");
             this.focusBuffer = 0;
         }
+        this.reflecting = false;
+        this.reflectedDmg = 0;
         this.magicMitigation = 0;
         this.physicalMitigation = 0;
     }
@@ -101,7 +101,7 @@ public class Runa {
             this.hp = PlayerStartingValues.STARTING_HP.getValue();
         }
         else this.hp += hp;
-        System.out.println("Runa gains " + tmpHealing + " health");
+        if (tmpHealing > 0) System.out.printf("Runa gains %s health%n", tmpHealing);
     }
 
     public void setPhysicalMitigation(int physicalMitigation) {
@@ -113,16 +113,31 @@ public class Runa {
         OffensiveAbility abilityParsed = (OffensiveAbility) ability;
         int damage = abilityParsed.calculateDamage(0,  this);
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
-        else damage = damage - this.magicMitigation;
+        else {
+            damage = damage - this.magicMitigation;
+            this.reflectedDmg = damage >= 0 ? this.magicMitigation : this.magicMitigation + damage;
+        }
         if (damage > 0) this.hp -= damage;
         else damage = 0;
         String dmgType = ability.isPhysical() ? "phy." : "mag.";
-        System.out.printf("Runa takes %s %s damage%n", damage, dmgType);
+        if (damage > 0) System.out.printf("Runa takes %s %s damage%n", damage, dmgType);
         return this.hp > 0;
+    }
+
+    public void setReflecting() {
+        this.reflecting = true;
+    }
+
+    public boolean isReflecting() {
+        return this.reflecting;
     }
 
     public int getHp() {
         return this.hp;
+    }
+
+    public int getReflectedDmg() {
+        return this.reflectedDmg;
     }
 
     @Override

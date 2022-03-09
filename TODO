@@ -1,8 +1,0 @@
-fight() function überarbeiten, einzelne aktionen kapseln und TODOs umsetzen
-
-Fähigkeiten komplett implementieren
-->Runa/Monster.deBuff() bricht jetzt focus ab
-
-reflect reflects the dmg onto target
-
-upgrade ability gives new ability if dropped?

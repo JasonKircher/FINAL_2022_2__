@@ -29,6 +29,14 @@ public abstract class Monster {
         return current;
     }
 
+    public boolean takeDamage(int damage) {
+        int damageTmp = damage - this.magicMitigation;
+        if (damageTmp <= 0) return true;
+        this.hp -= damageTmp;
+        System.out.printf("%s takes %s mag. damage%n", this.name, damageTmp);
+        return this.hp > 0;
+    }
+
     public boolean takeDamage(Ability ability, int value) {
         if (!ability.isOffensive()) throw new RuntimeException(Exceptions.DMG_FROM_DEFENSIVE_ABILITY.getMsg());
         OffensiveAbility abilityParsed = (OffensiveAbility) ability;
@@ -42,6 +50,14 @@ public abstract class Monster {
         return this.hp > 0;
     }
 
+    public int getFocusPoints() {
+        return this.focusPoints;
+    }
+
+    public void skipAbility() {
+        this.preferredAbilities.add(this.preferredAbilities.remove(0));
+    }
+
     public void deBuff() {
         this.focusBuffer = 0;
     }
@@ -50,12 +66,10 @@ public abstract class Monster {
         this.focusBuffer = increase;
     }
 
-    public boolean decreaseFocusPoints() {
+    public void decreaseFocusPoints() {
         if (this.focusPoints > 0) {
             this.focusPoints--;
-            return true;
         }
-        return false;
     }
 
     public MonsterType getType() {
