@@ -73,7 +73,7 @@ public class Fight extends GameState {
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
                 diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
-                if (diceRoll == -1) return false;
+                if (diceRoll == 0) return false;
             }
             else diceRoll = this.game.getPlayer().getFocusPoints();
 
