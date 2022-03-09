@@ -89,8 +89,8 @@ public abstract class Monster {
     public void reset() {
         if (this.focusBuffer != 0) {
             this.focusPoints += this.focusBuffer;
-            System.out.println(this.name + CommonOutputs.GAIN.getOut() + this.focusBuffer
-                    + CommonOutputs.FOCUS.getOut());
+            System.out.println(this.name + " " + CommonOutputs.GAIN.getOut() + " " + this.focusBuffer
+                    + " " + CommonOutputs.FOCUS.getOut());
             this.focusBuffer = 0;
         }
         this.magicMitigation = 0;

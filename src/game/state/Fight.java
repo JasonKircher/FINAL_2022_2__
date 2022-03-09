@@ -66,6 +66,8 @@ public class Fight extends GameState {
                 target = this.active.get(index);
             }
 
+            System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.USE.getOut(), ability);
+
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
                 diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
@@ -87,12 +89,10 @@ public class Fight extends GameState {
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
         if (initiator instanceof Runa runa) {
             Monster monster = (Monster) target;
-            System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.USE.getOut(), ability);
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
                     runa.decreaseFocusPoints();
-                    return true;
                 }
                 if (!monster.takeDamage(ability, diceRoll)) {
                     this.active.remove(monster);
@@ -126,7 +126,7 @@ public class Fight extends GameState {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
                         this.active.remove(monster);
                         System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
-                        return false;
+                        return !this.active.isEmpty();
                     }
                 }
             }
