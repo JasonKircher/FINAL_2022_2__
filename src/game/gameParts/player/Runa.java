@@ -58,6 +58,10 @@ public class Runa {
         }
     }
 
+    public void resetReflect() {
+        this.reflectedDmg = 0;
+    }
+
     public void setPlayerClass(PlayerClass playerClass) {
         this.playerClass = playerClass;
     }

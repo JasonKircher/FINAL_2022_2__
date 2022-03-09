@@ -80,6 +80,7 @@ public class Fight extends GameState {
             executeAbility(this.game.getPlayer(), target, ability, diceRoll);
             this.active.forEach(Monster::reset);
             for (Monster monster : this.active) {
+                this.game.getPlayer().resetReflect();
                 // check for focus points
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
             }

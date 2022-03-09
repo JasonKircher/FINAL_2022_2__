@@ -82,7 +82,11 @@ public abstract class GameState {
                     }
                 }
             }
-            for (int index : indices) if (index > max) indices = new LinkedList<>();
+            for (int index : indices)
+                if (index > max || index < 1) {
+                    indices = new LinkedList<>();
+                    break;
+                }
         }
         return indices;
     }
