@@ -128,7 +128,7 @@ public class Fight extends GameState {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
                         this.active.remove(monster);
                         System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
-                        return this.active.isEmpty();
+                        return true;
                     }
                 }
             }
