@@ -70,7 +70,7 @@ public class Game {
         this.run = false;
         if (runa.getHp() <= 0 ) {
             System.out.println(GameEndOutput.LOSE.getOutput());
-        } else if (this.monsterCards.isEmpty()) {
+        } else if (this.monsterCards.isEmpty() && this.level > 2) {
             System.out.println(GameEndOutput.WON.getOutput());
         }
     }
