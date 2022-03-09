@@ -2,6 +2,7 @@ package game.gameParts.cards.monsters;
 
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.OffensiveAbility;
+import game.state.output.CommonOutputs;
 import game.state.output.Exceptions;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public abstract class Monster {
         int damageTmp = damage - this.magicMitigation;
         if (damageTmp <= 0) return true;
         this.hp -= damageTmp;
-        System.out.printf("%s takes %s mag. damage%n", this.name, damageTmp);
+        System.out.printf("%s takes %s %s. damage%n", this.name, CommonOutputs.MAGICAL.getOut(), damageTmp);
         return this.hp > 0;
     }
 
@@ -45,7 +46,7 @@ public abstract class Monster {
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
         else damage = 0;
-        String dmgType = ability.isPhysical() ? "phy." : "mag.";
+        String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.getOut() : CommonOutputs.MAGICAL.getOut();
         System.out.printf("%s takes %s %s damage%n", this.name, damage, dmgType);
         return this.hp > 0;
     }
@@ -88,7 +89,8 @@ public abstract class Monster {
     public void reset() {
         if (this.focusBuffer != 0) {
             this.focusPoints += this.focusBuffer;
-            System.out.println(this.name + " gains " + this.focusBuffer + " focus");
+            System.out.println(this.name + CommonOutputs.GAIN.getOut() + this.focusBuffer
+                    + CommonOutputs.FOCUS.getOut());
             this.focusBuffer = 0;
         }
         this.magicMitigation = 0;

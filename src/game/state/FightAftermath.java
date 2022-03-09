@@ -5,6 +5,7 @@ import game.gameParts.cards.abilities.Ability;
 import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.parts.Dice;
 import game.state.initiationValues.GameSettings;
+import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
@@ -47,7 +48,7 @@ public class FightAftermath extends GameState {
         if (this.game.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
         else if (this.game.getAbilityCards().isEmpty()) choice = 1;
         else {
-            System.out.println("Choose Runa's reward\n1) new ability cards\n2) next player dice");
+            System.out.println(CommonOutputs.CHOOSE_LOOT.getOut());
             choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.getOutput(2));
         }
         switch (choice) {

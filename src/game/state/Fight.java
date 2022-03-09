@@ -5,16 +5,14 @@ import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
-import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.Runa;
 import game.state.initiationValues.GameSettings;
 import game.state.initiationValues.MonstersLevels;
-import game.state.output.ErrorMsg;
+import game.state.output.CommonOutputs;
 import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.RunnableScheduledFuture;
 
 public class Fight extends GameState {
     List<Monster> active;
@@ -89,7 +87,7 @@ public class Fight extends GameState {
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
         if (initiator instanceof Runa runa) {
             Monster monster = (Monster) target;
-            System.out.println("Runa uses " + ability);
+            System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.USE.getOut(), ability);
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
@@ -98,7 +96,7 @@ public class Fight extends GameState {
                 }
                 if (!monster.takeDamage(ability, diceRoll)) {
                     this.active.remove(monster);
-                    System.out.println(monster + " dies");
+                    System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
                     return false;
                 }
             }
@@ -106,7 +104,7 @@ public class Fight extends GameState {
         }
         else if (initiator instanceof Monster monster) {
             Runa runa = (Runa) target;
-            System.out.println(monster + " uses " + ability);
+            System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
             if (ability instanceof Focus) ((Focus) ability).focus(monster);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
@@ -127,7 +125,7 @@ public class Fight extends GameState {
                 if (runa.isReflecting()) {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
                         this.active.remove(monster);
-                        System.out.println(monster + " dies");
+                        System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
                         return false;
                     }
                 }
@@ -138,26 +136,27 @@ public class Fight extends GameState {
     }
 
     private void printInfo() {
-        String separator = "----------------------------------------";
+        String separator = CommonOutputs.SEPARATOR.getOut();
         System.out.println(separator);
         System.out.println(this.game.getPlayer());
-        System.out.println("vs.");
+        System.out.println(CommonOutputs.VS.getOut());
         this.active.forEach(monster -> System.out.println(monster.extendedToString()));
         System.out.println(separator);
     }
 
     private void printTargets() {
-        System.out.println("Select Runa's target");
+        System.out.println(CommonOutputs.SELECT_TARGET.getOut());
         this.active.forEach(monster -> System.out.printf("%d) %s%n", this.active.indexOf(monster) + 1, monster));
     }
 
     private void printCards() {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
-        System.out.println("Select card to play");
+        System.out.println(CommonOutputs.SELECT_CARD.getOut());
         for (int i = 0; i < abilities.size(); i++) System.out.printf("%d) %s%n", i + 1, abilities.get(i));
     }
 
     private void welcomeText() {
-        System.out.printf("Runa enters Stage %d of Level %d%n", this.game.getRoom(), this.game.getLevel());
+        System.out.printf("%s %d %s %d%n", CommonOutputs.STAGE.getOut(), this.game.getRoom(),
+                CommonOutputs.LEVEL.getOut(), this.game.getLevel());
     }
 }
