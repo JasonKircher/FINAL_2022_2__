@@ -109,7 +109,6 @@ public class Fight extends GameState {
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
                     if (ability.getAbilityLevel() > monster.getFocusPoints()) {
-                        monster.skipAbility();
                         return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
                     }
                     else {
@@ -126,7 +125,7 @@ public class Fight extends GameState {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
                         this.active.remove(monster);
                         System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
-                        return !this.active.isEmpty();
+                        return this.active.isEmpty();
                     }
                 }
             }

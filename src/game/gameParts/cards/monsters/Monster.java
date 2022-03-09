@@ -55,11 +55,6 @@ public abstract class Monster {
         return this.focusPoints;
     }
 
-    public void skipAbility() {
-        Ability tmp = this.preferredAbilities.remove(0);
-        this.preferredAbilities.add(tmp);
-    }
-
     public void deBuff() {
         this.focusBuffer = 0;
     }
