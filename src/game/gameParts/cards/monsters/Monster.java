@@ -56,7 +56,8 @@ public abstract class Monster {
     }
 
     public void skipAbility() {
-        this.preferredAbilities.add(this.preferredAbilities.remove(0));
+        Ability tmp = this.preferredAbilities.remove(0);
+        this.preferredAbilities.add(tmp);
     }
 
     public void deBuff() {

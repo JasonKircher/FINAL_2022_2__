@@ -110,7 +110,7 @@ public class Fight extends GameState {
                 if (!ability.isPhysical()) {
                     if (ability.getAbilityLevel() > monster.getFocusPoints()) {
                         monster.skipAbility();
-                        return executeAbility(initiator, target, ability, diceRoll);
+                        return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
                     }
                     else {
                         for (int i = 0; i < ability.getAbilityLevel(); i++) {
