@@ -40,7 +40,9 @@ public class FightAftermath extends GameState {
             if (!chooseDrop()) gameEnd();
             this.game.setState(new Fight(this.game));
         }
-        if (this.game.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue()) heal();
+        if (this.game.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue())
+            if (!heal()) gameEnd();
+
     }
 
     private boolean chooseDrop() {
@@ -96,21 +98,22 @@ public class FightAftermath extends GameState {
         return true;
     }
 
-    private void heal() {
-        if (this.game.getPlayer().getAbilities().size() == 1) return;
+    private boolean heal() {
+        if (this.game.getPlayer().getAbilities().size() == 1) return true;
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + " HP) can discard ability cards for healing (or none)");
         for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++)
             System.out.printf("%d) %s%n",i + 1 ,this.game.getPlayer().getAbilities().get(i));
 
         List<Integer> indices = getHealInputs();
-        if (indices == null) return;
+        if (indices == null) return false;
         indices.sort((o1, o2) -> o2 - o1);
         for (int index : indices) {
             this.game.getPlayer().getAbilities().remove(index);
         }
         int healVal = indices.size() * 10;
         this.game.getPlayer().heal(healVal);
+        return true;
     }
 
 
