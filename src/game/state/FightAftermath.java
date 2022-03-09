@@ -8,7 +8,6 @@ import game.state.initiationValues.GameSettings;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
-import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
