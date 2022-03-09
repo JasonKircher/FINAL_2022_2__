@@ -5,14 +5,12 @@ import game.gameParts.cards.abilities.Ability;
 import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.parts.Dice;
 import game.state.initiationValues.GameSettings;
-import game.state.initiationValues.MonstersLevels;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
-import java.util.Comparator;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class FightAftermath extends GameState {
     public FightAftermath(Game game) {
@@ -30,11 +28,12 @@ public class FightAftermath extends GameState {
                 return;
             }
             // upgrade default spells
-            this.game.getPlayer().getAbilities().forEach(ability -> {
-                if (this.game.getPlayer().getPlayerClass().getCards().contains(ability)) {
-                    ability.upgrade();
-                }
-            });
+            this.game.getPlayer().getPlayerClass().getCards().forEach(
+                    ability -> {
+                        ability.upgrade();
+                        this.game.getPlayer().addAbilityCard(ability);
+                    }
+            );
             this.game.setState(new LevelSetUp(this.game));
         }
         else {
@@ -92,18 +91,17 @@ public class FightAftermath extends GameState {
             if (indices == null) return false;
             List<Ability> tmp = new LinkedList<>();
             for (int index : indices) tmp.add(selection.get(index));
-            this.game.getPlayer().getAbilities().addAll(tmp);
-            selection.removeIf(tmp::contains);
+            tmp.forEach(card -> this.game.getPlayer().addAbilityCard(card));
         }
         return true;
     }
 
     private void heal() {
+        if (this.game.getPlayer().getAbilities().size() == 1) return;
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + " HP) can discard ability cards for healing (or none)");
-        for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++) {
+        for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++)
             System.out.printf("%d) %s%n",i + 1 ,this.game.getPlayer().getAbilities().get(i));
-        }
 
         List<Integer> indices = getHealInputs();
         if (indices == null) return;

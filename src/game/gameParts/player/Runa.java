@@ -35,6 +35,7 @@ public class Runa {
     }
 
     public void addAbilityCard(Ability card) {
+        System.out.printf("Runa gets %s$n", card);
         abilities.add(card);
     }
     public List<Ability> getAbilities() {
