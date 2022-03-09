@@ -83,7 +83,7 @@ public abstract class GameState {
                 }
             }
             for (int index : indices)
-                if (index > max || index < 1) {
+                if (index > max || index < 0) {
                     indices = new LinkedList<>();
                     break;
                 }
