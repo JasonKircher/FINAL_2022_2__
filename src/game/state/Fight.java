@@ -104,7 +104,6 @@ public class Fight extends GameState {
         }
         else if (initiator instanceof Monster monster) {
             Runa runa = (Runa) target;
-            System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
             if (ability instanceof Focus) ((Focus) ability).focus(monster);
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
@@ -117,6 +116,7 @@ public class Fight extends GameState {
                         }
                     }
                 }
+                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
                 if (!runa.takeDamage(ability)) {
                     this.gameEnd();
                     return false;
