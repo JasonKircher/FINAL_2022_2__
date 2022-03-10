@@ -4,6 +4,7 @@ import game.Game;
 import game.state.output.ErrorMsg;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class GameState {
     protected Game game;
@@ -48,22 +49,38 @@ public abstract class GameState {
 
     protected List<Integer> getMultipleInputs(int max, int maxNumbers, String message, ErrorMsg errorMsg,
                                               boolean minIsMax, boolean duplicatesAllowed) {
-        Scanner scanner = new Scanner(System.in);
-        int ittr = 0;
         List<Integer> indices = new LinkedList<>();
-        while (indices.isEmpty()) {
-            if (ittr++ > 0) System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+        do {
             System.out.println(message);
-            String input = scanner.nextLine();
+            String input = new Scanner(System.in).nextLine();
             if (input.equals("quit")) return null;
-            if (input.isEmpty()) return new LinkedList<>();
-            if (input.split(",").length > maxNumbers) continue;
-            try { Arrays.stream(input.split(",")).forEach(index -> indices.add(Integer.parseInt(index) - 1)); }
+            try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
             catch (NumberFormatException e) { indices.clear(); }
-            if (minIsMax && indices.size() != maxNumbers) indices.clear();
-            if (!duplicatesAllowed && new HashSet<>(indices).size() != indices.size()) indices.clear();
-            if (indices.stream().allMatch(index -> index > max || index < 0)) indices.clear();
-        }
+            if (minIsMax && indices.size() != maxNumbers ||
+                    !duplicatesAllowed && new HashSet<>(indices).size() != indices.size() ||
+                    indices.stream().allMatch(index -> index > max || index < 0)) {
+                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+                indices.clear();
+            }
+        } while (indices.isEmpty());
         return indices;
+    }
+
+    protected List<Integer> getMultipleInputs2(int max, int maxNumbers, String message, ErrorMsg errorMsg,
+                                              boolean minIsMax, boolean duplicatesAllowed) {
+        System.out.println(message);
+        String input = new Scanner(System.in).nextLine();
+        if (input.equals("quit")) return null;
+        try {
+            List<Integer> indices = new LinkedList<>((Arrays.stream(input.split(","))
+                    .map(i -> Integer.parseInt(i) - 1).toList()));
+            if (minIsMax && indices.size() != maxNumbers ||
+                    !duplicatesAllowed && new HashSet<>(indices).size() != indices.size() ||
+                    indices.stream().allMatch(index -> index > max || index < 0)) throw new NumberFormatException();
+            return indices;
+        } catch (NumberFormatException e) {
+            System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+            return getMultipleInputs2(max, maxNumbers, message, errorMsg, minIsMax, duplicatesAllowed);
+        }
     }
 }
