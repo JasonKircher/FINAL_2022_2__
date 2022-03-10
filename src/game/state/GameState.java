@@ -58,7 +58,7 @@ public abstract class GameState {
             catch (NumberFormatException e) { indices.clear(); }
             if (minIsMax && indices.size() != maxNumbers ||
                     !duplicatesAllowed && new HashSet<>(indices).size() != indices.size() ||
-                    indices.stream().allMatch(index -> index > max || index < 0)) {
+                    indices.stream().anyMatch(index -> index > max || index < 0)) {
                 System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
                 indices.clear();
             }
@@ -76,7 +76,7 @@ public abstract class GameState {
                     .map(i -> Integer.parseInt(i) - 1).toList()));
             if (minIsMax && indices.size() != maxNumbers ||
                     !duplicatesAllowed && new HashSet<>(indices).size() != indices.size() ||
-                    indices.stream().allMatch(index -> index > max || index < 0)) throw new NumberFormatException();
+                    indices.stream().anyMatch(index -> index > max || index < 0)) throw new NumberFormatException();
             return indices;
         } catch (NumberFormatException e) {
             System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
