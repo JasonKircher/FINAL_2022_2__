@@ -1,12 +1,9 @@
 package game.state;
 
-import com.sun.source.tree.IfTree;
 import game.Game;
 import game.state.output.ErrorMsg;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public abstract class GameState {
     protected Game game;
@@ -49,44 +46,23 @@ public abstract class GameState {
         return out - 1;
     }
 
-    protected List<Integer> getMultipleInputs(int max, int maxNumbers, String message, ErrorMsg errorMsg, boolean minIsMax,
-                                              boolean duplicates) {
+    protected List<Integer> getMultipleInputs(int max, int maxNumbers, String message, ErrorMsg errorMsg,
+                                              boolean minIsMax, boolean duplicatesAllowed) {
         Scanner scanner = new Scanner(System.in);
         int ittr = 0;
         List<Integer> indices = new LinkedList<>();
         while (indices.isEmpty()) {
-            if (ittr > 0) System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+            if (ittr++ > 0) System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
             System.out.println(message);
-            ittr++;
             String input = scanner.nextLine();
             if (input.equals("quit")) return null;
             if (input.isEmpty()) return new LinkedList<>();
-            String[] split = input.split(",");
-            if (split.length > maxNumbers) continue;
-            for (String num : split) {
-                try {
-                    int index = Integer.parseInt(num) - 1;
-                    indices.add(index);
-                } catch (NumberFormatException ignored) {
-                    indices.clear();
-                }
-            }
+            if (input.split(",").length > maxNumbers) continue;
+            try { Arrays.stream(input.split(",")).forEach(index -> indices.add(Integer.parseInt(index) - 1));}
+            catch (NumberFormatException e) { indices.clear(); }
             if (minIsMax && indices.size() != maxNumbers) indices.clear();
-            if (!duplicates) {
-                for (int i = 0; i < indices.size(); i++) {
-                    for (int j = 0; j < indices.size(); j++) {
-                        if (indices.get(i).equals(indices.get(j)) && j != i) {
-                            indices.clear();
-                            break;
-                        }
-                    }
-                }
-            }
-            for (int index : indices)
-                if (index > max || index < 0) {
-                    indices = new LinkedList<>();
-                    break;
-                }
+            if (!duplicatesAllowed && new HashSet<>(indices).size() != indices.size()) indices.clear();
+            if (indices.stream().allMatch(index -> index > max || index < 0)) indices.clear();
         }
         return indices;
     }
