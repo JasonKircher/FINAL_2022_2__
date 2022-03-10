@@ -58,7 +58,7 @@ public abstract class GameState {
             if (input.equals("quit")) return null;
             if (input.isEmpty()) return new LinkedList<>();
             if (input.split(",").length > maxNumbers) continue;
-            try { Arrays.stream(input.split(",")).forEach(index -> indices.add(Integer.parseInt(index) - 1));}
+            try { Arrays.stream(input.split(",")).forEach(index -> indices.add(Integer.parseInt(index) - 1)); }
             catch (NumberFormatException e) { indices.clear(); }
             if (minIsMax && indices.size() != maxNumbers) indices.clear();
             if (!duplicatesAllowed && new HashSet<>(indices).size() != indices.size()) indices.clear();
