@@ -1,7 +1,7 @@
 package game.state.output;
 
 public enum CommonOutputs {
-    SEPARATOR("----------------------------------------"),
+    FIGHT_ROUND_SEPARATOR("----------------------------------------"),
     VS("vs."),
     SELECT_TARGET("Select Runa's target."),
     SELECT_CARD("Select card to play"),

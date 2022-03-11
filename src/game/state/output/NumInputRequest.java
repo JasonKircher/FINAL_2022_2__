@@ -9,10 +9,10 @@ public enum NumInputRequest {
     NumInputRequest(String output) {
         this.output = output;
     }
-    public String getOutput(int maxVal) {
+    public String toString(int maxVal) {
         return this.output.replace("<n>", "" + maxVal);
     }
-    public String getOutput() {
+    public String toString() {
         return this.output;
     }
 }

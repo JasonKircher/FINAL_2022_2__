@@ -36,7 +36,7 @@ public class InitSetUp extends GameState{
         for (int index = 0; index < this.classList.size(); index++)
             System.out.println(index + 1 + ") " + this.classList.get(index).getDisplayName());
         int classPlayingIndex = this.getNumInput(this.classList.size(),
-                NumInputRequest.ONE_INPUT_REQUEST.getOutput(this.classList.size()), ErrorMsg.CLASS);
+                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
         this.game.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));

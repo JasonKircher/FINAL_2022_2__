@@ -12,7 +12,17 @@ import game.state.output.NumInputRequest;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * GameState that resembles the interactions after a fight (heal and loot)
+ * @author upvlx
+ * @version 0.1
+ */
 public class FightAftermath extends GameState {
+
+    /**
+     * constructor
+     * @param game  Game on which the operation should be done
+     */
     public FightAftermath(Game game) {
         super(game);
     }
@@ -30,9 +40,9 @@ public class FightAftermath extends GameState {
             // upgrade default spells
             List<Ability> abilities = this.game.getPlayer().getPlayerClass().getCards();
             abilities.forEach(ability -> {
-                    Ability tmp = ability.copy();
-                    tmp.upgrade();
-                    this.game.getPlayer().addAbilityCard(tmp);
+                Ability tmp = ability.copy();
+                tmp.upgrade();
+                this.game.getPlayer().addAbilityCard(tmp);
             });
             this.game.setState(new LevelSetUp(this.game));
         }
@@ -54,7 +64,7 @@ public class FightAftermath extends GameState {
         else if (this.game.getAbilityCards().isEmpty()) choice = 1;
         else {
             System.out.println(CommonOutputs.CHOOSE_LOOT.getOut());
-            choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.getOutput(2));
+            choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.toString(2));
         }
         switch (choice) {
             case 0:
@@ -71,33 +81,27 @@ public class FightAftermath extends GameState {
 
     private boolean chooseAbility() {
         List<Ability> selection = new LinkedList<>();
-        for (int i = 0; i < GameSettings.LOOT_CARDS.getValue(); i++) {
-            selection.add(this.game.getAbilityCards().remove(0));
-        }
-        if (this.game.getRoom() != 1) {
-            for (int i = 0; i < GameSettings.LOOT_CARDS.getValue(); i++) {
-                if (!this.game.getAbilityCards().isEmpty())
-                    selection.add(this.game.getAbilityCards().remove(0));
-            }
-        }
-        System.out.println("Pick " + Math.round(selection.size() * 0.5) + " card(s) as loot");
+        int cardsToPick = this.game.getRoom() == 1 ? 1 : GameSettings.LOOT_CARDS.getValue();
+
+        for (int i = 0; i < cardsToPick * 2; i++)
+            if (!this.game.getAbilityCards().isEmpty())
+                selection.add(this.game.getAbilityCards().remove(0));
+
+        String inputMessage = cardsToPick == 1
+                ? NumInputRequest.ONE_INPUT_REQUEST.toString(selection.size())
+                : NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(selection.size());
+
+        System.out.println("Pick " + cardsToPick + " card(s) as" + " loot");
         for (int index = 0; index < selection.size(); index++)
             System.out.println(index + 1 + ") " + selection.get(index));
 
-        if (this.game.getRoom() == 1) {
-            int chosen = getNumInput(selection.size(), NumInputRequest.ONE_INPUT_REQUEST.getOutput(selection.size()));
-            if (chosen == -1) return false;
-            this.game.getPlayer().addAbilityCard(selection.remove(chosen));
-        }
-        else {
-            List<Integer> indices = getMultipleInputs(selection.size() - 1, 2,
-                    NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(selection.size()), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
-                    true, false);
-            if (indices == null) return false;
-            List<Ability> tmp = new LinkedList<>();
-            for (int index : indices) tmp.add(selection.get(index));
-            tmp.forEach(card -> this.game.getPlayer().addAbilityCard(card));
-        }
+        List<Integer> indices = getMultipleInputs(selection.size(), cardsToPick, cardsToPick,
+                inputMessage, ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+
+        if (indices == null) return false;
+        List<Ability> tmp = new LinkedList<>();
+        for (int index : indices) tmp.add(selection.get(index));
+        tmp.forEach(card -> this.game.getPlayer().addAbilityCard(card));
         return true;
     }
 
@@ -106,7 +110,7 @@ public class FightAftermath extends GameState {
         System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + " HP) can discard ability cards for healing (or none)");
         for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++)
-            System.out.printf("%d) %s%n",i + 1 ,this.game.getPlayer().getAbilities().get(i));
+            System.out.printf("%d) %s%n", i + 1 , this.game.getPlayer().getAbilities().get(i));
 
         List<Integer> indices = getHealInputs();
         if (indices == null) return false;
@@ -119,13 +123,11 @@ public class FightAftermath extends GameState {
         return true;
     }
 
-
-
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1,
+        return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1, 0,
                 this.game.getPlayer().getAbilities().size() - 1,
-                NumInputRequest.MULTIPLE_INPUT_REQUEST.getOutput(this.game.getPlayer().getAbilities().size()),
-                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false, false);
+                NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.game.getPlayer().getAbilities().size()),
+                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
     }
 
     private void newLevelCleanse() {

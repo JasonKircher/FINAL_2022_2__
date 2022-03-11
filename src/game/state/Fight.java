@@ -14,9 +14,19 @@ import game.state.output.NumInputRequest;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * State that resembles the Fight interaction
+ * @author upvlx
+ * @version 0.1
+ */
 public class Fight extends GameState {
-    List<Monster> active;
-    List<Monster> toBeRemoved;
+    private final List<Monster> active;
+    private final List<Monster> toBeRemoved;
+
+    /**
+     * constructor for the GameState
+     * @param game  Game on which the state should be executed
+     */
     public Fight(Game game) {
         super(game);
         this.active = new LinkedList<>();
@@ -56,14 +66,14 @@ public class Fight extends GameState {
             printCards();
 
             int max = this.game.getPlayer().getAbilities().size();
-            int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
+            int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
             if (index == -1) return false;
             ability = this.game.getPlayer().getAbilities().get(index);
 
             if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
                 max = this.active.size();
-                index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.getOutput(max));
+                index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
                 if (index == -1) return false;
                 target = this.active.get(index);
             }
@@ -72,7 +82,7 @@ public class Fight extends GameState {
 
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
-                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.getOutput(diceMax)) + 1;
+                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax)) + 1;
                 if (diceRoll == 0) return false;
             }
             else diceRoll = this.game.getPlayer().getFocusPoints();
@@ -113,14 +123,11 @@ public class Fight extends GameState {
             }
             else if (ability.isOffensive()) {
                 if (!ability.isPhysical()) {
-                    if (ability.getAbilityLevel() > monster.getFocusPoints()) {
+                    if (ability.getAbilityLevel() > monster.getFocusPoints())
                         return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
-                    }
-                    else {
-                        for (int i = 0; i < ability.getAbilityLevel(); i++) {
+                    else
+                        for (int i = 0; i < ability.getAbilityLevel(); i++)
                             monster.decreaseFocusPoints();
-                        }
-                    }
                 }
                 System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
                 if (!runa.takeDamage(ability)) {
@@ -144,7 +151,7 @@ public class Fight extends GameState {
     }
 
     private void printInfo() {
-        String separator = CommonOutputs.SEPARATOR.getOut();
+        String separator = CommonOutputs.FIGHT_ROUND_SEPARATOR.getOut();
         System.out.println(separator);
         System.out.println(this.game.getPlayer());
         System.out.println(CommonOutputs.VS.getOut());
