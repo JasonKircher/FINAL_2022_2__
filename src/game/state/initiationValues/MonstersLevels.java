@@ -7,10 +7,10 @@ import game.gameParts.cards.monsters.secondLevel.*;
 import java.util.List;
 
 public enum MonstersLevels {
-    FIRST(List.of(new Frog(), new Ghost(), new Gorgon(), new Skeleton(), new Mushroomlin(), new Spider(), new Goblin(),
-            new Rat()), new SpiderKing()),
-    SECOND(List.of(new WildBoar(), new Mushroomlon(), new Bear(), new Tarantula(), new Hornet(), new ShadowBlade(),
-            new DarkElf(), new Snake()), new MegaSaurus());
+    FIRST(List.of(new Frog(), new Ghost(), new Gorgon(), new Skeleton(), new Spider(), new Goblin(),
+            new Rat(), new Mushroomlin()), new SpiderKing()),
+    SECOND(List.of(new Snake(), new DarkElf(), new ShadowBlade(), new Hornet(), new Tarantula(), new Bear(),
+            new Mushroomlon(), new WildBoar()), new MegaSaurus());
 
     private final List<Monster> monsters;
     private final Monster boss;

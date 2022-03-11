@@ -4,13 +4,13 @@ import game.Game;
 import game.gameParts.cards.abilities.magical.*;
 import game.gameParts.cards.abilities.physical.playerAbilities.*;
 import game.state.initiationValues.MonstersLevels;
+import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class LevelSetUp extends GameState {
     public LevelSetUp(Game game) {
@@ -49,37 +49,15 @@ public class LevelSetUp extends GameState {
     }
 
     private boolean shuffleCards() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("To shuffle ability cards and monsters, enter two seeds");
-        int one = -1;
-        int two = -1;
-        int ittr = 0;
-        while(!(one >= 1) || !(two >= 1)) {
-            // reset nums
-            one = -1;
-            two = -1;
-            if (ittr > 0) System.out.println(ErrorMsg.SEED.getMsg());
-            ittr++;
-            System.out.println(NumInputRequest.SEED_INPUT_REQUEST.getOutput(0));
-            String input = scanner.nextLine();
-            if (input.equals("quit")) {
-                this.gameEnd();
-                return false;
-            }
-            String[] split = input.split(",");
-            if (split.length != 2) continue;
-            try {
-                one = Integer.parseInt(split[0]);
-                two = Integer.parseInt(split[1]);
-            } catch (NumberFormatException ignored) {
-                // cannot parse
-            }
-        }
+        System.out.println(CommonOutputs.SHUFFLE_CARDS.getOut());
+        List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,
+                NumInputRequest.SEED_INPUT_REQUEST.getOutput(), ErrorMsg.SEED, true, true);
+        // correct input (+1 because of index correction)
+        Random randomAbility = new Random(seeds.remove(0) + 1);
+        Random randomMonster = new Random(seeds.remove(0) + 1);
         // shuffle cards
-        Random random = new Random(one);
-        Collections.shuffle(this.game.getAbilityCards(), random);
-        random = new Random(two);
-        Collections.shuffle(this.game.getMonsterCards(), random);
+        Collections.shuffle(this.game.getAbilityCards(), randomAbility);
+        Collections.shuffle(this.game.getMonsterCards(), randomMonster);
         return true;
     }
 }

@@ -80,7 +80,6 @@ public class Fight extends GameState {
             executeAbility(this.game.getPlayer(), target, ability, diceRoll);
             this.active.forEach(Monster::reset);
             for (Monster monster : this.active) {
-                // check for focus points
                 if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
             }
             this.active.removeIf(this.toBeRemoved::contains);
@@ -136,7 +135,10 @@ public class Fight extends GameState {
                     }
                 }
             }
-            else ((DefensiveAbility) ability).calculateMitigation(initiator);
+            else {
+                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
+                ((DefensiveAbility) ability).calculateMitigation(initiator);
+            }
         }
         return true;
     }

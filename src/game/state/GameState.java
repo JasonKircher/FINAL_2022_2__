@@ -54,6 +54,7 @@ public abstract class GameState {
             System.out.println(message);
             String input = new Scanner(System.in).nextLine();
             if (input.equals("quit")) return null;
+            if (input.equals("") && !minIsMax) return new LinkedList<>();
             try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
             catch (NumberFormatException e) { indices.clear(); }
             if (minIsMax && indices.size() != maxNumbers ||

@@ -12,4 +12,7 @@ public enum NumInputRequest {
     public String getOutput(int maxVal) {
         return this.output.replace("<n>", "" + maxVal);
     }
+    public String getOutput() {
+        return this.output;
+    }
 }
