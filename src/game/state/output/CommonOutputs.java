@@ -1,6 +1,7 @@
 package game.state.output;
 
 public enum CommonOutputs {
+    WELCOME("Welcome to Runa’s Strive\nSelect Runa’s character class"),
     FIGHT_ROUND_SEPARATOR("----------------------------------------"),
     VS("vs."),
     SELECT_TARGET("Select Runa's target."),
@@ -22,7 +23,7 @@ public enum CommonOutputs {
     CommonOutputs(String out) {
         this.out = out;
     }
-    public String getOut() {
+    public String toString() {
         return this.out;
     }
 

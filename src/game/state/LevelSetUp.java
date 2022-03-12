@@ -49,7 +49,7 @@ public class LevelSetUp extends GameState {
     }
 
     private boolean shuffleCards() {
-        System.out.println(CommonOutputs.SHUFFLE_CARDS.getOut());
+        System.out.println(CommonOutputs.SHUFFLE_CARDS);
         List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,  2,
                 NumInputRequest.SEED_INPUT_REQUEST.toString(), ErrorMsg.SEED, true);
         // correct input (+1 because of index correction)

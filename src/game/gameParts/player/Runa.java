@@ -35,7 +35,7 @@ public class Runa {
     }
 
     public void addAbilityCard(Ability card) {
-        System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.GET.getOut(), card);
+        System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.toString(), CommonOutputs.GET.toString(), card);
         abilities.add(card);
     }
     public List<Ability> getAbilities() {
@@ -90,8 +90,8 @@ public class Runa {
                 }
                 this.focusPoints += this.focusBuffer;
             }
-            System.out.printf("%s %s %d %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.GAIN.getOut(),
-                    this.focusBuffer, CommonOutputs.FOCUS.getOut());
+            System.out.printf("%s %s %d %s%n", CommonOutputs.PLAYER.toString(), CommonOutputs.GAIN.toString(),
+                    this.focusBuffer, CommonOutputs.FOCUS.toString());
             this.focusBuffer = 0;
         }
         this.reflecting = false;
@@ -107,8 +107,8 @@ public class Runa {
             this.hp = PlayerStartingValues.STARTING_HP.getValue();
         }
         else this.hp += hp;
-        if (tmpHealing > 0) System.out.printf("%s %s %s health%n", CommonOutputs.PLAYER.getOut(),
-                CommonOutputs.GAIN.getOut(), tmpHealing);
+        if (tmpHealing > 0) System.out.printf("%s %s %s health%n", CommonOutputs.PLAYER.toString(),
+                CommonOutputs.GAIN.toString(), tmpHealing);
     }
 
     public void setPhysicalMitigation(int physicalMitigation) {
@@ -126,8 +126,8 @@ public class Runa {
         }
         if (damage > 0) this.hp -= damage;
         else damage = 0;
-        String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.getOut() : CommonOutputs.MAGICAL.getOut();
-        if (damage > 0) System.out.printf("%s takes %s %s damage%n", CommonOutputs.PLAYER.getOut(), damage, dmgType);
+        String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.toString() : CommonOutputs.MAGICAL.toString();
+        if (damage > 0) System.out.printf("%s takes %s %s damage%n", CommonOutputs.PLAYER.toString(), damage, dmgType);
         return this.hp > 0;
     }
 

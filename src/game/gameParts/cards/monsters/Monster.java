@@ -34,7 +34,7 @@ public abstract class Monster {
         int damageTmp = damage - this.magicMitigation;
         if (damageTmp <= 0) return true;
         this.hp -= damageTmp;
-        System.out.printf("%s takes %s %s. damage%n", this.name, CommonOutputs.MAGICAL.getOut(), damageTmp);
+        System.out.printf("%s takes %s %s. damage%n", this.name, CommonOutputs.MAGICAL.toString(), damageTmp);
         return this.hp > 0;
     }
 
@@ -46,7 +46,7 @@ public abstract class Monster {
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
         else damage = 0;
-        String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.getOut() : CommonOutputs.MAGICAL.getOut();
+        String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.toString() : CommonOutputs.MAGICAL.toString();
         System.out.printf("%s takes %s %s damage%n", this.name, damage, dmgType);
         return this.hp > 0;
     }
@@ -85,8 +85,8 @@ public abstract class Monster {
     public void reset() {
         if (this.focusBuffer != 0) {
             this.focusPoints += this.focusBuffer;
-            System.out.println(this.name + " " + CommonOutputs.GAIN.getOut() + " " + this.focusBuffer
-                    + " " + CommonOutputs.FOCUS.getOut());
+            System.out.println(this.name + " " + CommonOutputs.GAIN.toString() + " " + this.focusBuffer
+                    + " " + CommonOutputs.FOCUS.toString());
             this.focusBuffer = 0;
         }
         this.magicMitigation = 0;

@@ -78,7 +78,7 @@ public class Fight extends GameState {
                 target = this.active.get(index);
             }
 
-            System.out.printf("%s %s %s%n", CommonOutputs.PLAYER.getOut(), CommonOutputs.USE.getOut(), ability);
+            System.out.printf("%s %s %s%n", CommonOutputs.PLAYER, CommonOutputs.USE, ability);
 
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
@@ -109,7 +109,7 @@ public class Fight extends GameState {
                 }
                 if (!monster.takeDamage(ability, diceRoll)) {
                     this.active.remove(monster);
-                    System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
+                    System.out.printf("%s %s%n", monster, CommonOutputs.DIE);
                     return false;
                 }
             }
@@ -118,7 +118,7 @@ public class Fight extends GameState {
         else if (initiator instanceof Monster monster) {
             Runa runa = (Runa) target;
             if (ability instanceof Focus) {
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
+                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
                 ((Focus) ability).focus(monster);
             }
             else if (ability.isOffensive()) {
@@ -129,7 +129,7 @@ public class Fight extends GameState {
                         for (int i = 0; i < ability.getAbilityLevel(); i++)
                             monster.decreaseFocusPoints();
                 }
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
+                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
                 if (!runa.takeDamage(ability)) {
                     this.gameEnd();
                     return false;
@@ -137,13 +137,13 @@ public class Fight extends GameState {
                 if (runa.isReflecting() && !ability.isPhysical()) {
                     if (!monster.takeDamage(runa.getReflectedDmg())) {
                         this.toBeRemoved.add(monster);
-                        System.out.printf("%s %s%n", monster, CommonOutputs.DIE.getOut());
+                        System.out.printf("%s %s%n", monster, CommonOutputs.DIE);
                         return true;
                     }
                 }
             }
             else {
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE.getOut(), ability);
+                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
                 ((DefensiveAbility) ability).calculateMitigation(initiator);
             }
         }
@@ -151,27 +151,26 @@ public class Fight extends GameState {
     }
 
     private void printInfo() {
-        String separator = CommonOutputs.FIGHT_ROUND_SEPARATOR.getOut();
-        System.out.println(separator);
+        System.out.println(CommonOutputs.FIGHT_ROUND_SEPARATOR);
         System.out.println(this.game.getPlayer());
-        System.out.println(CommonOutputs.VS.getOut());
+        System.out.println(CommonOutputs.VS);
         this.active.forEach(monster -> System.out.println(monster.extendedToString()));
-        System.out.println(separator);
+        System.out.println(CommonOutputs.FIGHT_ROUND_SEPARATOR);
     }
 
     private void printTargets() {
-        System.out.println(CommonOutputs.SELECT_TARGET.getOut());
+        System.out.println(CommonOutputs.SELECT_TARGET);
         this.active.forEach(monster -> System.out.printf("%d) %s%n", this.active.indexOf(monster) + 1, monster));
     }
 
     private void printCards() {
         List<Ability> abilities = this.game.getPlayer().getAbilities();
-        System.out.println(CommonOutputs.SELECT_CARD.getOut());
+        System.out.println(CommonOutputs.SELECT_CARD);
         for (int i = 0; i < abilities.size(); i++) System.out.printf("%d) %s%n", i + 1, abilities.get(i));
     }
 
     private void welcomeText() {
-        System.out.printf("%s %d %s %d%n", CommonOutputs.STAGE.getOut(), this.game.getRoom(),
-                CommonOutputs.LEVEL.getOut(), this.game.getLevel());
+        System.out.printf("%s %d %s %d%n", CommonOutputs.STAGE, this.game.getRoom(),
+                CommonOutputs.LEVEL, this.game.getLevel());
     }
 }

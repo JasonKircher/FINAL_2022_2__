@@ -2,21 +2,22 @@ package game.state;
 
 import game.Game;
 import game.gameParts.player.parts.PlayerClass;
+import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.*;
 
-public class InitSetUp extends GameState{
+public class InitSetUp extends GameState {
     private final List<PlayerClass> classList;
     public InitSetUp(Game game) {
         super(game);
         // more classes could be added here
         this.classList = new LinkedList<>() {{
-            add(PlayerClass.WARRIOR);
-            add(PlayerClass.MAGE);
-            add(PlayerClass.PALADIN);
-        }};
+                add(PlayerClass.WARRIOR);
+                add(PlayerClass.MAGE);
+                add(PlayerClass.PALADIN);
+            }};
     }
 
     @Override
@@ -45,7 +46,6 @@ public class InitSetUp extends GameState{
     }
 
     private void welcome() {
-        System.out.println("Welcome to Runa’s Strive");
-        System.out.println("Select Runa’s character class");
+        System.out.println(CommonOutputs.WELCOME);
     }
 }

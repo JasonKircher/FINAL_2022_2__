@@ -63,7 +63,7 @@ public class FightAftermath extends GameState {
         if (this.game.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
         else if (this.game.getAbilityCards().isEmpty()) choice = 1;
         else {
-            System.out.println(CommonOutputs.CHOOSE_LOOT.getOut());
+            System.out.println(CommonOutputs.CHOOSE_LOOT);
             choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.toString(2));
         }
         switch (choice) {

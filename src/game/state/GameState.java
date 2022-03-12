@@ -5,23 +5,54 @@ import game.state.output.ErrorMsg;
 
 import java.util.*;
 
+/**
+ * game states of a specific game all resembling a different phase in the game procedure
+ * @author upvlx
+ * @version 0.1
+ */
 public abstract class GameState {
-    protected Game game;
+    /**
+     * the game on which the states are executed
+     */
+    protected final Game game;
 
+    /**
+     * constructor for a game state
+     * @param game game on which the game should be executed
+     */
     public GameState(Game game) {
         this.game = game;
     }
 
+    /**
+     * function to execute a state
+     */
     public abstract void executeState();
 
+    /**
+     * function to end the game
+     */
     protected void gameEnd() {
         this.game.end();
     }
 
+    /**
+     * overload of the function for a single input with a generic error msg
+     * @param max the highest acceptable value
+     * @param output msg to be displayed when asking for input
+     * @return the input - 1 to get the correct index
+     */
     protected int getNumInput(int max, String output) {
-       return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS);
+        return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS);
     }
 
+    /**
+     * function to get an input of a single number
+     * @param max the highest acceptable value for the input
+     * @param output msg to be displayed when asking for input
+     * @param customError error msg to be displayed for a wrong input
+     * @return the input - 1 to have the correct index
+     */
     protected int getNumInput(int max, String output, ErrorMsg customError) {
         int out = Integer.MAX_VALUE;
         int ittr = 0;
@@ -46,9 +77,18 @@ public abstract class GameState {
         return out - 1;
     }
 
+    /**
+     * function to get the input of multiple numbers
+     * @param max the highest acceptable value
+     * @param minNumbers the least amount of numbers wanted
+     * @param maxNumbers the maximum amount of numbers wanted
+     * @param message the message that is supposed to printed leading the input-request
+     * @param errorMsg the message that is supposed to be displayed when the input was incorrect or could not be parsed
+     * @param duplicatesAllowed true if duplicates in the given numbers are accepted, false if not
+     * @return a list of integers following the demands all -1 to have the correct index of a list or array
+     */
     protected List<Integer> getMultipleInputs(int max, int minNumbers, int maxNumbers, String message,
-                                              ErrorMsg errorMsg,
-                                              boolean duplicatesAllowed) {
+                                              ErrorMsg errorMsg, boolean duplicatesAllowed) {
         List<Integer> indices = new LinkedList<>();
         do {
             System.out.println(message);
