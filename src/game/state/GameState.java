@@ -1,6 +1,6 @@
 package game.state;
 
-import game.Game;
+import game.RunasStrive;
 import game.state.output.ErrorMsg;
 
 import java.util.*;
@@ -14,14 +14,14 @@ public abstract class GameState {
     /**
      * the game on which the states are executed
      */
-    protected final Game game;
+    protected final RunasStrive runasStrive;
 
     /**
      * constructor for a game state
-     * @param game game on which the game should be executed
+     * @param runasStrive game on which the game should be executed
      */
-    public GameState(Game game) {
-        this.game = game;
+    public GameState(RunasStrive runasStrive) {
+        this.runasStrive = runasStrive;
     }
 
     /**
@@ -33,7 +33,7 @@ public abstract class GameState {
      * function to end the game
      */
     protected void gameEnd() {
-        this.game.end();
+        this.runasStrive.end();
     }
 
     /**

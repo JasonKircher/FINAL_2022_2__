@@ -1,4 +1,4 @@
-import game.Game;
+import game.RunasStrive;
 
 /**
  * main class to start the game
@@ -12,8 +12,8 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Game game = new Game();
-        game.start();
+        RunasStrive runasStrive = new RunasStrive();
+        runasStrive.start();
 
     }
 }

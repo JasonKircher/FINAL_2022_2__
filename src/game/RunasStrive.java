@@ -1,6 +1,6 @@
 package game;
 
-import game.gameParts.cards.monsters.Monster;
+import game.gameParts.cards.monsters.IMonster;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.player.Runa;
 import game.state.GameState;
@@ -15,19 +15,19 @@ import java.util.List;
  * @author upvlx
  * @version 0.1
  */
-public class Game {
+public class RunasStrive {
     private         int                 level;
     private         int                 room;
     private         boolean             run;
     private         GameState           state;
     private final   Runa                runa;
     private final   List<Ability>       abilities;
-    private final   List<Monster>       monsterCards;
+    private final   List<IMonster>       monsterCards;
 
     /**
      * constructor for the Game, sets initial values
      */
-    public Game() {
+    public RunasStrive() {
         this.run = true;
         this.level = 1;
         this.room = 0;
@@ -58,7 +58,7 @@ public class Game {
      * getter for the Monster cards currently in the game
      * @return all monster cards that are currently in the game excluding monsters that are active
      */
-    public List<Monster> getMonsterCards() {
+    public List<IMonster> getMonsterCards() {
         return monsterCards;
     }
 

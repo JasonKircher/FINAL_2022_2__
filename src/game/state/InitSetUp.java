@@ -1,6 +1,6 @@
 package game.state;
 
-import game.Game;
+import game.RunasStrive;
 import game.gameParts.player.parts.PlayerClass;
 import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;
@@ -10,8 +10,8 @@ import java.util.*;
 
 public class InitSetUp extends GameState {
     private final List<PlayerClass> classList;
-    public InitSetUp(Game game) {
-        super(game);
+    public InitSetUp(RunasStrive runasStrive) {
+        super(runasStrive);
         // more classes could be added here
         this.classList = new LinkedList<>() {{
                 add(PlayerClass.WARRIOR);
@@ -28,7 +28,7 @@ public class InitSetUp extends GameState {
         if (!chooseClass()) return;
 
         // set next state
-        this.game.setState(new LevelSetUp(this.game));
+        this.runasStrive.setState(new LevelSetUp(this.runasStrive));
     }
 
     private boolean chooseClass() {
@@ -40,8 +40,8 @@ public class InitSetUp extends GameState {
                 NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
-        this.game.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));
-        this.game.getPlayer().getAbilities().addAll(this.classList.get(classPlayingIndex).getCards());
+        this.runasStrive.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));
+        this.runasStrive.getPlayer().getAbilities().addAll(this.classList.get(classPlayingIndex).getCards());
         return true;
     }
 

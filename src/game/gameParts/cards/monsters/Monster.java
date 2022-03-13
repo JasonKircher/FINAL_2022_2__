@@ -7,7 +7,7 @@ import game.state.output.Exceptions;
 
 import java.util.List;
 
-public abstract class Monster {
+public abstract class Monster implements IMonster {
     protected   List<Ability>   preferredAbilities;
     protected   int             hp;
     protected   MonsterType     type;
@@ -34,7 +34,7 @@ public abstract class Monster {
         int damageTmp = damage - this.magicMitigation;
         if (damageTmp <= 0) return true;
         this.hp -= damageTmp;
-        System.out.printf("%s takes %s %s. damage%n", this.name, CommonOutputs.MAGICAL.toString(), damageTmp);
+        System.out.printf("%s takes %s %s. damage%n", this.name, CommonOutputs.MAGICAL, damageTmp);
         return this.hp > 0;
     }
 
@@ -85,8 +85,8 @@ public abstract class Monster {
     public void reset() {
         if (this.focusBuffer != 0) {
             this.focusPoints += this.focusBuffer;
-            System.out.println(this.name + " " + CommonOutputs.GAIN.toString() + " " + this.focusBuffer
-                    + " " + CommonOutputs.FOCUS.toString());
+            System.out.println(this.name + " " + CommonOutputs.GAIN + " " + this.focusBuffer
+                    + " " + CommonOutputs.FOCUS);
             this.focusBuffer = 0;
         }
         this.magicMitigation = 0;

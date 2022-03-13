@@ -1,6 +1,6 @@
 package game.state;
 
-import game.Game;
+import game.RunasStrive;
 import game.gameParts.cards.abilities.magical.*;
 import game.gameParts.cards.abilities.physical.playerAbilities.*;
 import game.state.initiationValues.MonstersLevels;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 public class LevelSetUp extends GameState {
-    public LevelSetUp(Game game) {
-        super(game);
+    public LevelSetUp(RunasStrive runasStrive) {
+        super(runasStrive);
     }
 
     @Override
@@ -22,30 +22,30 @@ public class LevelSetUp extends GameState {
         // 2.2
 
         // add all abilities in correct order
-        int lvl = this.game.getLevel();
-        this.game.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
+        int lvl = this.runasStrive.getLevel();
+        this.runasStrive.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
                 new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl), new Fire(lvl),
                 new Lightning(lvl)
         ));
         // remove initial abilities from collectable abilities
-        this.game.getAbilityCards().removeIf(this.game.getPlayer().getPlayerClass().getCards()::contains);
+        this.runasStrive.getAbilityCards().removeIf(this.runasStrive.getPlayer().getPlayerClass().getCards()::contains);
 
-        if (this.game.getLevel() == 1) setUpFirstLevel();
+        if (this.runasStrive.getLevel() == 1) setUpFirstLevel();
         else setUpSecondLevel();
 
         // shuffle
         if (!shuffleCards()) return;
 
         // set next state
-        this.game.setState(new Fight(this.game));
+        this.runasStrive.setState(new Fight(this.runasStrive));
     }
 
     private void setUpFirstLevel() {
-        this.game.getMonsterCards().addAll(MonstersLevels.FIRST.getMonsters());
+        this.runasStrive.getMonsterCards().addAll(MonstersLevels.FIRST.getMonsters());
     }
 
     private void setUpSecondLevel() {
-        this.game.getMonsterCards().addAll(MonstersLevels.SECOND.getMonsters());
+        this.runasStrive.getMonsterCards().addAll(MonstersLevels.SECOND.getMonsters());
     }
 
     private boolean shuffleCards() {
@@ -56,8 +56,8 @@ public class LevelSetUp extends GameState {
         Random randomAbility = new Random(seeds.remove(0) + 1);
         Random randomMonster = new Random(seeds.remove(0) + 1);
         // shuffle cards
-        Collections.shuffle(this.game.getAbilityCards(), randomAbility);
-        Collections.shuffle(this.game.getMonsterCards(), randomMonster);
+        Collections.shuffle(this.runasStrive.getAbilityCards(), randomAbility);
+        Collections.shuffle(this.runasStrive.getMonsterCards(), randomMonster);
         return true;
     }
 }

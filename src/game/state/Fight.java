@@ -1,9 +1,10 @@
 package game.state;
 
-import game.Game;
+import game.RunasStrive;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.magical.Focus;
+import game.gameParts.cards.monsters.IMonster;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
 import game.state.initiationValues.GameSettings;
@@ -20,15 +21,15 @@ import java.util.List;
  * @version 0.1
  */
 public class Fight extends GameState {
-    private final List<Monster> active;
-    private final List<Monster> toBeRemoved;
+    private final List<IMonster> active;
+    private final List<IMonster> toBeRemoved;
 
     /**
      * constructor for the GameState
-     * @param game  Game on which the state should be executed
+     * @param runasStrive  Game on which the state should be executed
      */
-    public Fight(Game game) {
-        super(game);
+    public Fight(RunasStrive runasStrive) {
+        super(runasStrive);
         this.active = new LinkedList<>();
         this.toBeRemoved = new LinkedList<>();
     }
@@ -36,23 +37,23 @@ public class Fight extends GameState {
     @Override
     public void executeState() {
         // 2.3
-        this.game.nextRoom();
+        this.runasStrive.nextRoom();
 
         selectMonsters();
         welcomeText();
         if (!fight()) return;
 
         // set next state
-        this.game.setState(new FightAftermath(this.game));
+        this.runasStrive.setState(new FightAftermath(this.runasStrive));
     }
 
     private void selectMonsters() {
-        Monster boss = this.game.getLevel() == 1 ? MonstersLevels.FIRST.getBoss() : MonstersLevels.SECOND.getBoss();
-        if (this.game.getRoom() == 1) this.active.add(this.game.getMonsterCards().remove(0));
-        else if (this.game.getRoom() == GameSettings.ROOMS.getValue()) this.active.add(boss);
+        Monster boss = this.runasStrive.getLevel() == 1 ? MonstersLevels.FIRST.getBoss() : MonstersLevels.SECOND.getBoss();
+        if (this.runasStrive.getRoom() == 1) this.active.add(this.runasStrive.getMonsterCards().remove(0));
+        else if (this.runasStrive.getRoom() == GameSettings.ROOMS.getValue()) this.active.add(boss);
         else {
-            this.active.add(this.game.getMonsterCards().remove(0));
-            this.active.add(this.game.getMonsterCards().remove(0));
+            this.active.add(this.runasStrive.getMonsterCards().remove(0));
+            this.active.add(this.runasStrive.getMonsterCards().remove(0));
         }
     }
 
@@ -60,15 +61,15 @@ public class Fight extends GameState {
         while (!this.active.isEmpty()) {
 
             Ability ability;
-            Monster target = this.active.get(0);
+            IMonster target = this.active.get(0);
             int diceRoll;
             printInfo();
             printCards();
 
-            int max = this.game.getPlayer().getAbilities().size();
+            int max = this.runasStrive.getPlayer().getAbilities().size();
             int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
             if (index == -1) return false;
-            ability = this.game.getPlayer().getAbilities().get(index);
+            ability = this.runasStrive.getPlayer().getAbilities().get(index);
 
             if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
@@ -81,25 +82,25 @@ public class Fight extends GameState {
             System.out.printf("%s %s %s%n", CommonOutputs.PLAYER, CommonOutputs.USE, ability);
 
             if (ability.isOffensive() && ability.isPhysical()) {
-                int diceMax = this.game.getPlayer().getCurrentDice().getMaxValue();
+                int diceMax = this.runasStrive.getPlayer().getCurrentDice().getMaxValue();
                 diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax)) + 1;
                 if (diceRoll == 0) return false;
             }
-            else diceRoll = this.game.getPlayer().getFocusPoints();
+            else diceRoll = this.runasStrive.getPlayer().getFocusPoints();
 
-            executeAbility(this.game.getPlayer(), target, ability, diceRoll);
-            this.active.forEach(Monster::reset);
-            for (Monster monster : this.active) {
-                if (!executeAbility(monster, this.game.getPlayer(), monster.nextAbility(), 0)) return false;
+            executeAbility(this.runasStrive.getPlayer(), target, ability, diceRoll);
+            this.active.forEach(IMonster::reset);
+            for (IMonster monster : this.active) {
+                if (!executeAbility(monster, this.runasStrive.getPlayer(), monster.nextAbility(), 0)) return false;
             }
             this.active.removeIf(this.toBeRemoved::contains);
-            this.game.getPlayer().reset();
+            this.runasStrive.getPlayer().reset();
         }
         return true;
     }
 
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
-        this.game.getPlayer().resetReflect();
+        this.runasStrive.getPlayer().resetReflect();
         if (initiator instanceof Runa runa) {
             Monster monster = (Monster) target;
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
@@ -152,7 +153,7 @@ public class Fight extends GameState {
 
     private void printInfo() {
         System.out.println(CommonOutputs.FIGHT_ROUND_SEPARATOR);
-        System.out.println(this.game.getPlayer());
+        System.out.println(this.runasStrive.getPlayer());
         System.out.println(CommonOutputs.VS);
         this.active.forEach(monster -> System.out.println(monster.extendedToString()));
         System.out.println(CommonOutputs.FIGHT_ROUND_SEPARATOR);
@@ -164,13 +165,13 @@ public class Fight extends GameState {
     }
 
     private void printCards() {
-        List<Ability> abilities = this.game.getPlayer().getAbilities();
+        List<Ability> abilities = this.runasStrive.getPlayer().getAbilities();
         System.out.println(CommonOutputs.SELECT_CARD);
         for (int i = 0; i < abilities.size(); i++) System.out.printf("%d) %s%n", i + 1, abilities.get(i));
     }
 
     private void welcomeText() {
-        System.out.printf("%s %d %s %d%n", CommonOutputs.STAGE, this.game.getRoom(),
-                CommonOutputs.LEVEL, this.game.getLevel());
+        System.out.printf("%s %d %s %d%n", CommonOutputs.STAGE, this.runasStrive.getRoom(),
+                CommonOutputs.LEVEL, this.runasStrive.getLevel());
     }
 }

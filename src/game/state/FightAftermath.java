@@ -1,6 +1,6 @@
 package game.state;
 
-import game.Game;
+import game.RunasStrive;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.parts.Dice;
@@ -21,47 +21,47 @@ public class FightAftermath extends GameState {
 
     /**
      * constructor
-     * @param game  Game on which the operation should be done
+     * @param runasStrive  Game on which the operation should be done
      */
-    public FightAftermath(Game game) {
-        super(game);
+    public FightAftermath(RunasStrive runasStrive) {
+        super(runasStrive);
     }
 
     @Override
     public void executeState() {
         // 2.4
 
-        if (this.game.getRoom() == GameSettings.ROOMS.getValue()) {
+        if (this.runasStrive.getRoom() == GameSettings.ROOMS.getValue()) {
             newLevelCleanse();
-            if (this.game.getLevel() == GameSettings.LEVELS.getValue() + 1) {
+            if (this.runasStrive.getLevel() == GameSettings.LEVELS.getValue() + 1) {
                 this.gameEnd();
                 return;
             }
             // upgrade default spells
-            List<Ability> abilities = this.game.getPlayer().getPlayerClass().getCards();
+            List<Ability> abilities = this.runasStrive.getPlayer().getPlayerClass().getCards();
             abilities.forEach(ability -> {
                 Ability tmp = ability.copy();
                 tmp.upgrade();
-                this.game.getPlayer().addAbilityCard(tmp);
+                this.runasStrive.getPlayer().addAbilityCard(tmp);
             });
-            this.game.setState(new LevelSetUp(this.game));
+            this.runasStrive.setState(new LevelSetUp(this.runasStrive));
         }
         else {
             if (!chooseDrop()) {
                 gameEnd();
                 return;
             }
-            this.game.setState(new Fight(this.game));
+            this.runasStrive.setState(new Fight(this.runasStrive));
         }
-        if (this.game.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue())
+        if (this.runasStrive.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue())
             if (!heal()) gameEnd();
 
     }
 
     private boolean chooseDrop() {
         int choice;
-        if (this.game.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
-        else if (this.game.getAbilityCards().isEmpty()) choice = 1;
+        if (this.runasStrive.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
+        else if (this.runasStrive.getAbilityCards().isEmpty()) choice = 1;
         else {
             System.out.println(CommonOutputs.CHOOSE_LOOT);
             choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.toString(2));
@@ -70,9 +70,9 @@ public class FightAftermath extends GameState {
             case 0:
                 return chooseAbility();
             case 1:
-                this.game.getPlayer().upgradeDice();
+                this.runasStrive.getPlayer().upgradeDice();
                 System.out.println("Runa upgrades her die to a d"
-                        + this.game.getPlayer().getCurrentDice().getMaxValue());
+                        + this.runasStrive.getPlayer().getCurrentDice().getMaxValue());
                 return true;
             default:
                 return false;
@@ -81,11 +81,11 @@ public class FightAftermath extends GameState {
 
     private boolean chooseAbility() {
         List<Ability> selection = new LinkedList<>();
-        int cardsToPick = this.game.getRoom() == 1 ? 1 : GameSettings.LOOT_CARDS.getValue();
+        int cardsToPick = this.runasStrive.getRoom() == 1 ? 1 : GameSettings.LOOT_CARDS.getValue();
 
         for (int i = 0; i < cardsToPick * 2; i++)
-            if (!this.game.getAbilityCards().isEmpty())
-                selection.add(this.game.getAbilityCards().remove(0));
+            if (!this.runasStrive.getAbilityCards().isEmpty())
+                selection.add(this.runasStrive.getAbilityCards().remove(0));
 
         String inputMessage = cardsToPick == 1
                 ? NumInputRequest.ONE_INPUT_REQUEST.toString(selection.size())
@@ -101,38 +101,38 @@ public class FightAftermath extends GameState {
         if (indices == null) return false;
         List<Ability> tmp = new LinkedList<>();
         for (int index : indices) tmp.add(selection.get(index));
-        tmp.forEach(card -> this.game.getPlayer().addAbilityCard(card));
+        tmp.forEach(card -> this.runasStrive.getPlayer().addAbilityCard(card));
         return true;
     }
 
     private boolean heal() {
-        if (this.game.getPlayer().getAbilities().size() == 1) return true;
-        System.out.println("Runa (" + this.game.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
+        if (this.runasStrive.getPlayer().getAbilities().size() == 1) return true;
+        System.out.println("Runa (" + this.runasStrive.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
                 + " HP) can discard ability cards for healing (or none)");
-        for (int i = 0; i < this.game.getPlayer().getAbilities().size(); i++)
-            System.out.printf("%d) %s%n", i + 1 , this.game.getPlayer().getAbilities().get(i));
+        for (int i = 0; i < this.runasStrive.getPlayer().getAbilities().size(); i++)
+            System.out.printf("%d) %s%n", i + 1 , this.runasStrive.getPlayer().getAbilities().get(i));
 
         List<Integer> indices = getHealInputs();
         if (indices == null) return false;
         indices.sort((o1, o2) -> o2 - o1);
         for (int index : indices) {
-            this.game.getPlayer().getAbilities().remove(index);
+            this.runasStrive.getPlayer().getAbilities().remove(index);
         }
         int healVal = indices.size() * 10;
-        this.game.getPlayer().heal(healVal);
+        this.runasStrive.getPlayer().heal(healVal);
         return true;
     }
 
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.game.getPlayer().getAbilities().size() - 1, 0,
-                this.game.getPlayer().getAbilities().size() - 1,
-                NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.game.getPlayer().getAbilities().size()),
+        return getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size() - 1, 0,
+                this.runasStrive.getPlayer().getAbilities().size() - 1,
+                NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.runasStrive.getPlayer().getAbilities().size()),
                 ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
     }
 
     private void newLevelCleanse() {
-        this.game.getMonsterCards().clear();
-        this.game.getAbilityCards().clear();
-        this.game.nextLevel();
+        this.runasStrive.getMonsterCards().clear();
+        this.runasStrive.getAbilityCards().clear();
+        this.runasStrive.nextLevel();
     }
 }
