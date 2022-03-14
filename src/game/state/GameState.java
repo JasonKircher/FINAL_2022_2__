@@ -96,11 +96,14 @@ public abstract class GameState {
             if (input.equals("quit")) return null;
             if (input.isEmpty() && minNumbers == 0) return new LinkedList<>();
             try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
-            catch (NumberFormatException e) { indices.clear(); }
+            catch (NumberFormatException e) {
+                indices.clear();
+                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
+            }
             if (minNumbers > indices.size() || indices.size() > maxNumbers
                     || !duplicatesAllowed && new HashSet<>(indices).size() != indices.size()
                     || indices.stream().anyMatch(index -> index >= max || index < 0)) {
-                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers);
+                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
                 indices.clear();
             }
         } while (indices.isEmpty());
