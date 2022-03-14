@@ -59,7 +59,7 @@ public abstract class Ability {
      * @return the ability level
      */
     public int getAbilityLevel() {
-        return abilityLevel;
+        return this.abilityLevel;
     }
 
     /**

@@ -107,7 +107,8 @@ public class FightAftermath extends GameState {
 
     private boolean heal() {
         if (this.runasStrive.getPlayer().getAbilities().size() == 1) return true;
-        System.out.println("Runa (" + this.runasStrive.getPlayer().getHp() + "/" + PlayerStartingValues.STARTING_HP.getValue()
+        System.out.println("Runa (" + this.runasStrive.getPlayer().getHp() + "/"
+                + PlayerStartingValues.STARTING_HP.getValue()
                 + " HP) can discard ability cards for healing (or none)");
         for (int i = 0; i < this.runasStrive.getPlayer().getAbilities().size(); i++)
             System.out.printf("%d) %s%n", i + 1 , this.runasStrive.getPlayer().getAbilities().get(i));
@@ -124,7 +125,7 @@ public class FightAftermath extends GameState {
     }
 
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size() - 1, 0,
+        return getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size(), 0,
                 this.runasStrive.getPlayer().getAbilities().size() - 1,
                 NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.runasStrive.getPlayer().getAbilities().size()),
                 ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
