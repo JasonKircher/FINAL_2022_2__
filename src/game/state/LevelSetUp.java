@@ -52,9 +52,12 @@ public class LevelSetUp extends GameState {
         System.out.println(CommonOutputs.SHUFFLE_CARDS);
         List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,  2,
                 NumInputRequest.SEED_INPUT_REQUEST.toString(), ErrorMsg.SEED, true);
-        // correct input (+1 because of index correction)
-        if (seeds == null)
+        System.out.println(seeds);
+        if (seeds == null) {
+            gameEnd();
             return false;
+        }
+        // correct input (+1 because of index correction)
         Random randomAbility = new Random(seeds.remove(0) + 1);
         Random randomMonster = new Random(seeds.remove(0) + 1);
         // shuffle cards
