@@ -52,7 +52,6 @@ public class LevelSetUp extends GameState {
         System.out.println(CommonOutputs.SHUFFLE_CARDS);
         List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,  2,
                 NumInputRequest.SEED_INPUT_REQUEST.toString(), ErrorMsg.SEED, true);
-        System.out.println(seeds);
         if (seeds == null) {
             gameEnd();
             return false;
