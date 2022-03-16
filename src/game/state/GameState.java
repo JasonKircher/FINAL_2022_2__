@@ -95,10 +95,13 @@ public abstract class GameState {
             String input = new Scanner(System.in).nextLine();
             if (input.equals("quit")) return null;
             if (input.isEmpty() && minNumbers == 0) return new LinkedList<>();
+            if (input.startsWith(",") || input.endsWith(",")) {
+                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
+                continue;
+            }
             try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
             catch (NumberFormatException e) {
                 indices.clear();
-                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
             }
             if (minNumbers > indices.size() || indices.size() > maxNumbers
                     || !duplicatesAllowed && new HashSet<>(indices).size() != indices.size()
