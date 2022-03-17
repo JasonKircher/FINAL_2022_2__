@@ -44,7 +44,7 @@ public abstract class GameState {
      * @return the input - 1 to get the correct index
      */
     protected int getNumInput(int max, String output) {
-        return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS);
+        return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
     }
 
     /**
@@ -52,9 +52,10 @@ public abstract class GameState {
      * @param max the highest acceptable value for the input
      * @param output msg to be displayed when asking for input
      * @param customError error msg to be displayed for a wrong input
-     * @return the input - 1 to have the correct index
+     * @param noneAllowed boolean flag whether or not no input is allowed
+     * @return the input - 1 to have the correct index, -2 if none was input
      */
-    protected int getNumInput(int max, String output, ErrorMsg customError) {
+    protected int getNumInput(int max, String output, ErrorMsg customError, boolean noneAllowed) {
         int out = Integer.MAX_VALUE;
         int ittr = 0;
         Scanner scanner = new Scanner(System.in);
@@ -67,6 +68,8 @@ public abstract class GameState {
                 gameEnd();
                 return -1;
             }
+            if (input.equals("") && noneAllowed)
+                return -2;
             try {
                 out = Integer.parseInt(input);
             } catch (NumberFormatException ignored) {

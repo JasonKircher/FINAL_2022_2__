@@ -145,12 +145,14 @@ public class FightAftermath extends GameState {
                     ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
         } else {
             int max = this.runasStrive.getPlayer().getAbilities().size();
-            int input = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
+            int input = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
+                    true);
+            if (input == -2)
+                indices = new LinkedList<>();
             if (input != -1) {
                 indices = new LinkedList<>();
                 indices.add(input);
             }
-
         }
 
         return indices;
