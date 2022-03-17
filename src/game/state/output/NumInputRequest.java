@@ -23,6 +23,11 @@ public enum NumInputRequest {
      */
     SEED_INPUT_REQUEST("Enter seeds [1--2147483647] separated by comma:");
     private final String output;
+
+    /**
+     * constructor for an input request
+     * @param output the string that is supposed to be displayed when requesting a number as input
+     */
     NumInputRequest(String output) {
         this.output = output;
     }

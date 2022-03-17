@@ -21,7 +21,8 @@ public class Water extends OffensiveMagicAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster monster) {
+        if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             int defaultDmg = (2 * this.abilityLevel + 4) * value;
             return monster.getType() == MonsterType.Lightning ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
         } else if (target instanceof Runa) {

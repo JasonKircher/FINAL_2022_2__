@@ -4,6 +4,7 @@ import game.RunasStrive;
 import game.state.output.ErrorMsg;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * game states of a specific game all resembling a different phase in the game procedure
@@ -99,7 +100,9 @@ public abstract class GameState {
                 System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
                 continue;
             }
-            try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
+            try {
+                indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1)
+                        .collect(Collectors.toList())); }
             catch (NumberFormatException e) {
                 System.out.println(ErrorMsg.NUMBER.getMsg());
                 indices.clear();

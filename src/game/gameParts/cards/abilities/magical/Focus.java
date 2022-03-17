@@ -26,6 +26,7 @@ public class Focus extends Ability {
     public void focus(Runa runa) {
         runa.focus(this.abilityLevel);
     }
+
     /**
      * function for a monster to focus
      * @param monster the monster that should focus

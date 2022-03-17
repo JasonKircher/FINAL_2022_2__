@@ -31,10 +31,19 @@ public enum ErrorMsg {
      */
     SEED("Error, Seeds must Integers separated by only a comma");
     private final String msg;
+
+    /**
+     * constructor for an error msg
+     * @param msg the msg that describes the error
+     */
     ErrorMsg(String msg) {
         this.msg = msg;
     }
 
+    /**
+     * getter for the message
+     * @return the Message from the entity
+     */
     public String getMsg() {
         return this.msg;
     }

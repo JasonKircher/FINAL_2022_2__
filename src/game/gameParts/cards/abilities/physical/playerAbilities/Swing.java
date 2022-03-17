@@ -20,7 +20,8 @@ public class Swing extends PhysicalOffensiveAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster monster) {
+        if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             monster.deBuff();
             return 5 * this.abilityLevel + value;
         }

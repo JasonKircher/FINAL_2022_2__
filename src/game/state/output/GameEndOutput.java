@@ -15,6 +15,11 @@ public enum GameEndOutput {
      */
     LOSE("Runa dies");
     private final String output;
+
+    /**
+     * constructor for the game end output
+     * @param msg the message that is supposed to be displayed when winning or losing
+     */
     GameEndOutput(String msg) {
         this.output = msg;
     }

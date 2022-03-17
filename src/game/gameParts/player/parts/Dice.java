@@ -30,6 +30,11 @@ public enum Dice {
      */
     D12(12);
     private final int maxValue;
+
+    /**
+     * constructor for a dice
+     * @param maxValue maximum value of the dice
+     */
     Dice(int maxValue) {
         this.maxValue = maxValue;
     }
@@ -54,7 +59,7 @@ public enum Dice {
                 add(D8);
                 add(D10);
                 add(D12);
-        }};
+            }};
         return diceList.get(diceList.indexOf(this) + 1);
     }
 }

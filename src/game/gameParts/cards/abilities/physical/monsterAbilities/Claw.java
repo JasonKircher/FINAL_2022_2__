@@ -20,7 +20,8 @@ public class Claw extends PhysicalOffensiveAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        if (target instanceof Runa runa) {
+        if (target instanceof Runa) {
+            Runa runa = (Runa) target;
             runa.deBuff();
             return this.abilityLevel * 6;
         }

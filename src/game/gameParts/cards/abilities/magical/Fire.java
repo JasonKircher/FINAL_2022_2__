@@ -23,7 +23,8 @@ public class Fire extends OffensiveMagicAbility {
     public int calculateDamage(int value, Object target) {
         if (target instanceof Runa) {
             return 12 * this.abilityLevel + 2;
-        } else if (target instanceof Monster monster) {
+        } else if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             int defaultDmg = (2 * this.abilityLevel + 4) * value + 2;
             return monster.getType() == MonsterType.Ice ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
         }

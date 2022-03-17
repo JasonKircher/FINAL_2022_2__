@@ -19,6 +19,11 @@ public enum GameSettings {
      */
     LOOT_CARDS(2);
     private final int value;
+
+    /**
+     * constructor for setting
+     * @param value the value for the corresponding entity
+     */
     GameSettings(int value) {
         this.value = value;
     }

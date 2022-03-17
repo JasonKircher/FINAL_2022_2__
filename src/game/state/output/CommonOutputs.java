@@ -86,6 +86,10 @@ public enum CommonOutputs {
     GAIN("gains");
     private final String out;
 
+    /**
+     * constructor for Common outputs
+     * @param out String that displays the entity
+     */
     CommonOutputs(String out) {
         this.out = out;
     }

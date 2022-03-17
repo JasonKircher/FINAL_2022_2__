@@ -4,7 +4,7 @@ import game.gameParts.cards.abilities.physical.PhysicalDefensiveAbility;
 import game.gameParts.player.Runa;
 
 /**
- * resembles the ability "Block"
+ * resembles the ability "Parry"
  * @author upvlx
  * @version 0.1
  */
@@ -20,7 +20,8 @@ public class Parry extends PhysicalDefensiveAbility {
 
     @Override
     public void calculateMitigation(Object target) {
-        if (target instanceof Runa runa) {
+        if (target instanceof Runa) {
+            Runa runa = (Runa) target;
             runa.setPhysicalMitigation(this.abilityLevel * 7);
         }
     }

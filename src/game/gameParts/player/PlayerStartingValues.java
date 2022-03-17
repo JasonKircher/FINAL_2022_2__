@@ -15,6 +15,11 @@ public enum PlayerStartingValues {
      */
     STARTING_FOCUS_POINTS(1);
     private final int value;
+
+    /**
+     * constructor for the values
+     * @param value the value of the parameter
+     */
     PlayerStartingValues(int value) {
         this.value = value;
     }

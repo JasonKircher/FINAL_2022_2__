@@ -20,7 +20,8 @@ public class Block extends PhysicalDefensiveAbility {
 
     @Override
     public void calculateMitigation(Object target) {
-        if (target instanceof Monster monster) {
+        if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             monster.setPhysicalMitigation(7 * this.abilityLevel);
         }
     }

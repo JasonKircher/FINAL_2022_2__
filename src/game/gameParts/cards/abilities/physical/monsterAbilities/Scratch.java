@@ -20,7 +20,8 @@ public class Scratch extends PhysicalOffensiveAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        if (target instanceof Runa runa) {
+        if (target instanceof Runa) {
+            Runa runa = (Runa) target;
             runa.deBuff();
             return 5 * this.abilityLevel;
         }

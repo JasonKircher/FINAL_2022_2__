@@ -19,7 +19,8 @@ public class Reflect extends DefensiveMagicAbility {
 
     @Override
     public void calculateMitigation(Object target) {
-        if (target instanceof Runa runa) {
+        if (target instanceof Runa) {
+            Runa runa = (Runa) target;
             runa.setMagicMitigation(10 * this.abilityLevel);
             runa.setReflecting();
         }

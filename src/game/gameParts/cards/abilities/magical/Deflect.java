@@ -19,7 +19,8 @@ public class Deflect extends DefensiveMagicAbility {
 
     @Override
     public void calculateMitigation(Object target) {
-        if (target instanceof Monster monster) {
+        if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             monster.setMagicMitigation(11 * this.abilityLevel + 2);
         }
     }

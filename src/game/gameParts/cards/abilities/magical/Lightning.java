@@ -21,7 +21,8 @@ public class Lightning extends OffensiveMagicAbility {
 
     @Override
     public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster monster) {
+        if (target instanceof Monster) {
+            Monster monster = (Monster) target;
             int defaultDmg = (2 * this.abilityLevel + 5) * value + 2;
             return monster.getType() == MonsterType.Fire ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
         }

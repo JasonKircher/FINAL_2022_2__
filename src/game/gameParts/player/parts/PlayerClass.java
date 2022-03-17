@@ -31,6 +31,12 @@ public enum PlayerClass {
 
     private final String displayName;
     private final List<Ability> cards;
+
+    /**
+     * constructor for a player class
+     * @param name name as which the class should be displayed
+     * @param cards list of the starting abilities
+     */
     PlayerClass(String name, List<Ability> cards) {
         this.displayName = name;
         this.cards = cards;

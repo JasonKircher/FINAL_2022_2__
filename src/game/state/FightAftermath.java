@@ -116,7 +116,7 @@ public class FightAftermath extends GameState {
      */
     private boolean heal() {
         if (this.runasStrive.getPlayer().getAbilities().size() == 1) return true;
-        System.out.printf("%s (%d/%d HP) %s%n", CommonOutputs.PLAYER, this.runasStrive.getPlayer().getHp(),
+        System.out.printf("%s (%d/%d %s%n", CommonOutputs.PLAYER, this.runasStrive.getPlayer().getHp(),
                 PlayerStartingValues.STARTING_HP.getValue(), CommonOutputs.HEAL);
         for (int i = 0; i < this.runasStrive.getPlayer().getAbilities().size(); i++)
             System.out.printf("%d) %s%n", i + 1 , this.runasStrive.getPlayer().getAbilities().get(i));
@@ -137,10 +137,23 @@ public class FightAftermath extends GameState {
      * @return a list of indices given by the user
      */
     private List<Integer> getHealInputs() {
-        return getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size(), 0,
-                this.runasStrive.getPlayer().getAbilities().size() - 1,
-                NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.runasStrive.getPlayer().getAbilities().size()),
-                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+        List<Integer> indices = null;
+        if (this.runasStrive.getPlayer().getAbilities().size() > 2) {
+            indices = getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size(), 0,
+                    this.runasStrive.getPlayer().getAbilities().size() - 1,
+                    NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.runasStrive.getPlayer().getAbilities().size()),
+                    ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+        } else {
+            int max = this.runasStrive.getPlayer().getAbilities().size();
+            int input = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
+            if (input != -1) {
+                indices = new LinkedList<>();
+                indices.add(input);
+            }
+
+        }
+
+        return indices;
     }
 
     private void newLevelCleanse() {

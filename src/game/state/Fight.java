@@ -113,7 +113,8 @@ public class Fight extends GameState {
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
         this.runasStrive.getPlayer().resetReflect();
         // Runa
-        if (initiator instanceof Runa runa) {
+        if (initiator instanceof Runa) {
+            Runa runa = (Runa) initiator;
             Monster monster = (Monster) target;
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
             else if (ability.isOffensive()) {
@@ -129,7 +130,8 @@ public class Fight extends GameState {
             else ((DefensiveAbility) ability).calculateMitigation(initiator);
         }
         // Monster
-        else if (initiator instanceof Monster monster) {
+        else if (initiator instanceof Monster) {
+            Monster monster = (Monster) initiator;
             Runa runa = (Runa) target;
             if (ability instanceof Focus) {
                 System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);

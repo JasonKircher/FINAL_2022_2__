@@ -25,6 +25,12 @@ public enum MonstersLevels {
 
     private final List<Monster> monsters;
     private final Monster boss;
+
+    /**
+     * constructor for monsters per level
+     * @param monsters a list of the Monsters that should be available in the level
+     * @param boss the boss for the corresponding level
+     */
     MonstersLevels(List<Monster> monsters, Monster boss) {
         this.monsters = monsters;
         this.boss = boss;
