@@ -25,10 +25,9 @@ public class Fire extends OffensiveMagicAbility {
             return 12 * this.abilityLevel + 2;
         } else if (target instanceof Monster) {
             Monster monster = (Monster) target;
-            int defaultDmg = (2 * this.abilityLevel + 4) * value + 2;
+            int defaultDmg = (2 * this.abilityLevel + 5) * value;
             return monster.getType() == MonsterType.Ice ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
         }
         return 0;
     }
-
 }
