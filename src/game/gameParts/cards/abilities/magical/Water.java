@@ -4,7 +4,16 @@ import game.gameParts.cards.monsters.Monster;
 import game.gameParts.cards.monsters.MonsterType;
 import game.gameParts.player.Runa;
 
-public class Water extends OffensiveMagicAbility{
+/**
+ * resembles the ability "Water"
+ * @author upvlx
+ * @version 0.1
+ */
+public class Water extends OffensiveMagicAbility {
+    /**
+     * constructor
+     * @param abilityLevel the ability level the ability is supposed to have
+     */
     public Water(int abilityLevel) {
         super(abilityLevel);
         this.name = "Water";

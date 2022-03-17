@@ -3,7 +3,16 @@ package game.gameParts.cards.abilities.physical.monsterAbilities;
 import game.gameParts.cards.abilities.physical.PhysicalOffensiveAbility;
 import game.gameParts.player.Runa;
 
+/**
+ * resembles the ability "Claw"
+ * @author upvlx
+ * @version 0.1
+ */
 public class Claw extends PhysicalOffensiveAbility {
+    /**
+     * constructor
+     * @param abilityLevel the ability level the ability is supposed to have
+     */
     public Claw(int abilityLevel) {
         super(abilityLevel);
         this.name = "Claw";

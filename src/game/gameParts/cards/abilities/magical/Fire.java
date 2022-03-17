@@ -4,7 +4,16 @@ import game.gameParts.cards.monsters.Monster;
 import game.gameParts.cards.monsters.MonsterType;
 import game.gameParts.player.Runa;
 
+/**
+ * class which resembles the ability fire
+ * @author upvlx
+ * @version 0.1
+ */
 public class Fire extends OffensiveMagicAbility {
+    /**
+     * constructor
+     * @param abilityLevel the ability level the ability is supposed to have
+     */
     public Fire(int abilityLevel) {
         super(abilityLevel);
         this.name = "Fire";
