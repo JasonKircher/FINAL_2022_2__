@@ -7,14 +7,22 @@ import game.gameParts.cards.monsters.MonsterType;
 
 import java.util.LinkedList;
 
+/**
+ * class for the monster "Gorgon"
+ * @author upvlx
+ * @version 0.1
+ */
 public class Gorgon extends Monster {
+    /**
+     * Constructor for a Monster this sets the initial values for a specific Monster
+     */
     public Gorgon() {
         this.name = "Gorgon";
         this.hp = 13;
         this.type = MonsterType.Fire;
         this.preferredAbilities = new LinkedList<>() {{
-           add(new Focus(1));
-           add(new Fire(1));
-        }};
+                add(new Focus(1));
+                add(new Fire(1));
+            }};
     }
 }

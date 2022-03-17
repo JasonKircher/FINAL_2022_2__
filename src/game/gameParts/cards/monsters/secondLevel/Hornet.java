@@ -8,7 +8,15 @@ import game.gameParts.cards.monsters.MonsterType;
 
 import java.util.LinkedList;
 
+/**
+ * class for the monster "Bear"
+ * @author upvlx
+ * @version 0.1
+ */
 public class Hornet extends Monster {
+    /**
+     * Constructor for a Monster this sets the initial values for a specific Monster
+     */
     public Hornet() {
         this.name = "Hornet";
         this.hp = 32;
@@ -18,6 +26,6 @@ public class Hornet extends Monster {
                 add(new Focus(2));
                 add(new Fire(1));
                 add(new Fire(2));
-        }};
+            }};
     }
 }

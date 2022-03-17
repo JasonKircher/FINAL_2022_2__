@@ -7,7 +7,15 @@ import game.gameParts.cards.monsters.MonsterType;
 
 import java.util.LinkedList;
 
+/**
+ * class for the monster "Skeleton"
+ * @author upvlx
+ * @version 0.1
+ */
 public class Skeleton extends Monster {
+    /**
+     * Constructor for a Monster this sets the initial values for a specific Monster
+     */
     public Skeleton() {
         this.name = "Skeleton";
         this.hp = 14;
@@ -15,6 +23,6 @@ public class Skeleton extends Monster {
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Focus(1));
                 add(new Lightning(1));
-        }};
+            }};
     }
 }
