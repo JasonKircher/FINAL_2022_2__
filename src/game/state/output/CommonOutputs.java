@@ -49,6 +49,10 @@ public enum CommonOutputs {
      */
     LEVEL("of Level"),
     /**
+     * string for dmg
+     */
+    DAMAGE("damage"),
+    /**
      * focus
      */
     FOCUS("focus"),
@@ -68,6 +72,10 @@ public enum CommonOutputs {
      * output when someone dies
      */
     DIE("dies"),
+    /**
+     * String for take
+     */
+    TAKE("takes"),
     /**
      * output when the player receives smth
      */
