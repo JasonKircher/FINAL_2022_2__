@@ -11,11 +11,15 @@ public enum CommonOutputs {
     /**
      * welcome text
      */
-    WELCOME(String.format("Welcome to %s’s Strive\nSelect %s’s character class", PLAYER, PLAYER)),
+    WELCOME(String.format("Welcome to %s's Strive\nSelect %s's character class", PLAYER, PLAYER)),
     /**
      * separator between the information of fights
      */
     FIGHT_ROUND_SEPARATOR("----------------------------------------"),
+    /**
+     * output for healing
+     */
+    HEAL("HP) can discard ability cards for healing (or none)"),
     /**
      * String that separates enemies from players stats
      */
@@ -23,7 +27,7 @@ public enum CommonOutputs {
     /**
      * Output to Select a target if multiple monsters are active
      */
-    SELECT_TARGET(String.format("Select %s’s target.", PLAYER)),
+    SELECT_TARGET(String.format("Select %s's target.", PLAYER)),
     /**
      * String to select a card
      */
@@ -31,7 +35,7 @@ public enum CommonOutputs {
     /**
      * input request for loot
      */
-    CHOOSE_LOOT(String.format("Choose %s’s reward\n1) new ability cards\n2) next player dice", PLAYER)),
+    CHOOSE_LOOT(String.format("Choose %s's reward\n1) new ability cards\n2) next player dice", PLAYER)),
     /**
      * String when the Player enters a new stage
      */

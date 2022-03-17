@@ -13,12 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * GameState that resembles the interactions after a fight (heal and loot)
+ * GameState that resembles the interactions after a fight (heal and loot) (2.4 on ex sheet)
  * @author upvlx
  * @version 0.1
  */
 public class FightAftermath extends GameState {
-
     /**
      * constructor
      * @param runasStrive  Game on which the operation should be done
@@ -29,8 +28,6 @@ public class FightAftermath extends GameState {
 
     @Override
     public void executeState() {
-        // 2.4
-
         if (this.runasStrive.getRoom() == GameSettings.ROOMS.getValue()) {
             newLevelCleanse();
             if (this.runasStrive.getLevel() == GameSettings.LEVELS.getValue() + 1) {
@@ -58,6 +55,10 @@ public class FightAftermath extends GameState {
 
     }
 
+    /**
+     * function to enable the selection of the loot
+     * @return true if the selection was complete, false if the selection was quit
+     */
     private boolean chooseDrop() {
         int choice;
         if (this.runasStrive.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
@@ -79,6 +80,10 @@ public class FightAftermath extends GameState {
         }
     }
 
+    /**
+     * function to choose loot cards
+     * @return true if loot cards were chosen false if the selection was quit
+     */
     private boolean chooseAbility() {
         List<Ability> selection = new LinkedList<>();
         int cardsToPick = this.runasStrive.getRoom() == 1 ? 1 : GameSettings.LOOT_CARDS.getValue();
@@ -105,11 +110,14 @@ public class FightAftermath extends GameState {
         return true;
     }
 
+    /**
+     * function to enable the healing at the end of a round
+     * @return true if healing is complete, false if it was quit
+     */
     private boolean heal() {
         if (this.runasStrive.getPlayer().getAbilities().size() == 1) return true;
-        System.out.println("Runa (" + this.runasStrive.getPlayer().getHp() + "/"
-                + PlayerStartingValues.STARTING_HP.getValue()
-                + " HP) can discard ability cards for healing (or none)");
+        System.out.printf("%s (%d/%d HP) %s%n", CommonOutputs.PLAYER, this.runasStrive.getPlayer().getHp(),
+                PlayerStartingValues.STARTING_HP.getValue(), CommonOutputs.HEAL);
         for (int i = 0; i < this.runasStrive.getPlayer().getAbilities().size(); i++)
             System.out.printf("%d) %s%n", i + 1 , this.runasStrive.getPlayer().getAbilities().get(i));
 
@@ -124,6 +132,10 @@ public class FightAftermath extends GameState {
         return true;
     }
 
+    /**
+     * input request for healing
+     * @return a list of indices given by the user
+     */
     private List<Integer> getHealInputs() {
         return getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size(), 0,
                 this.runasStrive.getPlayer().getAbilities().size() - 1,

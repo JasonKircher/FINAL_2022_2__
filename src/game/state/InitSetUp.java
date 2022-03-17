@@ -8,8 +8,18 @@ import game.state.output.NumInputRequest;
 
 import java.util.*;
 
+/**
+ * class that is responsible for the initial set-up, with choosing a class and getting initial abilities (2.1 on sheet)
+ * @author upvlx
+ * @version 0.1
+ */
 public class InitSetUp extends GameState {
     private final List<PlayerClass> classList;
+
+    /**
+     * constructor for a game state
+     * @param runasStrive game on which the game should be executed
+     */
     public InitSetUp(RunasStrive runasStrive) {
         super(runasStrive);
         // more classes could be added here
@@ -22,8 +32,6 @@ public class InitSetUp extends GameState {
 
     @Override
     public void executeState() {
-        // 2.1
-
         // choose class
         if (!chooseClass()) return;
 
@@ -33,9 +41,8 @@ public class InitSetUp extends GameState {
 
     private boolean chooseClass() {
         welcome();
-
         for (int index = 0; index < this.classList.size(); index++)
-            System.out.println(index + 1 + ") " + this.classList.get(index).getDisplayName());
+            System.out.printf("%d) %s%n", index + 1, this.classList.get(index).getDisplayName());
         int classPlayingIndex = this.getNumInput(this.classList.size(),
                 NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;

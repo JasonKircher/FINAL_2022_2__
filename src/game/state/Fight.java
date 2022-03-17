@@ -4,7 +4,6 @@ import game.RunasStrive;
 import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.magical.Focus;
-import game.gameParts.cards.monsters.IMonster;
 import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
 import game.state.initiationValues.GameSettings;
@@ -16,13 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * State that resembles the Fight interaction
+ * State that resembles the Fight interaction (2.3)
  * @author upvlx
  * @version 0.1
  */
 public class Fight extends GameState {
-    private final List<IMonster> active;
-    private final List<IMonster> toBeRemoved;
+    private final List<Monster> active;
+    private final List<Monster> toBeRemoved;
 
     /**
      * constructor for the GameState
@@ -36,7 +35,6 @@ public class Fight extends GameState {
 
     @Override
     public void executeState() {
-        // 2.3
         this.runasStrive.nextRoom();
 
         selectMonsters();
@@ -47,8 +45,12 @@ public class Fight extends GameState {
         this.runasStrive.setState(new FightAftermath(this.runasStrive));
     }
 
+    /**
+     * function to set the active monster that are supposed to be in this room
+     */
     private void selectMonsters() {
-        Monster boss = this.runasStrive.getLevel() == 1 ? MonstersLevels.FIRST.getBoss() : MonstersLevels.SECOND.getBoss();
+        Monster boss = this.runasStrive.getLevel() == 1 ? MonstersLevels.FIRST.getBoss()
+                : MonstersLevels.SECOND.getBoss();
         if (this.runasStrive.getRoom() == 1) this.active.add(this.runasStrive.getMonsterCards().remove(0));
         else if (this.runasStrive.getRoom() == GameSettings.ROOMS.getValue()) this.active.add(boss);
         else {
@@ -59,13 +61,13 @@ public class Fight extends GameState {
 
     private boolean fight() {
         while (!this.active.isEmpty()) {
-
+            // ----------- Setup ----------
             Ability ability;
-            IMonster target = this.active.get(0);
+            Monster target = this.active.get(0);
             int diceRoll;
             printInfo();
             printCards();
-
+            // ----------- Player turn ----------
             int max = this.runasStrive.getPlayer().getAbilities().size();
             int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
             if (index == -1) return false;
@@ -78,7 +80,6 @@ public class Fight extends GameState {
                 if (index == -1) return false;
                 target = this.active.get(index);
             }
-
             System.out.printf("%s %s %s%n", CommonOutputs.PLAYER, CommonOutputs.USE, ability);
 
             if (ability.isOffensive() && ability.isPhysical()) {
@@ -87,11 +88,13 @@ public class Fight extends GameState {
                 if (diceRoll == 0) return false;
             }
             else diceRoll = this.runasStrive.getPlayer().getFocusPoints();
-
             executeAbility(this.runasStrive.getPlayer(), target, ability, diceRoll);
-            this.active.forEach(IMonster::reset);
-            for (IMonster monster : this.active) {
-                if (!executeAbility(monster, this.runasStrive.getPlayer(), monster.nextAbility(), 0)) return false;
+
+            // ----------- Monster turn ----------
+            this.active.forEach(Monster::reset);
+            for (Monster monster : this.active) {
+                if (!executeAbility(monster, this.runasStrive.getPlayer(), monster.nextAbility(), 0))
+                    return false;
             }
             this.active.removeIf(this.toBeRemoved::contains);
             this.runasStrive.getPlayer().reset();
@@ -99,8 +102,17 @@ public class Fight extends GameState {
         return true;
     }
 
+    /**
+     * function to execute an ability
+     * @param initiator the entity that casted the ability
+     * @param target the entity that is supposed to be hit by the ability
+     * @param ability the ability that was cast
+     * @param diceRoll the Rolled dice for physical abilities or focus points for magical
+     * @return true if the ability was executed and no one died, false if the target dies
+     */
     private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
         this.runasStrive.getPlayer().resetReflect();
+        // Runa
         if (initiator instanceof Runa runa) {
             Monster monster = (Monster) target;
             if (ability instanceof Focus) ((Focus) ability).focus(runa);
@@ -116,6 +128,7 @@ public class Fight extends GameState {
             }
             else ((DefensiveAbility) ability).calculateMitigation(initiator);
         }
+        // Monster
         else if (initiator instanceof Monster monster) {
             Runa runa = (Runa) target;
             if (ability instanceof Focus) {

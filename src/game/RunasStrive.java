@@ -1,7 +1,7 @@
 package game;
 
-import game.gameParts.cards.monsters.IMonster;
 import game.gameParts.cards.abilities.Ability;
+import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
 import game.state.GameState;
 import game.state.InitSetUp;
@@ -22,7 +22,7 @@ public class RunasStrive {
     private         GameState           state;
     private final   Runa                runa;
     private final   List<Ability>       abilities;
-    private final   List<IMonster>       monsterCards;
+    private final   List<Monster>       monsterCards;
 
     /**
      * constructor for the Game, sets initial values
@@ -58,7 +58,7 @@ public class RunasStrive {
      * getter for the Monster cards currently in the game
      * @return all monster cards that are currently in the game excluding monsters that are active
      */
-    public List<IMonster> getMonsterCards() {
+    public List<Monster> getMonsterCards() {
         return monsterCards;
     }
 
@@ -115,9 +115,9 @@ public class RunasStrive {
     public void end() {
         this.run = false;
         if (runa.getHp() <= 0 ) {
-            System.out.println(GameEndOutput.LOSE.getOutput());
+            System.out.println(GameEndOutput.LOSE);
         } else if (this.monsterCards.isEmpty() && this.level > 2) {
-            System.out.println(GameEndOutput.WON.getOutput());
+            System.out.println(GameEndOutput.WON);
         }
     }
 }

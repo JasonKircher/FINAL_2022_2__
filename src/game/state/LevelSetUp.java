@@ -12,24 +12,32 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * class that sets up a level this class is responsible for shuffling cards etc (2.2 on the ex sheet)
+ * @author upvlx
+ * @version 0.1
+ */
 public class LevelSetUp extends GameState {
+    /**
+     * constructor for a game state
+     * @param runasStrive game on which the game should be executed
+     */
     public LevelSetUp(RunasStrive runasStrive) {
         super(runasStrive);
     }
 
     @Override
     public void executeState() {
-        // 2.2
-
         // add all abilities in correct order
         int lvl = this.runasStrive.getLevel();
-        this.runasStrive.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl), new Pierce(lvl),
-                new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl), new Fire(lvl),
-                new Lightning(lvl)
+        this.runasStrive.getAbilityCards().addAll(List.of(new Slash(lvl), new Swing(lvl), new Thrust(lvl),
+                new Pierce(lvl), new Parry(lvl), new Focus(lvl), new Reflect(lvl), new Water(lvl), new Ice(lvl),
+                new Fire(lvl), new Lightning(lvl)
         ));
         // remove initial abilities from collectable abilities
         this.runasStrive.getAbilityCards().removeIf(this.runasStrive.getPlayer().getPlayerClass().getCards()::contains);
 
+        // add correct monsters
         if (this.runasStrive.getLevel() == 1) setUpFirstLevel();
         else setUpSecondLevel();
 
@@ -48,6 +56,10 @@ public class LevelSetUp extends GameState {
         this.runasStrive.getMonsterCards().addAll(MonstersLevels.SECOND.getMonsters());
     }
 
+    /**
+     * function to shuffle cards
+     * @return true if shuffling worked, false if shuffling was quit
+     */
     private boolean shuffleCards() {
         System.out.println(CommonOutputs.SHUFFLE_CARDS);
         List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,  2,

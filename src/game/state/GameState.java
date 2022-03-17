@@ -60,7 +60,6 @@ public abstract class GameState {
         while (out > max || out < 1) {
             // Error when first input was wrong
             if (ittr > 0) System.out.println(customError.getMsg());
-            ittr++;
             System.out.println(output);
             String input = scanner.nextLine();
             if (input.equals("quit")) {
@@ -70,8 +69,9 @@ public abstract class GameState {
             try {
                 out = Integer.parseInt(input);
             } catch (NumberFormatException ignored) {
-                // cannot be parsed
+                // cannot parse
             }
+            if (!(out > 1 && out < max)) ittr++;
         }
         // -1 to get correct index
         return out - 1;
@@ -101,12 +101,20 @@ public abstract class GameState {
             }
             try { indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1).toList()); }
             catch (NumberFormatException e) {
+                System.out.println(ErrorMsg.NUMBER.getMsg());
+                indices.clear();
+                continue;
+            }
+            if (minNumbers > indices.size() || indices.size() > maxNumbers) {
+                System.out.println(ErrorMsg.AMOUNT.getMsg());
                 indices.clear();
             }
-            if (minNumbers > indices.size() || indices.size() > maxNumbers
-                    || !duplicatesAllowed && new HashSet<>(indices).size() != indices.size()
-                    || indices.stream().anyMatch(index -> index >= max || index < 0)) {
-                System.out.println(errorMsg.getMsg() + " at max " + maxNumbers + " numbers.");
+            else if (indices.stream().anyMatch(index -> index >= max || index < 0)) {
+                System.out.println(errorMsg.getMsg());
+                indices.clear();
+            }
+            else if (!duplicatesAllowed && new HashSet<>(indices).size() != indices.size()) {
+                System.out.println(ErrorMsg.DUPLICATES.getMsg());
                 indices.clear();
             }
         } while (indices.isEmpty());
