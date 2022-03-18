@@ -3,7 +3,11 @@ package game.state;
 import game.RunasStrive;
 import game.state.output.ErrorMsg;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +48,7 @@ public abstract class GameState {
      * @return the input - 1 to get the correct index
      */
     protected int getNumInput(int max, String output) {
-        return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+        return getNumInput(max, output, ErrorMsg.NUMBER_OUT_OF_BOUNDS);
     }
 
     /**
@@ -52,10 +56,9 @@ public abstract class GameState {
      * @param max the highest acceptable value for the input
      * @param output msg to be displayed when asking for input
      * @param customError error msg to be displayed for a wrong input
-     * @param noneAllowed boolean flag whether or not no input is allowed
      * @return the input - 1 to have the correct index, -2 if none was input
      */
-    protected int getNumInput(int max, String output, ErrorMsg customError, boolean noneAllowed) {
+    protected int getNumInput(int max, String output, ErrorMsg customError) {
         int out = Integer.MAX_VALUE;
         int ittr = 0;
         Scanner scanner = new Scanner(System.in);
@@ -68,8 +71,6 @@ public abstract class GameState {
                 gameEnd();
                 return -1;
             }
-            if (input.equals("") && noneAllowed)
-                return -2;
             try {
                 out = Integer.parseInt(input);
             } catch (NumberFormatException ignored) {

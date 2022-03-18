@@ -1,11 +1,17 @@
-import game.RunasStrive;
+package game;
 
 /**
  * main class to start the game
  * @author upvlx
  * @version 0.1
  */
-public class Main {
+public final class Main {
+
+    /**
+     * private constructor for execution class
+     */
+    private Main() { }
+
     /**
      * main function
      * @param args commandline arguments

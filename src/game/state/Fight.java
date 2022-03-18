@@ -138,13 +138,11 @@ public class Fight extends GameState {
                 ((Focus) ability).focus(monster);
             }
             else if (ability.isOffensive()) {
-                if (!ability.isPhysical()) {
-                    if (ability.getAbilityLevel() > monster.getFocusPoints())
-                        return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
-                    else
-                        for (int i = 0; i < ability.getAbilityLevel(); i++)
-                            monster.decreaseFocusPoints();
-                }
+                if (!ability.isPhysical() && ability.getAbilityLevel() > monster.getFocusPoints())
+                    return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
+                else if (!ability.isPhysical() && ability.getAbilityLevel() <= monster.getFocusPoints())
+                    for (int i = 0; i < ability.getAbilityLevel(); i++)
+                        monster.decreaseFocusPoints();
                 System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
                 if (!runa.takeDamage(ability)) {
                     this.gameEnd();

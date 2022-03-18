@@ -138,22 +138,12 @@ public class FightAftermath extends GameState {
      */
     private List<Integer> getHealInputs() {
         List<Integer> indices = null;
-        if (this.runasStrive.getPlayer().getAbilities().size() > 2) {
-            indices = getMultipleInputs(this.runasStrive.getPlayer().getAbilities().size(), 0,
-                    this.runasStrive.getPlayer().getAbilities().size() - 1,
-                    NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(this.runasStrive.getPlayer().getAbilities().size()),
-                    ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
-        } else {
-            int max = this.runasStrive.getPlayer().getAbilities().size();
-            int input = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max), ErrorMsg.NUMBER_OUT_OF_BOUNDS,
-                    true);
-            if (input == -2)
-                indices = new LinkedList<>();
-            if (input != -1) {
-                indices = new LinkedList<>();
-                indices.add(input);
-            }
-        }
+        int max = this.runasStrive.getPlayer().getAbilities().size();
+        String output = max > 2 ? NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(max)
+                : NumInputRequest.ONE_INPUT_REQUEST.toString(max);
+
+        indices = getMultipleInputs(max, 0, max - 1, output,
+                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
 
         return indices;
     }

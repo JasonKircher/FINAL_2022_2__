@@ -6,7 +6,9 @@ import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+
 
 /**
  * class that is responsible for the initial set-up, with choosing a class and getting initial abilities (2.1 on sheet)
@@ -44,7 +46,7 @@ public class InitSetUp extends GameState {
         for (int index = 0; index < this.classList.size(); index++)
             System.out.printf("%d) %s%n", index + 1, this.classList.get(index).getDisplayName());
         int classPlayingIndex = this.getNumInput(this.classList.size(),
-                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS, false);
+                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
         this.runasStrive.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));

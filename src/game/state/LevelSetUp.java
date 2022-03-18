@@ -1,8 +1,17 @@
 package game.state;
 
 import game.RunasStrive;
-import game.gameParts.cards.abilities.magical.*;
-import game.gameParts.cards.abilities.physical.playerAbilities.*;
+import game.gameParts.cards.abilities.magical.Focus;
+import game.gameParts.cards.abilities.magical.Ice;
+import game.gameParts.cards.abilities.magical.Reflect;
+import game.gameParts.cards.abilities.magical.Water;
+import game.gameParts.cards.abilities.magical.Fire;
+import game.gameParts.cards.abilities.magical.Lightning;
+import game.gameParts.cards.abilities.physical.playerAbilities.Pierce;
+import game.gameParts.cards.abilities.physical.playerAbilities.Slash;
+import game.gameParts.cards.abilities.physical.playerAbilities.Swing;
+import game.gameParts.cards.abilities.physical.playerAbilities.Thrust;
+import game.gameParts.cards.abilities.physical.playerAbilities.Parry;
 import game.state.initiationValues.MonstersLevels;
 import game.state.output.CommonOutputs;
 import game.state.output.ErrorMsg;

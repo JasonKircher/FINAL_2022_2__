@@ -1,8 +1,24 @@
 package game.state.initiationValues;
 
 import game.gameParts.cards.monsters.Monster;
-import game.gameParts.cards.monsters.firstLevel.*;
-import game.gameParts.cards.monsters.secondLevel.*;
+import game.gameParts.cards.monsters.firstLevel.Frog;
+import game.gameParts.cards.monsters.firstLevel.Ghost;
+import game.gameParts.cards.monsters.firstLevel.Gorgon;
+import game.gameParts.cards.monsters.firstLevel.Skeleton;
+import game.gameParts.cards.monsters.firstLevel.Spider;
+import game.gameParts.cards.monsters.firstLevel.Goblin;
+import game.gameParts.cards.monsters.firstLevel.Rat;
+import game.gameParts.cards.monsters.firstLevel.Mushroomlin;
+import game.gameParts.cards.monsters.firstLevel.SpiderKing;
+import game.gameParts.cards.monsters.secondLevel.DarkElf;
+import game.gameParts.cards.monsters.secondLevel.ShadowBlade;
+import game.gameParts.cards.monsters.secondLevel.Snake;
+import game.gameParts.cards.monsters.secondLevel.Hornet;
+import game.gameParts.cards.monsters.secondLevel.Tarantula;
+import game.gameParts.cards.monsters.secondLevel.Bear;
+import game.gameParts.cards.monsters.secondLevel.Mushroomlon;
+import game.gameParts.cards.monsters.secondLevel.WildBoar;
+import game.gameParts.cards.monsters.secondLevel.MegaSaurus;
 
 import java.util.List;
 
