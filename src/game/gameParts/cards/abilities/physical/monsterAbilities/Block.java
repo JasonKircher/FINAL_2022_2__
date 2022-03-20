@@ -9,6 +9,8 @@ import game.gameParts.cards.monsters.Monster;
  * @version 0.1
  */
 public class Block extends PhysicalDefensiveAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 7;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -22,7 +24,7 @@ public class Block extends PhysicalDefensiveAbility {
     public void calculateMitigation(Object target) {
         if (target instanceof Monster) {
             Monster monster = (Monster) target;
-            monster.setPhysicalMitigation(7 * this.abilityLevel);
+            monster.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
         }
     }
 }

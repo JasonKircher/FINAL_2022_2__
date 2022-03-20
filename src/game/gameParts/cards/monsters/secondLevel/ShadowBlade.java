@@ -14,12 +14,14 @@ import java.util.LinkedList;
  * @version 0.1
  */
 public class ShadowBlade extends Monster {
+    private static final int HP = 27;
+
     /**
      * Constructor for a Monster this sets the initial values for a specific Monster
      */
     public ShadowBlade() {
         this.name = "Shadow Blade";
-        this.hp = 27;
+        this.hp = HP;
         this.type = MonsterType.Lightning;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Scratch(2));

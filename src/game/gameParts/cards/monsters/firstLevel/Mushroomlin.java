@@ -12,12 +12,14 @@ import java.util.LinkedList;
  * @version 0.1
  */
 public class Mushroomlin extends Monster {
+    private static final int HP = 20;
+
     /**
      * Constructor for a Monster this sets the initial values for a specific Monster
      */
     public Mushroomlin() {
         this.name = "Mushroomlin";
-        this.hp = 20;
+        this.hp = HP;
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Deflect(1));

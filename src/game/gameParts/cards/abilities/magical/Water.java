@@ -10,6 +10,11 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Water extends OffensiveMagicAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 8;
+    private static final int DAMAGE_TO_ADD = 2;
+    private static final int MONSTER_ABILITY_MULTIPLIER = 2;
+    private static final int MONSTER_DAMAGE_TO_ADD = 4;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -23,10 +28,11 @@ public class Water extends OffensiveMagicAbility {
     public int calculateDamage(int value, Object target) {
         if (target instanceof Monster) {
             Monster monster = (Monster) target;
-            int defaultDmg = (2 * this.abilityLevel + 4) * value;
-            return monster.getType() == MonsterType.Lightning ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
+            int defaultDmg = (MONSTER_ABILITY_MULTIPLIER * this.abilityLevel + MONSTER_DAMAGE_TO_ADD) * value;
+            return monster.getType() == MonsterType.Lightning
+                    ? defaultDmg + MONSTER_ABILITY_MULTIPLIER * this.abilityLevel : defaultDmg;
         } else if (target instanceof Runa) {
-            return 8 * this.abilityLevel + 2;
+            return ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD;
         }
         return 0;
     }

@@ -15,12 +15,14 @@ import java.util.LinkedList;
  * @version 0.1
  */
 public class MegaSaurus extends Monster {
+    private static final int HP = 100;
+
     /**
      * Constructor for a Monster this sets the initial values for a specific Monster
      */
     public MegaSaurus() {
         this.name = "Mega Saurus";
-        this.hp = 100;
+        this.hp = HP;
         this.type = null;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Bite(2));

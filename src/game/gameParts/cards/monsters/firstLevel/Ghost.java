@@ -13,12 +13,14 @@ import java.util.LinkedList;
  * @version 0.1
  */
 public class Ghost extends Monster {
+    private static final int HP = 15;
+
     /**
      * Constructor for a Monster this sets the initial values for a specific Monster
      */
     public Ghost() {
         this.name = "Ghost";
-        this.hp = 15;
+        this.hp = HP;
         this.type = MonsterType.Ice;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Focus(1));

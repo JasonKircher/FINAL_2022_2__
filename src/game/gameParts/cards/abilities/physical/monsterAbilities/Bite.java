@@ -9,6 +9,8 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Bite extends PhysicalOffensiveAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 10;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -21,7 +23,7 @@ public class Bite extends PhysicalOffensiveAbility {
     @Override
     public int calculateDamage(int value, Object target) {
         if (target instanceof Runa) {
-            return 10 * this.abilityLevel;
+            return ABILITY_LEVEL_MODIFIER * this.abilityLevel;
         }
         return 0;
     }

@@ -8,6 +8,9 @@ import game.gameParts.cards.monsters.Monster;
  * @version 0.1
  */
 public class Deflect extends DefensiveMagicAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 11;
+    private static final int DAMAGE_TO_ADD = 2;
+
     /**
      * constructor
      * @param abilityLevel the level the ability is supposed to have
@@ -21,7 +24,7 @@ public class Deflect extends DefensiveMagicAbility {
     public void calculateMitigation(Object target) {
         if (target instanceof Monster) {
             Monster monster = (Monster) target;
-            monster.setMagicMitigation(11 * this.abilityLevel + 2);
+            monster.setMagicMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD);
         }
     }
 }

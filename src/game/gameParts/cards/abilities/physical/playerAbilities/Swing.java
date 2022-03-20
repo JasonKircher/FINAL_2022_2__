@@ -9,6 +9,8 @@ import game.gameParts.cards.monsters.Monster;
  * @version 0.1
  */
 public class Swing extends PhysicalOffensiveAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 5;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -23,7 +25,7 @@ public class Swing extends PhysicalOffensiveAbility {
         if (target instanceof Monster) {
             Monster monster = (Monster) target;
             monster.deBuff();
-            return 5 * this.abilityLevel + value;
+            return ABILITY_LEVEL_MODIFIER * this.abilityLevel + value;
         }
         return 0;
     }

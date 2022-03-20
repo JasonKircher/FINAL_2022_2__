@@ -13,12 +13,14 @@ import java.util.LinkedList;
  * @version 0.1
  */
 public class Gorgon extends Monster {
+    private static final int HP = 13;
+
     /**
      * Constructor for a Monster this sets the initial values for a specific Monster
      */
     public Gorgon() {
         this.name = "Gorgon";
-        this.hp = 13;
+        this.hp = HP;
         this.type = MonsterType.Fire;
         this.preferredAbilities = new LinkedList<>() {{
                 add(new Focus(1));

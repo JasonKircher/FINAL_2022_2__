@@ -10,6 +10,11 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Fire extends OffensiveMagicAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 12;
+    private static final int DAMAGE_TO_ADD = 2;
+    private static final int MONSTER_DAMAGE_TO_ADD = 5;
+    private static final int MONSTER_ABILITY_MULTIPLIER = 2;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -22,11 +27,12 @@ public class Fire extends OffensiveMagicAbility {
     @Override
     public int calculateDamage(int value, Object target) {
         if (target instanceof Runa) {
-            return 12 * this.abilityLevel + 2;
+            return ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD;
         } else if (target instanceof Monster) {
             Monster monster = (Monster) target;
-            int defaultDmg = (2 * this.abilityLevel + 5) * value;
-            return monster.getType() == MonsterType.Ice ? defaultDmg + 2 * this.abilityLevel : defaultDmg;
+            int defaultDmg = (MONSTER_ABILITY_MULTIPLIER * this.abilityLevel + MONSTER_DAMAGE_TO_ADD) * value;
+            return monster.getType() == MonsterType.Ice ? defaultDmg + MONSTER_ABILITY_MULTIPLIER * this.abilityLevel
+                    : defaultDmg;
         }
         return 0;
     }

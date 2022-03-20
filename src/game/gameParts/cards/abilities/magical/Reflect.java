@@ -8,6 +8,8 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Reflect extends DefensiveMagicAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 10;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -21,7 +23,7 @@ public class Reflect extends DefensiveMagicAbility {
     public void calculateMitigation(Object target) {
         if (target instanceof Runa) {
             Runa runa = (Runa) target;
-            runa.setMagicMitigation(10 * this.abilityLevel);
+            runa.setMagicMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
             runa.setReflecting();
         }
     }

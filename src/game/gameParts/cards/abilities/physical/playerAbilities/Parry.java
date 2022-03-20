@@ -9,6 +9,8 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Parry extends PhysicalDefensiveAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 7;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -22,7 +24,7 @@ public class Parry extends PhysicalDefensiveAbility {
     public void calculateMitigation(Object target) {
         if (target instanceof Runa) {
             Runa runa = (Runa) target;
-            runa.setPhysicalMitigation(this.abilityLevel * 7);
+            runa.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
         }
     }
 }

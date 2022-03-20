@@ -9,6 +9,8 @@ import game.gameParts.player.Runa;
  * @version 0.1
  */
 public class Claw extends PhysicalOffensiveAbility {
+    private static final int ABILITY_LEVEL_MODIFIER = 6;
+
     /**
      * constructor
      * @param abilityLevel the ability level the ability is supposed to have
@@ -23,7 +25,7 @@ public class Claw extends PhysicalOffensiveAbility {
         if (target instanceof Runa) {
             Runa runa = (Runa) target;
             runa.deBuff();
-            return this.abilityLevel * 6;
+            return ABILITY_LEVEL_MODIFIER * this.abilityLevel;
         }
         return 0;
     }
