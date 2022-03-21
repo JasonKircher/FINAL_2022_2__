@@ -1,5 +1,8 @@
 package game.gameParts.cards.abilities;
 
+import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
+
 /**
  * class that resembles an offensive ability
  * @author upvlx
@@ -16,10 +19,18 @@ public abstract class OffensiveAbility extends Ability {
     }
 
     /**
-     * function to calculate the damage
+     * function to calculate the damage when a player is using the ability
      * @param value the value with which the ability is customized
-     * @param target the target on which the dmg is to be inflicted
+     * @param target the target monster on which the dmg is to be inflicted
      * @return the damage the target receives
      */
-    public abstract int calculateDamage(int value, Object target);
+    public abstract int calculateDamagePlayer(int value, Monster target);
+
+    /**
+     * function to calculate the damage when a player is using the ability
+     * @param value the value with which the ability is customized
+     * @param target the Player on which the dmg is to be inflicted
+     * @return the damage the target receives
+     */
+    public abstract int calculateDamageMonster(Runa target);
 }

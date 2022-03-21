@@ -1,7 +1,9 @@
 package game.gameParts.cards.abilities.physical.playerAbilities;
 
 import game.gameParts.cards.abilities.physical.PhysicalDefensiveAbility;
+import game.gameParts.cards.monsters.Monster;
 import game.gameParts.player.Runa;
+import game.state.output.Exceptions;
 
 /**
  * resembles the ability "Parry"
@@ -21,10 +23,12 @@ public class Parry extends PhysicalDefensiveAbility {
     }
 
     @Override
-    public void calculateMitigation(Object target) {
-        if (target instanceof Runa) {
-            Runa runa = (Runa) target;
-            runa.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
-        }
+    public void calculateMitigationPlayer(Runa target) {
+        target.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
+    }
+
+    @Override
+    public void calculateMitigationMonster(Monster target) {
+        throw new RuntimeException(Exceptions.WRONG_ENTITY.getMsg());
     }
 }

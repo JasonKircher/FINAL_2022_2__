@@ -214,14 +214,14 @@ public class Runa {
     }
 
     /**
-     * function to take damage from a specific ability
-     * @param ability ability that is to be taken dmg from
-     * @return true if the player survived the attack, false if the player is now dead
+     * function to take damage from an ability
+     * @param ability ability that is damaging
+     * @return true if runa survives
      */
     public boolean takeDamage(Ability ability) {
         if (!ability.isOffensive()) throw new RuntimeException(Exceptions.DMG_FROM_DEFENSIVE_ABILITY.getMsg());
         OffensiveAbility abilityParsed = (OffensiveAbility) ability;
-        int damage = abilityParsed.calculateDamage(0,  this);
+        int damage = abilityParsed.calculateDamageMonster(this);
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else {
             damage = damage - this.magicMitigation;

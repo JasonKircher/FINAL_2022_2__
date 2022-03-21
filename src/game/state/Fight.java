@@ -5,12 +5,12 @@ import game.gameParts.cards.abilities.Ability;
 import game.gameParts.cards.abilities.DefensiveAbility;
 import game.gameParts.cards.abilities.magical.Focus;
 import game.gameParts.cards.monsters.Monster;
-import game.gameParts.player.Runa;
 import game.state.initiationValues.GameSettings;
 import game.state.initiationValues.MonstersLevels;
 import game.state.output.CommonOutputs;
 import game.state.output.NumInputRequest;
 
+import java.sql.CallableStatement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,12 +88,12 @@ public class Fight extends GameState {
                 if (diceRoll == 0) return false;
             }
             else diceRoll = this.runasStrive.getPlayer().getFocusPoints();
-            executeAbility(this.runasStrive.getPlayer(), target, ability, diceRoll);
+            runaExecuteAbility(ability, target, diceRoll);
 
             // ----------- Monster turn ----------
             this.active.forEach(Monster::reset);
             for (Monster monster : this.active) {
-                if (!executeAbility(monster, this.runasStrive.getPlayer(), monster.nextAbility(), 0))
+                if (!monsterExecuteAttack(monster))
                     return false;
             }
             this.active.removeIf(this.toBeRemoved::contains);
@@ -103,63 +103,67 @@ public class Fight extends GameState {
     }
 
     /**
-     * function to execute an ability
-     * @param initiator the entity that casted the ability
-     * @param target the entity that is supposed to be hit by the ability
-     * @param ability the ability that was cast
-     * @param diceRoll the Rolled dice for physical abilities or focus points for magical
-     * @return true if the ability was executed and no one died, false if the target dies
+     * function to execute runas ability
+     * @param ability ability to be cast
+     * @param target the target the ability is cast on
+     * @param modifier either the number rolled on the dice or the current focus points depending on the ability
      */
-    private boolean executeAbility(Object initiator, Object target, Ability ability, int diceRoll) {
-        this.runasStrive.getPlayer().resetReflect();
-        // Runa
-        if (initiator instanceof Runa) {
-            Runa runa = (Runa) initiator;
-            Monster monster = (Monster) target;
-            if (ability instanceof Focus) ((Focus) ability).focus(runa);
-            else if (ability.isOffensive()) {
-                if (!ability.isPhysical()) {
-                    runa.decreaseFocusPoints();
-                }
-                if (!monster.takeDamage(ability, diceRoll)) {
-                    this.active.remove(monster);
-                    System.out.printf("%s %s%n", monster, CommonOutputs.DIE);
-                    return false;
-                }
+    private void runaExecuteAbility(Ability ability, Monster target, int modifier) {
+        // focus
+        if (ability.getClass() == Focus.class)
+            ((Focus) ability).focus(this.runasStrive.getPlayer());
+        // offensive
+        else if (ability.isOffensive()) {
+            if (!ability.isPhysical())
+                this.runasStrive.getPlayer().decreaseFocusPoints();
+            if (!target.takeDamage(ability, modifier)) {
+                this.active.remove(target);
+                System.out.printf("%s %s%n", target, CommonOutputs.DIE);
             }
-            else ((DefensiveAbility) ability).calculateMitigation(initiator);
         }
-        // Monster
-        else if (initiator instanceof Monster) {
-            Monster monster = (Monster) initiator;
-            Runa runa = (Runa) target;
-            if (ability instanceof Focus) {
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
-                ((Focus) ability).focus(monster);
+        // defensive
+        else
+            ((DefensiveAbility) ability).calculateMitigationPlayer(this.runasStrive.getPlayer());
+    }
+
+    /**
+     * function to execute an monster ability
+     * @param initiator the monster casting the ability
+     * @return true if the attack was successful and runa survived, false if runa dies
+     */
+    private boolean monsterExecuteAttack(Monster initiator) {
+        this.runasStrive.getPlayer().resetReflect();
+        Ability ability = initiator.nextAbility();
+        // focus
+        if (ability.getClass() == Focus.class) {
+            System.out.printf("%s %s %s%n", initiator, CommonOutputs.USE, ability);
+            ((Focus) ability).focus(initiator);
+        }
+        // offensive
+        else if (ability.isOffensive()) {
+            if (!ability.isPhysical() && ability.getAbilityLevel() > initiator.getFocusPoints())
+                // getting next ability
+                return monsterExecuteAttack(initiator);
+            else if (!ability.isPhysical() && ability.getAbilityLevel() <= initiator.getFocusPoints())
+                for (int i = 0; i < ability.getAbilityLevel(); i++)
+                    initiator.decreaseFocusPoints();
+            System.out.printf("%s %s %s%n", initiator, CommonOutputs.USE, ability);
+            if (!this.runasStrive.getPlayer().takeDamage(ability)) {
+                // runa dies during attack
+                this.gameEnd();
+                return false;
             }
-            else if (ability.isOffensive()) {
-                if (!ability.isPhysical() && ability.getAbilityLevel() > monster.getFocusPoints())
-                    return executeAbility(initiator, target, monster.nextAbility(), diceRoll);
-                else if (!ability.isPhysical() && ability.getAbilityLevel() <= monster.getFocusPoints())
-                    for (int i = 0; i < ability.getAbilityLevel(); i++)
-                        monster.decreaseFocusPoints();
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
-                if (!runa.takeDamage(ability)) {
-                    this.gameEnd();
-                    return false;
+            if (this.runasStrive.getPlayer().isReflecting() && !ability.isPhysical())
+                if (!initiator.takeDamage(this.runasStrive.getPlayer().getReflectedDmg())) {
+                    this.toBeRemoved.add(initiator);
+                    System.out.printf("%s %s%n", initiator, CommonOutputs.DIE);
+                    return true;
                 }
-                if (runa.isReflecting() && !ability.isPhysical()) {
-                    if (!monster.takeDamage(runa.getReflectedDmg())) {
-                        this.toBeRemoved.add(monster);
-                        System.out.printf("%s %s%n", monster, CommonOutputs.DIE);
-                        return true;
-                    }
-                }
-            }
-            else {
-                System.out.printf("%s %s %s%n", monster, CommonOutputs.USE, ability);
-                ((DefensiveAbility) ability).calculateMitigation(initiator);
-            }
+        }
+        // defensive
+        else {
+            System.out.printf("%s %s %s%n", initiator, CommonOutputs.USE, ability);
+            ((DefensiveAbility) ability).calculateMitigationMonster(initiator);
         }
         return true;
     }

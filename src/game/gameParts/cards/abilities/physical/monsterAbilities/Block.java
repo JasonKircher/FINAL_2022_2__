@@ -2,6 +2,8 @@ package game.gameParts.cards.abilities.physical.monsterAbilities;
 
 import game.gameParts.cards.abilities.physical.PhysicalDefensiveAbility;
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
+import game.state.output.Exceptions;
 
 /**
  * resembles the ability "Block"
@@ -21,10 +23,12 @@ public class Block extends PhysicalDefensiveAbility {
     }
 
     @Override
-    public void calculateMitigation(Object target) {
-        if (target instanceof Monster) {
-            Monster monster = (Monster) target;
-            monster.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
-        }
+    public void calculateMitigationPlayer(Runa target) {
+        throw new RuntimeException(Exceptions.WRONG_ENTITY.getMsg());
+    }
+
+    @Override
+    public void calculateMitigationMonster(Monster target) {
+        target.setPhysicalMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel);
     }
 }

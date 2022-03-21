@@ -1,6 +1,8 @@
 package game.gameParts.cards.abilities.magical;
 
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
+import game.state.output.Exceptions;
 
 /**
  * class for the ability "Deflect"
@@ -21,10 +23,12 @@ public class Deflect extends DefensiveMagicAbility {
     }
 
     @Override
-    public void calculateMitigation(Object target) {
-        if (target instanceof Monster) {
-            Monster monster = (Monster) target;
-            monster.setMagicMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD);
-        }
+    public void calculateMitigationPlayer(Runa target) {
+        throw new RuntimeException(Exceptions.WRONG_ENTITY.getMsg());
+    }
+
+    @Override
+    public void calculateMitigationMonster(Monster target) {
+        target.setMagicMitigation(ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD);
     }
 }

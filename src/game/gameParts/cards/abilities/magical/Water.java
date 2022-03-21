@@ -25,16 +25,15 @@ public class Water extends OffensiveMagicAbility {
     }
 
     @Override
-    public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster) {
-            Monster monster = (Monster) target;
-            int defaultDmg = (MONSTER_ABILITY_MULTIPLIER * this.abilityLevel + MONSTER_DAMAGE_TO_ADD) * value;
-            return monster.getType() == MonsterType.Lightning
-                    ? defaultDmg + MONSTER_ABILITY_MULTIPLIER * this.abilityLevel : defaultDmg;
-        } else if (target instanceof Runa) {
-            return ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD;
-        }
-        return 0;
+    public int calculateDamagePlayer(int value, Monster target) {
+        int defaultDmg = (MONSTER_ABILITY_MULTIPLIER * this.abilityLevel + MONSTER_DAMAGE_TO_ADD) * value;
+        return target.getType() == MonsterType.Lightning ? defaultDmg + MONSTER_ABILITY_MULTIPLIER * this.abilityLevel
+                : defaultDmg;
+
     }
 
+    @Override
+    public int calculateDamageMonster(Runa target) {
+        return ABILITY_LEVEL_MODIFIER * this.abilityLevel + DAMAGE_TO_ADD;
+    }
 }

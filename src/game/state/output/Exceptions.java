@@ -8,6 +8,11 @@ package game.state.output;
  */
 public enum Exceptions {
     /**
+     * exception message when an ability is called from the wrong entity, meaning they should not call it,
+     * since theres no implementation
+     */
+    WRONG_ENTITY("the entity calling this ability is not supposed to call it"),
+    /**
      * message when someone is trying to take dmg from a defensive ability
      */
     DMG_FROM_DEFENSIVE_ABILITY("can't take dmg from a defensive ability");

@@ -2,6 +2,8 @@ package game.gameParts.cards.abilities.physical.playerAbilities;
 
 import game.gameParts.cards.abilities.physical.PhysicalOffensiveAbility;
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
+import game.state.output.Exceptions;
 
 /**
  * resembles the ability "Pierce"
@@ -23,11 +25,13 @@ public class Pierce extends PhysicalOffensiveAbility {
     }
 
     @Override
-    public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster) {
-            int defaultDmg = ABILITY_LEVEL_MODIFIER * this.abilityLevel + value;
-            return value < LEAST_DICE_VALUE ? defaultDmg : defaultDmg + SPECIAL_ABILITY_MULTIPLIER * this.abilityLevel;
-        }
-        return 0;
+    public int calculateDamagePlayer(int value, Monster target) {
+        int defaultDmg = ABILITY_LEVEL_MODIFIER * this.abilityLevel + value;
+        return value < LEAST_DICE_VALUE ? defaultDmg : defaultDmg + SPECIAL_ABILITY_MULTIPLIER * this.abilityLevel;
+    }
+
+    @Override
+    public int calculateDamageMonster(Runa target) {
+        throw new RuntimeException(Exceptions.WRONG_ENTITY.getMsg());
     }
 }

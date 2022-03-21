@@ -2,6 +2,8 @@ package game.gameParts.cards.abilities.physical.playerAbilities;
 
 import game.gameParts.cards.abilities.physical.PhysicalOffensiveAbility;
 import game.gameParts.cards.monsters.Monster;
+import game.gameParts.player.Runa;
+import game.state.output.Exceptions;
 
 /**
  * resembles ability "Swing"
@@ -21,13 +23,13 @@ public class Swing extends PhysicalOffensiveAbility {
     }
 
     @Override
-    public int calculateDamage(int value, Object target) {
-        if (target instanceof Monster) {
-            Monster monster = (Monster) target;
-            monster.deBuff();
-            return ABILITY_LEVEL_MODIFIER * this.abilityLevel + value;
-        }
-        return 0;
+    public int calculateDamagePlayer(int value, Monster target) {
+        target.deBuff();
+        return ABILITY_LEVEL_MODIFIER * this.abilityLevel + value;
     }
 
+    @Override
+    public int calculateDamageMonster(Runa target) {
+        throw new RuntimeException(Exceptions.WRONG_ENTITY.getMsg());
+    }
 }

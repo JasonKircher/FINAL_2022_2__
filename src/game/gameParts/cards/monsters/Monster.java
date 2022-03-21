@@ -78,7 +78,7 @@ public abstract class Monster {
     public boolean takeDamage(Ability ability, int value) {
         if (!ability.isOffensive()) throw new RuntimeException(Exceptions.DMG_FROM_DEFENSIVE_ABILITY.getMsg());
         OffensiveAbility abilityParsed = (OffensiveAbility) ability;
-        int damage = abilityParsed.calculateDamage(value,  this);
+        int damage = abilityParsed.calculateDamagePlayer(value,  this);
         if (abilityParsed.isPhysical()) damage = damage - this.physicalMitigation;
         else damage = damage - this.magicMitigation;
         if (damage > 0) this.hp -= damage;
