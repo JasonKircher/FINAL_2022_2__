@@ -127,7 +127,7 @@ public class FightAftermath extends GameState {
         for (int index : indices) {
             this.runasStrive.getPlayer().getAbilities().remove(index);
         }
-        int healVal = indices.size() * 10;
+        int healVal = indices.size() * GameSettings.HEALING_MULTIPLIER.getValue();
         this.runasStrive.getPlayer().heal(healVal);
         return true;
     }

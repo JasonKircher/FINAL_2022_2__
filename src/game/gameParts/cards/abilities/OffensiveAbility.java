@@ -28,7 +28,6 @@ public abstract class OffensiveAbility extends Ability {
 
     /**
      * function to calculate the damage when a player is using the ability
-     * @param value the value with which the ability is customized
      * @param target the Player on which the dmg is to be inflicted
      * @return the damage the target receives
      */

@@ -10,7 +10,6 @@ import game.state.initiationValues.MonstersLevels;
 import game.state.output.CommonOutputs;
 import game.state.output.NumInputRequest;
 
-import java.sql.CallableStatement;
 import java.util.LinkedList;
 import java.util.List;
 

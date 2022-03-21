@@ -7,6 +7,10 @@ package game.state.initiationValues;
  */
 public enum GameSettings {
     /**
+     * value the healing should be multiplied by
+     */
+    HEALING_MULTIPLIER(10),
+    /**
      * number of rooms on one level
      */
     ROOMS(4),
