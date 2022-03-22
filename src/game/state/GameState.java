@@ -55,7 +55,10 @@ public abstract class GameState {
         do {
             System.out.println(message);
             String input = new Scanner(System.in).nextLine();
-            if (input.equals("quit")) return null;
+            if (input.equals("quit")) {
+                gameEnd();
+                return null;
+            }
             if (input.isEmpty() && minNumbers == 0) return new LinkedList<>();
             if (input.startsWith(",") || input.endsWith(","))
                 continue;

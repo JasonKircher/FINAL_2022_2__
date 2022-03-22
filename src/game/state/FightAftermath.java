@@ -43,15 +43,12 @@ public class FightAftermath extends GameState {
             this.runasStrive.setState(new LevelSetUp(this.runasStrive));
         }
         else {
-            if (!chooseDrop()) {
-                gameEnd();
+            if (!chooseDrop())
                 return;
-            }
             this.runasStrive.setState(new Fight(this.runasStrive));
         }
         if (this.runasStrive.getPlayer().getHp() != PlayerStartingValues.STARTING_HP.getValue())
-            if (!heal()) gameEnd();
-
+            heal();
     }
 
     /**
@@ -66,6 +63,7 @@ public class FightAftermath extends GameState {
             System.out.println(CommonOutputs.CHOOSE_LOOT);
             choice = getInput(2, 1,  1,
                     NumInputRequest.ONE_INPUT_REQUEST.toString(2), false);
+            if (choice == null) return false;
         }
         switch (choice.remove(0)) {
             case 0:

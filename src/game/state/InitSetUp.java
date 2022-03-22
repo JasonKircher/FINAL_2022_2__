@@ -44,10 +44,11 @@ public class InitSetUp extends GameState {
         welcome();
         for (int index = 0; index < this.classList.size(); index++)
             System.out.printf("%d) %s%n", index + 1, this.classList.get(index).getDisplayName());
-        int classPlayingIndex = this.getInput(this.classList.size(), 1, 1,
-                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), false)
-                .remove(0);
-        if (classPlayingIndex == -1) return false;
+        List<Integer> input = this.getInput(this.classList.size(), 1, 1,
+                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), false);
+        // quit
+        if (input == null) return false;
+        int classPlayingIndex = input.remove(0);
         // add initial abilities
         this.runasStrive.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));
         this.runasStrive.getPlayer().getAbilities().addAll(this.classList.get(classPlayingIndex).getCards());

@@ -68,26 +68,31 @@ public class Fight extends GameState {
             printCards();
             // ----------- Player turn ----------
             int max = this.runasStrive.getPlayer().getAbilities().size();
-            int index = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
-                    false).remove(0);
-            if (index == -1) return false;
+            List<Integer> input;
+            input = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
+                    false);
+            if (input == null) return false;
+            int index = input.remove(0);
             ability = this.runasStrive.getPlayer().getAbilities().get(index);
 
             if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
                 max = this.active.size();
-                index = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
-                        false).remove(0);
-                if (index == -1) return false;
+                input = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
+                        false);
+                if (input == null) return false;
+                index = input.remove(0);
                 target = this.active.get(index);
             }
             System.out.printf("%s %s %s%n", CommonOutputs.PLAYER, CommonOutputs.USE, ability);
 
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.runasStrive.getPlayer().getCurrentDice().getMaxValue();
-                diceRoll = getInput(diceMax, 1, 1,
-                        NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax), false).remove(0) + 1;
-                if (diceRoll == 0) return false;
+                input = getInput(diceMax, 1, 1,
+                        NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax), false);
+                if (input == null) return false;
+                // +1 to correct index
+                diceRoll = input.remove(0) + 1;
             }
             else diceRoll = this.runasStrive.getPlayer().getFocusPoints();
             runaExecuteAbility(ability, target, diceRoll);

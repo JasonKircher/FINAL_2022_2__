@@ -72,10 +72,8 @@ public class LevelSetUp extends GameState {
         System.out.println(CommonOutputs.SHUFFLE_CARDS);
         List<Integer> seeds = getInput(Integer.MAX_VALUE, 2,  2,
                 NumInputRequest.SEED_INPUT_REQUEST.toString(), true);
-        if (seeds == null) {
-            gameEnd();
+        if (seeds == null)
             return false;
-        }
         // correct input (+1 because of index correction)
         Random randomAbility = new Random(seeds.remove(0) + 1);
         Random randomMonster = new Random(seeds.remove(0) + 1);
