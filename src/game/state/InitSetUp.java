@@ -3,7 +3,6 @@ package game.state;
 import game.RunasStrive;
 import game.gameParts.player.parts.PlayerClass;
 import game.state.output.CommonOutputs;
-import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
@@ -45,8 +44,9 @@ public class InitSetUp extends GameState {
         welcome();
         for (int index = 0; index < this.classList.size(); index++)
             System.out.printf("%d) %s%n", index + 1, this.classList.get(index).getDisplayName());
-        int classPlayingIndex = this.getNumInput(this.classList.size(),
-                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), ErrorMsg.CLASS);
+        int classPlayingIndex = this.getInput(this.classList.size(), 1, 1,
+                NumInputRequest.ONE_INPUT_REQUEST.toString(this.classList.size()), false)
+                .remove(0);
         if (classPlayingIndex == -1) return false;
         // add initial abilities
         this.runasStrive.getPlayer().setPlayerClass(this.classList.get(classPlayingIndex));

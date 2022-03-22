@@ -68,14 +68,16 @@ public class Fight extends GameState {
             printCards();
             // ----------- Player turn ----------
             int max = this.runasStrive.getPlayer().getAbilities().size();
-            int index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
+            int index = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
+                    false).remove(0);
             if (index == -1) return false;
             ability = this.runasStrive.getPlayer().getAbilities().get(index);
 
             if (this.active.size() > 1 && ability.isOffensive()) {
                 printTargets();
                 max = this.active.size();
-                index = getNumInput(max, NumInputRequest.ONE_INPUT_REQUEST.toString(max));
+                index = getInput(max, 1, 1, NumInputRequest.ONE_INPUT_REQUEST.toString(max),
+                        false).remove(0);
                 if (index == -1) return false;
                 target = this.active.get(index);
             }
@@ -83,7 +85,8 @@ public class Fight extends GameState {
 
             if (ability.isOffensive() && ability.isPhysical()) {
                 int diceMax = this.runasStrive.getPlayer().getCurrentDice().getMaxValue();
-                diceRoll = getNumInput(diceMax, NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax)) + 1;
+                diceRoll = getInput(diceMax, 1, 1,
+                        NumInputRequest.DICE_INPUT_REQUEST.toString(diceMax), false).remove(0) + 1;
                 if (diceRoll == 0) return false;
             }
             else diceRoll = this.runasStrive.getPlayer().getFocusPoints();

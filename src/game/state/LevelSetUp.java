@@ -14,7 +14,6 @@ import game.gameParts.cards.abilities.physical.playerAbilities.Thrust;
 import game.gameParts.cards.abilities.physical.playerAbilities.Parry;
 import game.state.initiationValues.MonstersLevels;
 import game.state.output.CommonOutputs;
-import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.Collections;
@@ -71,8 +70,8 @@ public class LevelSetUp extends GameState {
      */
     private boolean shuffleCards() {
         System.out.println(CommonOutputs.SHUFFLE_CARDS);
-        List<Integer> seeds = getMultipleInputs(Integer.MAX_VALUE, 2,  2,
-                NumInputRequest.SEED_INPUT_REQUEST.toString(), ErrorMsg.SEED, true);
+        List<Integer> seeds = getInput(Integer.MAX_VALUE, 2,  2,
+                NumInputRequest.SEED_INPUT_REQUEST.toString(), true);
         if (seeds == null) {
             gameEnd();
             return false;

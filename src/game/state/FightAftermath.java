@@ -6,7 +6,6 @@ import game.gameParts.player.PlayerStartingValues;
 import game.gameParts.player.parts.Dice;
 import game.state.initiationValues.GameSettings;
 import game.state.output.CommonOutputs;
-import game.state.output.ErrorMsg;
 import game.state.output.NumInputRequest;
 
 import java.util.LinkedList;
@@ -60,14 +59,15 @@ public class FightAftermath extends GameState {
      * @return true if the selection was complete, false if the selection was quit
      */
     private boolean chooseDrop() {
-        int choice;
-        if (this.runasStrive.getPlayer().getCurrentDice() == Dice.D12) choice = 0;
-        else if (this.runasStrive.getAbilityCards().isEmpty()) choice = 1;
+        List<Integer> choice = new LinkedList<>();
+        if (this.runasStrive.getPlayer().getCurrentDice() == Dice.D12) choice.add(0);
+        else if (this.runasStrive.getAbilityCards().isEmpty()) choice.add(1);
         else {
             System.out.println(CommonOutputs.CHOOSE_LOOT);
-            choice = getNumInput(2, NumInputRequest.ONE_INPUT_REQUEST.toString(2));
+            choice = getInput(2, 1,  1,
+                    NumInputRequest.ONE_INPUT_REQUEST.toString(2), false);
         }
-        switch (choice) {
+        switch (choice.remove(0)) {
             case 0:
                 return chooseAbility();
             case 1:
@@ -100,8 +100,8 @@ public class FightAftermath extends GameState {
         for (int index = 0; index < selection.size(); index++)
             System.out.println(index + 1 + ") " + selection.get(index));
 
-        List<Integer> indices = getMultipleInputs(selection.size(), cardsToPick, cardsToPick,
-                inputMessage, ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+        List<Integer> indices = getInput(selection.size(), cardsToPick, cardsToPick,
+                inputMessage, false);
 
         if (indices == null) return false;
         List<Ability> tmp = new LinkedList<>();
@@ -142,8 +142,7 @@ public class FightAftermath extends GameState {
         String output = max > 2 ? NumInputRequest.MULTIPLE_INPUT_REQUEST.toString(max)
                 : NumInputRequest.ONE_INPUT_REQUEST.toString(max);
 
-        indices = getMultipleInputs(max, 0, max - 1, output,
-                ErrorMsg.NUMBER_OUT_OF_BOUNDS, false);
+        indices = getInput(max, 0, max - 1, output, false);
 
         return indices;
     }
