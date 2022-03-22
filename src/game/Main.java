@@ -1,7 +1,5 @@
 package game;
 
-import java.util.Arrays;
-
 /**
  * main class to start the game
  * @author upvlx
@@ -20,7 +18,7 @@ public final class Main {
      * @param args commandline arguments
      */
     public static void main(String[] args) {
-        if (!Arrays.stream(args).toList().isEmpty())
+        if (args.length != 0)
             System.out.println(ERROR_MSG);
         else {
             RunasStrive runasStrive = new RunasStrive();
