@@ -29,7 +29,7 @@ public class FightAftermath extends GameState {
     public void executeState() {
         if (this.runasStrive.getRoom() == GameSettings.ROOMS.getValue()) {
             newLevelCleanse();
-            if (this.runasStrive.getLevel() == GameSettings.LEVELS.getValue() + 1) {
+            if (this.runasStrive.getLevel() > GameSettings.LEVELS.getValue()) {
                 this.gameEnd();
                 return;
             }

@@ -84,7 +84,8 @@ public abstract class Monster {
         if (damage > 0) this.hp -= damage;
         else damage = 0;
         String dmgType = ability.isPhysical() ? CommonOutputs.PHYSICAL.toString() : CommonOutputs.MAGICAL.toString();
-        System.out.printf("%s %s %d %s %s%n", this.name, CommonOutputs.TAKE, damage, dmgType, CommonOutputs.DAMAGE);
+        if (damage > 0)
+            System.out.printf("%s %s %d %s %s%n", this.name, CommonOutputs.TAKE, damage, dmgType, CommonOutputs.DAMAGE);
         return this.hp > 0;
     }
 

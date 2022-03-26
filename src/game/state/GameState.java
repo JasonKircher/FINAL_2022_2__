@@ -52,7 +52,7 @@ public abstract class GameState {
     protected List<Integer> getInput(int max, int minNumbers, int maxNumbers, String message,
                                      boolean duplicatesAllowed) {
         List<Integer> indices = new LinkedList<>();
-        do {
+        while (indices.isEmpty()) {
             System.out.println(message);
             String input = new Scanner(System.in).nextLine();
             if (input.equals("quit")) {
@@ -60,21 +60,21 @@ public abstract class GameState {
                 return null;
             }
             if (input.isEmpty() && minNumbers == 0) return new LinkedList<>();
-            if (input.startsWith(",") || input.endsWith(","))
+            if (input.startsWith(",") || input.endsWith(",")
+                || !Arrays.stream(input.split(",")).allMatch(num -> num.matches("[0-9]*")))
                 continue;
             try {
                 indices.addAll(Arrays.stream(input.split(",")).map(i -> Integer.parseInt(i) - 1)
                         .collect(Collectors.toList())); }
             catch (NumberFormatException e) {
                 indices.clear();
-                continue;
             }
             if (minNumbers > indices.size() || indices.size() > maxNumbers
                 || indices.stream().anyMatch(index -> index >= max || index < 0)
                 || !duplicatesAllowed && new HashSet<>(indices).size() != indices.size()) {
                 indices.clear();
             }
-        } while (indices.isEmpty());
+        }
         return indices;
     }
 }
